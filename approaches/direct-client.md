@@ -1,4 +1,4 @@
-# Direct Client Approach
+# Direct Client
 
 ## Introduction
 

@@ -23,14 +23,19 @@ website:
 
     style: "docked"
     search: true
-    collapse-level: 1
+    collapse-level: 3
     contents:
       - href: index.qmd
         text: Welcome
       - section: approaches/index.qmd
         contents: 
-          - approaches/tiling.md
-          - approaches/direct-client.md
+          - section: approaches/direct-client.md        
+          - section: approaches/tiling.md
+            contents:
+            - approaches/tiling/preprocessing.md
+            - approaches/tiling/benchmarks.md
+            - approaches/tiling/future-areas.md
+
 
 
 
