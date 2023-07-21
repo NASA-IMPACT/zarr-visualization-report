@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/approaches/tiling.html</loc>
+    <lastmod>2023-07-21T14:57:47.199Z</lastmod>
+  </url>
+  <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/index.html</loc>
-    <lastmod>2023-07-21T14:57:21.586Z</lastmod>
+    <lastmod>2023-07-21T14:57:44.715Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/transition-from-rmarkdown.html</loc>
-    <lastmod>2023-07-21T14:57:24.422Z</lastmod>
+    <lastmod>2023-07-21T14:57:46.279Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/approaches/direct-client.html</loc>
+    <lastmod>2023-07-21T14:57:46.895Z</lastmod>
   </url>
 </urlset>

@@ -1,5 +1,12 @@
 [
   {
+    "objectID": "approaches/tiling.html",
+    "href": "approaches/tiling.html",
+    "title": "Tiling Approach",
+    "section": "",
+    "text": "Tiling Approach\nADD ME"
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Zarr Visualization Cookbook",
@@ -33,5 +40,12 @@
     "title": "Transition from RMarkdown",
     "section": "Troubleshooting",
     "text": "Troubleshooting\n\nGitHub Action fails, says you need RMarkdown but you don’t have R code!\nAnd you changed all .Rmds to .qmds!\nYou likely have a few setup code chunks from RMarkdown, that look like this:\n{r setup, include=FALSE}\nknitr::opts_chunk$set(echo = FALSE)\nYou can find them by opening each of your files and having a look, or use GitHub’s search for the keyword knitr"
+  },
+  {
+    "objectID": "approaches/direct-client.html",
+    "href": "approaches/direct-client.html",
+    "title": "Direct Client Approach",
+    "section": "",
+    "text": "Direct Client Approach\nADD ME"
   }
 ]
