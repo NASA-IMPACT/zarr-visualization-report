@@ -12,7 +12,7 @@ website:
     left: "&copy; CC-By Openscapes, 2022"
     
   sidebar:
-    logo: "impages/impact-logo.png"
+    logo: "images/impact-logo.png"
     pinned: true
     align: center
     tools: 
@@ -29,8 +29,8 @@ website:
         text: Welcome
       - section: approaches/index.qmd
         contents: 
-          - approaches/tiling.qmd
-          - approaches/direct-client.qmd
+          - approaches/tiling.md
+          - approaches/direct-client.md
 
 
 
