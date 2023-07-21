@@ -1,3 +1,3 @@
-# Direct Client Approach
+# Direct Client
 
 ADD ME
