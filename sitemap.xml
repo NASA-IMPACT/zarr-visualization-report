@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/learning-more.html</loc>
+    <lastmod>2023-07-21T14:37:47.457Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/quarto-workflows/jupyter.html</loc>
+    <lastmod>2023-07-21T14:37:46.473Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/quarto-workflows/rstudio.html</loc>
+    <lastmod>2023-07-21T14:37:45.425Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/transition-from-rmarkdown.html</loc>
+    <lastmod>2023-07-21T14:37:44.401Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/index.html</loc>
+    <lastmod>2023-07-21T14:37:42.121Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/quarto-workflows/index.html</loc>
+    <lastmod>2023-07-21T14:37:44.877Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/quarto-workflows/browser.html</loc>
+    <lastmod>2023-07-21T14:37:45.825Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/explore.html</loc>
+    <lastmod>2023-07-21T14:37:47.089Z</lastmod>
+  </url>
+</urlset>
