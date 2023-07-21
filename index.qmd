@@ -3,5 +3,8 @@ title: "Zarr Visualization Cookbook"
 subtitle: "Methods and benchmarks for visualizing Zarr"
 ---
 
-## Welcome {#welcome}
+# Zarr Visualization Cookbook
 
+This site documents different approaches and benchmarks for zarr visualization.
+
+The intention is to support zarr data providers with some methods for visualizing zarr. This guide and report is intended to inform zarr data producers who want to understand the requirements for data pre-processing and chunking in order to support visualization through tiling server and direct client approahces.
