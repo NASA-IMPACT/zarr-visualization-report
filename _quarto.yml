@@ -12,13 +12,13 @@ website:
     left: "&copy; CC-By Openscapes, 2022"
     
   sidebar:
-    logo: "https://visex.netlify.app/graphics/nasa-veda-logo-pos.svg"
+    logo: "impages/impact-logo.png"
     pinned: true
     align: center
     tools: 
       - icon: github
         href: https://github.com/NASA-IMPACT/zarr-visualization-cookbook
-        text: "Quarto website tutorial"
+        text: "Zarr Visualization Cookbook"
        
 
     style: "docked"
@@ -27,15 +27,12 @@ website:
     contents:
       - href: index.qmd
         text: Welcome
-      - explore.qmd
-      - section: quarto-workflows/index.qmd
+      - section: approaches/index.qmd
         contents: 
-          - quarto-workflows/browser.md
-          - quarto-workflows/rstudio.qmd
-          - quarto-workflows/jupyter.md 
-      - learning-more.qmd
-      - href: transition-from-rmarkdown.qmd
-        text: Transition from Rmd
+          - approaches/tiling.qmd
+          - approaches/direct-client.qmd
+
+
 
 
 format:
