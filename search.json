@@ -7,18 +7,53 @@
     "text": "Tiling\nThe tiling approach is to provide image tiles via the XYZ Protocol and OGC API - Tiles API specifications.\nThis approach relies on the rio_tiler.XarrayReader library which includes the tile function. This function and others in that module are used to provide an API for tiles. An example API infrastructure can be found in titiler-xarray. Please note this library is still in development and is not intended for production use at this time."
   },
   {
-    "objectID": "approaches/tiling/preprocessing.html",
-    "href": "approaches/tiling/preprocessing.html",
-    "title": "Preprocessing",
+    "objectID": "approaches/direct-client/benchmarks.html",
+    "href": "approaches/direct-client/benchmarks.html",
+    "title": "Benchmarks",
     "section": "",
-    "text": "Preprocessing\nThis document details the preprocessing steps to deliver performant zarr visualization via the tile approach."
+    "text": "Benchmarks\nTo be merged with https://github.com/carbonplan/benchmark-maps"
   },
   {
-    "objectID": "approaches/tiling/future-areas.html",
-    "href": "approaches/tiling/future-areas.html",
-    "title": "Future Areas",
+    "objectID": "approaches/direct-client.html",
+    "href": "approaches/direct-client.html",
+    "title": "Direct Client",
     "section": "",
-    "text": "Future Areas"
+    "text": "Traditional approaches to rendering raster datasets in the browser involve the creation of tiles in a pixelated impact format like PNG or JPEG. These tiles can be pre-generated or created by a tiling server on demand, as described in the tiling approach chapter. While the image tiles are fast to load and easy to render, tiling offers limited flexibility for dynamically customizing visualizations based on user input. In contrast, the direct client approach leverages Zarr to render the data directly using WebGL rather than through an intermediate layer. The Zarr format is ideal for direct rendering in the browser because the chunks of a Zarr dataset serve a similar purpose to the tiles of a web map. In additional, data can be chunked across additional dimensions which prevents the need for generating individual tiles per time step. Lastly, as a cloud-optimized data format Zarr allows for fast, parallel reading and writing from object storage.\nThe direct client approach leverages pyramids created with the ndpyramid package for performant rendering of data at multiple zoom levels. The approach loads Zarr V2 or V3 data using the zarr-js JavaScript library and renders the fetched chunks via WebGL using the regl library. The open-source library called @carbonplan/maps provides a small set of React components for rendering raster data using this approach and supports rendering traditional vector layers side-by-side using mapbox-gl-js.\n\n\n\nFreeman, J., K. Martin, and J. Hamman, 2021: A new toolkit for data-driven maps, https://carbonplan.org/blog/maps-library-release"
+  },
+  {
+    "objectID": "approaches/direct-client.html#introduction",
+    "href": "approaches/direct-client.html#introduction",
+    "title": "Direct Client",
+    "section": "",
+    "text": "Traditional approaches to rendering raster datasets in the browser involve the creation of tiles in a pixelated impact format like PNG or JPEG. These tiles can be pre-generated or created by a tiling server on demand, as described in the tiling approach chapter. While the image tiles are fast to load and easy to render, tiling offers limited flexibility for dynamically customizing visualizations based on user input. In contrast, the direct client approach leverages Zarr to render the data directly using WebGL rather than through an intermediate layer. The Zarr format is ideal for direct rendering in the browser because the chunks of a Zarr dataset serve a similar purpose to the tiles of a web map. In additional, data can be chunked across additional dimensions which prevents the need for generating individual tiles per time step. Lastly, as a cloud-optimized data format Zarr allows for fast, parallel reading and writing from object storage.\nThe direct client approach leverages pyramids created with the ndpyramid package for performant rendering of data at multiple zoom levels. The approach loads Zarr V2 or V3 data using the zarr-js JavaScript library and renders the fetched chunks via WebGL using the regl library. The open-source library called @carbonplan/maps provides a small set of React components for rendering raster data using this approach and supports rendering traditional vector layers side-by-side using mapbox-gl-js."
+  },
+  {
+    "objectID": "approaches/direct-client.html#references",
+    "href": "approaches/direct-client.html#references",
+    "title": "Direct Client",
+    "section": "",
+    "text": "Freeman, J., K. Martin, and J. Hamman, 2021: A new toolkit for data-driven maps, https://carbonplan.org/blog/maps-library-release"
+  },
+  {
+    "objectID": "approaches/tiling/benchmarks.html",
+    "href": "approaches/tiling/benchmarks.html",
+    "title": "Benchmarks",
+    "section": "",
+    "text": "Benchmarks\nTo be merged with https://github.com/nasa-impact/tile-benchmarking"
+  },
+  {
+    "objectID": "approaches/index.html",
+    "href": "approaches/index.html",
+    "title": "Approaches",
+    "section": "",
+    "text": "For browser-based visualization of Zarr, there are 2 approaches covered in this cookbook:\n\nDirect Client\nTiling"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Zarr Visualization Cookbook",
+    "section": "",
+    "text": "Zarr Visualization Cookbook\nThis site documents different approaches and benchmarks for zarr visualization.\nThe intention is to support zarr data providers with some methods for visualizing zarr. This guide and report is intended to inform zarr data producers who want to understand the requirements for data pre-processing and chunking in order to support visualization through tiling server and direct client approahces."
   },
   {
     "objectID": "transition-from-rmarkdown.html",
@@ -49,31 +84,31 @@
     "text": "Troubleshooting\n\nGitHub Action fails, says you need RMarkdown but you don’t have R code!\nAnd you changed all .Rmds to .qmds!\nYou likely have a few setup code chunks from RMarkdown, that look like this:\n{r setup, include=FALSE}\nknitr::opts_chunk$set(echo = FALSE)\nYou can find them by opening each of your files and having a look, or use GitHub’s search for the keyword knitr"
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Zarr Visualization Cookbook",
+    "objectID": "approaches/tiling/future-areas.html",
+    "href": "approaches/tiling/future-areas.html",
+    "title": "Future Areas",
     "section": "",
-    "text": "Zarr Visualization Cookbook\nThis site documents different approaches and benchmarks for zarr visualization.\nThe intention is to support zarr data providers with some methods for visualizing zarr. This guide and report is intended to inform zarr data producers who want to understand the requirements for data pre-processing and chunking in order to support visualization through tiling server and direct client approahces."
+    "text": "Future Areas"
   },
   {
-    "objectID": "approaches/index.html",
-    "href": "approaches/index.html",
-    "title": "Approaches",
+    "objectID": "approaches/tiling/preprocessing.html",
+    "href": "approaches/tiling/preprocessing.html",
+    "title": "Preprocessing",
     "section": "",
-    "text": "For browser-based visualization of Zarr, there are 2 approaches covered in this cookbook:\n\nDirect Client\nTiling"
+    "text": "Preprocessing\nThis document details the preprocessing steps to deliver performant zarr visualization via the tile approach."
   },
   {
-    "objectID": "approaches/tiling/benchmarks.html",
-    "href": "approaches/tiling/benchmarks.html",
-    "title": "Benchmarks",
+    "objectID": "approaches/direct-client/future-areas.html",
+    "href": "approaches/direct-client/future-areas.html",
+    "title": "Future Areas",
     "section": "",
-    "text": "Benchmarks\nTo be merged with https://github.com/nasa-impact/tile-benchmarking"
+    "text": "Future Areas"
   },
   {
-    "objectID": "approaches/direct-client.html",
-    "href": "approaches/direct-client.html",
-    "title": "Direct Client",
+    "objectID": "approaches/direct-client/preprocessing.html",
+    "href": "approaches/direct-client/preprocessing.html",
+    "title": "Preprocessing",
     "section": "",
-    "text": "Direct Client\nADD ME"
+    "text": "Preprocessing\nThis document details the preprocessing steps to deliver performant Zarr visualization via the direct client approach."
   }
 ]
