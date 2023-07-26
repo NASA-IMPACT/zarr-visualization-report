@@ -1,0 +1,3 @@
+# Preprocessing
+
+This document details the preprocessing steps to deliver performant Zarr visualization via the direct client approach.
