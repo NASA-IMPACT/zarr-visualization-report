@@ -29,7 +29,7 @@ website:
         text: Welcome
       - section: approaches/index.qmd
         contents:   
-          - section: approaches/tiling.md
+          - section: approaches/tiling.qmd
             contents:
             - approaches/tiling/performance-methodology.md
             - approaches/tiling/results-summary.md
