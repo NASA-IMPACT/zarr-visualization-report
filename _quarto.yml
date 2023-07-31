@@ -31,13 +31,13 @@ website:
         contents:   
           - section: approaches/tiling.qmd
             contents:
-            - approaches/tiling/performance-methodology.md
+            - approaches/tiling/performance-methodology.ipynb
             - approaches/tiling/results-summary.md
             - section: Results in Detail
               contents:
               - approaches/tiling/pgstac-cog.md
               - approaches/tiling/zarr.md
-              - approaches/tiling/e2e.md
+              - approaches/tiling/e2e.ipynb
             - approaches/tiling/recommendations.md
             - approaches/tiling/future-areas.md
           - section: approaches/direct-client.md            
