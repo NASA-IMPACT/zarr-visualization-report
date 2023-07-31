@@ -6,3 +6,5 @@ For browser-based visualization of Zarr, there are 2 approaches covered in this 
 
 1. [Direct Client](./direct-client.md)
 2. [Tiling](./tiling.md)
+
+The tile server provides an API which is interoperable with multiple interfaces, but requires maintaining a tile server. also the response delivered to the client is an image format, not the raw data itself. The direct client has access to the underlying data and thus maximum flexibility in rendering and analysis for the user.
