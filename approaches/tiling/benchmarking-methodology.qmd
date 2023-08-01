@@ -40,5 +40,5 @@ End-to-end tests were run to report performance of requsts to a tiling API via H
 
 ## End-to-End Datasets
 
-A variety of datasets was selected for end-to-end testing and hopefully the framework makes it easy to modify and test new datasets and use cases come up. See the [e2e.ipynb](./tiling/e2e.ipynb) for specific datasets.
+A variety of datasets was selected for end-to-end testing and hopefully the framework makes it easy to modify and test new datasets and use cases come up. See the [e2e-results.ipynb](./e2e-results.ipynb) for specific datasets.
 

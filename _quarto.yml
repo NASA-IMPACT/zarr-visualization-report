@@ -31,13 +31,13 @@ website:
         contents:   
           - section: approaches/tiling.qmd
             contents:
-            - approaches/tiling/benchmarking-methodology.ipynb
+            - approaches/tiling/benchmarking-methodology.qmd
             - approaches/tiling/results-summary.md
             - section: Results in Detail
               contents:
               - approaches/tiling/pgstac-cog.md
               - approaches/tiling/zarr.md
-              - approaches/tiling/e2e.ipynb
+              - approaches/tiling/e2e-results.ipynb
             - approaches/tiling/recommendations.md
             - approaches/tiling/future-areas.md
           - section: approaches/direct-client.md            
