@@ -1,6 +1,6 @@
 on:
   push:
-    branches: main
+    branches: [main, tiling-methodology-and-e2e]
 
 name: Render and Publish
 
