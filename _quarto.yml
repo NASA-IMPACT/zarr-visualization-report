@@ -35,7 +35,7 @@ website:
             - approaches/tiling/results-summary.md
             - section: Results in Detail
               contents:
-              - approaches/tiling/pgstac-cog.md
+              - approaches/tiling/cog-pgstac.ipynb
               - approaches/tiling/zarr.md
               - approaches/tiling/e2e-results.ipynb
             - approaches/tiling/recommendations.md
