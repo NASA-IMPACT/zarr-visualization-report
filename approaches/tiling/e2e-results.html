@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Making sharable documents with Quarto - End to End Test Results</title>
+<title>Zarr Visualization Cookbook - End to End Test Results</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -64,7 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
 <link href="../../approaches/tiling/recommendations.html" rel="next">
-<link href="../../approaches/tiling/zarr.html" rel="prev">
+<link href="../../approaches/tiling/cmip6-zarr-performance.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -113,7 +113,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../approaches/index.html">Approaches</a></li><li class="breadcrumb-item"><a href="../../approaches/tiling.html">Tiling</a></li><li class="breadcrumb-item"><a href="../../approaches/tiling/pgstac-cog.html">Results in Detail</a></li><li class="breadcrumb-item"><a href="../../approaches/tiling/e2e-results.html">End to End Test Results</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../approaches/index.html">Approaches</a></li><li class="breadcrumb-item"><a href="../../approaches/tiling.html">Tiling</a></li><li class="breadcrumb-item"><a href="../../approaches/tiling/cog-pgstac.html">Results in Detail</a></li><li class="breadcrumb-item"><a href="../../approaches/tiling/e2e-results.html">End to End Test Results</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -189,14 +189,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth3 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../approaches/tiling/pgstac-cog.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">pgSTAC + COG results</span></a>
+  <a href="../../approaches/tiling/cog-pgstac.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Profiling tiling code for pgSTAC + COG</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../approaches/tiling/zarr.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Zarr Test Results</span></a>
+  <a href="../../approaches/tiling/cmip6-zarr-performance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">CMIP6 Zarr Benchmarks</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -300,7 +300,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This notebook parses results from end-to-end testing as documented in <a href="https://github.com/developmentseed/tile-benchmarking/blob/main/e2e/e2e.ipynb">tile-benchmarking/e2e/e2e.ipynb</a>.</p>
 <section id="import-necessary-libraries" class="level2">
 <h2 class="anchored" data-anchor-id="import-necessary-libraries">Import necessary libraries</h2>
-<div class="cell" data-execution_count="3">
+<div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -308,13 +308,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="define-the-data-location" class="level2">
 <h2 class="anchored" data-anchor-id="define-the-data-location">Define the data location</h2>
-<div class="cell" data-execution_count="4">
+<div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>git_url_path <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/developmentseed/tile-benchmarking/main/e2e"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="define-some-helper-functions" class="level2">
 <h2 class="anchored" data-anchor-id="define-some-helper-functions">Define some helper functions</h2>
-<div class="cell" data-execution_count="7">
+<div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_zooms_plot(df, dataset):</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    zooms <span class="op">=</span> [<span class="bu">int</span>(path.split(<span class="st">'/'</span>)[<span class="dv">2</span>]) <span class="cf">for</span> path <span class="kw">in</span> df[<span class="st">'Name'</span>][:<span class="op">-</span><span class="dv">1</span>]]</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a new figure</span></span>
@@ -342,7 +342,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="parse-collection-results-into-a-data-frame" class="level2">
 <h2 class="anchored" data-anchor-id="parse-collection-results-into-a-data-frame">Parse collection results into a data frame</h2>
 <p>Which also has the specs of the data, such as chunk size.</p>
-<div class="cell" data-execution_count="9">
+<div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>zarr_specs <span class="op">=</span> pd.read_csv(<span class="ss">f"</span><span class="sc">{</span>git_url_path<span class="sc">}</span><span class="ss">/zarr_info.csv"</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>zarr_specs.index <span class="op">=</span> zarr_specs[<span class="st">'collection_name'</span>]</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -358,11 +358,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>Based on this, the recommendation would be to create chunks as small as possible (e.g.&nbsp;1 timestep per chunk if visualization is the main goal) and not to chunk coordinate data.</strong></p>
 <p>However more testing on a high resolution dataset is needed to determine when data should be chunked spatially to deliver good performance. For example, the gpm3imergdl has large chunks because all spatial data is stored in one chunk, but each chunk also has 10 time steps. If each chunk had 1 timestep, each chunk would be ~24.7MB. How would this compare with the performance of the same dataset, chunked spatially into even smaller chunks?</p>
 <p>TODO: Revisit the zoom 0 statement, since the first request was always to the 0/0/0 tile.</p>
-<div class="cell" data-execution_count="10">
+<div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>zarr_specs[</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    [<span class="st">'shape'</span>, <span class="st">'chunks'</span>, <span class="st">'chunk_size_mb'</span>, <span class="st">'number_coord_chunks'</span>, <span class="st">'mean median response time'</span>]</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>].sort_values(<span class="st">'mean median response time'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="10">
+<div class="cell-output cell-output-display" data-execution_count="5">
 <div>
 
 
@@ -467,13 +467,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="read-results-for-a-specific-dataset" class="level1">
 <h1>Read results for a specific dataset</h1>
-<div class="cell" data-scrolled="true" data-execution_count="13">
+<div class="cell" data-scrolled="true" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Can replace with any of the collection names</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>collection_name <span class="op">=</span> <span class="st">'FWI-GEOS-5-Hourly'</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>collection_name <span class="op">=</span> <span class="st">'CMIP6_daily_GISS-E2-1-G_tas-600_1440_29'</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>filename <span class="op">=</span> <span class="ss">f'results/</span><span class="sc">{</span>collection_name<span class="sc">}</span><span class="ss">_urls_stats.csv'</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>results_df <span class="op">=</span> pd.read_csv(git_url(filename))</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>results_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="13">
+<div class="cell-output cell-output-display" data-execution_count="8">
 <div>
 
 
@@ -508,18 +508,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
 <td>GET</td>
-<td>/tiles/0/0/0.png?reference=False&amp;variable=GEOS...</td>
+<td>/tiles/0/0/0.png?reference=False&amp;variable=tas&amp;...</td>
 <td>5</td>
 <td>0</td>
-<td>960.0</td>
-<td>1003.720562</td>
-<td>782.768640</td>
-<td>1304.428969</td>
-<td>6287.00000</td>
-<td>0.077756</td>
+<td>870.000000</td>
+<td>923.172460</td>
+<td>751.086928</td>
+<td>1287.539062</td>
+<td>15213.000000</td>
+<td>0.037808</td>
 <td>...</td>
-<td>1000</td>
-<td>1000</td>
+<td>910</td>
+<td>910</td>
 <td>1300</td>
 <td>1300</td>
 <td>1300</td>
@@ -532,98 +532,98 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
 <td>GET</td>
-<td>/tiles/1/0/1.png?reference=False&amp;variable=GEOS...</td>
+<td>/tiles/1/1/1.png?reference=False&amp;variable=tas&amp;...</td>
 <td>5</td>
 <td>0</td>
-<td>470.0</td>
-<td>462.477855</td>
-<td>353.267606</td>
-<td>540.025874</td>
-<td>4532.00000</td>
-<td>0.077756</td>
+<td>660.000000</td>
+<td>679.218529</td>
+<td>630.763268</td>
+<td>747.653087</td>
+<td>4205.000000</td>
+<td>0.037808</td>
 <td>...</td>
-<td>540</td>
-<td>540</td>
-<td>540</td>
-<td>540</td>
-<td>540</td>
-<td>540</td>
-<td>540</td>
-<td>540</td>
-<td>540</td>
-<td>540</td>
+<td>710</td>
+<td>710</td>
+<td>750</td>
+<td>750</td>
+<td>750</td>
+<td>750</td>
+<td>750</td>
+<td>750</td>
+<td>750</td>
+<td>750</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
 <td>GET</td>
-<td>/tiles/2/1/0.png?reference=False&amp;variable=GEOS...</td>
+<td>/tiles/2/1/0.png?reference=False&amp;variable=tas&amp;...</td>
 <td>5</td>
 <td>0</td>
-<td>300.0</td>
-<td>326.814896</td>
-<td>268.241504</td>
-<td>393.691815</td>
-<td>693.00000</td>
-<td>0.077756</td>
+<td>718.190083</td>
+<td>682.237738</td>
+<td>617.691987</td>
+<td>718.190083</td>
+<td>7938.000000</td>
+<td>0.037808</td>
 <td>...</td>
-<td>390</td>
-<td>390</td>
-<td>390</td>
-<td>390</td>
-<td>390</td>
-<td>390</td>
-<td>390</td>
-<td>390</td>
-<td>390</td>
-<td>390</td>
+<td>720</td>
+<td>720</td>
+<td>720</td>
+<td>720</td>
+<td>720</td>
+<td>720</td>
+<td>720</td>
+<td>720</td>
+<td>720</td>
+<td>720</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
 <td>GET</td>
-<td>/tiles/2/2/1.png?reference=False&amp;variable=GEOS...</td>
-<td>10</td>
+<td>/tiles/2/2/0.png?reference=False&amp;variable=tas&amp;...</td>
+<td>5</td>
 <td>0</td>
-<td>420.0</td>
-<td>425.532785</td>
-<td>350.029955</td>
-<td>588.872019</td>
-<td>14358.00000</td>
-<td>0.155512</td>
+<td>680.000000</td>
+<td>668.356649</td>
+<td>616.550261</td>
+<td>699.007727</td>
+<td>4622.000000</td>
+<td>0.037808</td>
 <td>...</td>
-<td>430</td>
-<td>430</td>
-<td>450</td>
-<td>590</td>
-<td>590</td>
-<td>590</td>
-<td>590</td>
-<td>590</td>
-<td>590</td>
-<td>590</td>
+<td>700</td>
+<td>700</td>
+<td>700</td>
+<td>700</td>
+<td>700</td>
+<td>700</td>
+<td>700</td>
+<td>700</td>
+<td>700</td>
+<td>700</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
 <td>GET</td>
-<td>/tiles/2/2/2.png?reference=False&amp;variable=GEOS...</td>
+<td>/tiles/2/2/1.png?reference=False&amp;variable=tas&amp;...</td>
 <td>5</td>
 <td>0</td>
-<td>360.0</td>
-<td>354.059769</td>
-<td>328.223912</td>
-<td>383.053593</td>
-<td>8664.00000</td>
-<td>0.077756</td>
+<td>730.000000</td>
+<td>715.058600</td>
+<td>664.841387</td>
+<td>756.583840</td>
+<td>25985.000000</td>
+<td>0.037808</td>
 <td>...</td>
-<td>370</td>
-<td>370</td>
-<td>380</td>
-<td>380</td>
-<td>380</td>
-<td>380</td>
-<td>380</td>
-<td>380</td>
-<td>380</td>
-<td>380</td>
+<td>740</td>
+<td>740</td>
+<td>760</td>
+<td>760</td>
+<td>760</td>
+<td>760</td>
+<td>760</td>
+<td>760</td>
+<td>760</td>
+<td>760</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">...</td>
@@ -650,121 +650,121 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>...</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">94</td>
-<td>GET</td>
-<td>/tiles/7/82/41.png?reference=False&amp;variable=GE...</td>
-<td>5</td>
-<td>0</td>
-<td>300.0</td>
-<td>321.248817</td>
-<td>281.427211</td>
-<td>425.457704</td>
-<td>693.00000</td>
-<td>0.077756</td>
-<td>...</td>
-<td>310</td>
-<td>310</td>
-<td>430</td>
-<td>430</td>
-<td>430</td>
-<td>430</td>
-<td>430</td>
-<td>430</td>
-<td>430</td>
-<td>430</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">95</td>
-<td>GET</td>
-<td>/tiles/7/82/84.png?reference=False&amp;variable=GE...</td>
-<td>5</td>
-<td>0</td>
-<td>250.0</td>
-<td>266.569763</td>
-<td>241.660430</td>
-<td>321.659586</td>
-<td>693.00000</td>
-<td>0.077756</td>
-<td>...</td>
-<td>260</td>
-<td>260</td>
-<td>320</td>
-<td>320</td>
-<td>320</td>
-<td>320</td>
-<td>320</td>
-<td>320</td>
-<td>320</td>
-<td>320</td>
-</tr>
-<tr class="odd">
 <td data-quarto-table-cell-role="th">96</td>
 <td>GET</td>
-<td>/tiles/7/85/34.png?reference=False&amp;variable=GE...</td>
+<td>/tiles/7/8/23.png?reference=False&amp;variable=tas...</td>
 <td>5</td>
 <td>0</td>
-<td>340.0</td>
-<td>349.989132</td>
-<td>296.700646</td>
-<td>430.651055</td>
-<td>693.00000</td>
-<td>0.077756</td>
+<td>720.000000</td>
+<td>696.424204</td>
+<td>626.454098</td>
+<td>769.893036</td>
+<td>693.000000</td>
+<td>0.037808</td>
 <td>...</td>
-<td>380</td>
-<td>380</td>
-<td>430</td>
-<td>430</td>
-<td>430</td>
-<td>430</td>
-<td>430</td>
-<td>430</td>
-<td>430</td>
-<td>430</td>
+<td>730</td>
+<td>730</td>
+<td>770</td>
+<td>770</td>
+<td>770</td>
+<td>770</td>
+<td>770</td>
+<td>770</td>
+<td>770</td>
+<td>770</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">97</td>
 <td>GET</td>
-<td>/tiles/7/91/63.png?reference=False&amp;variable=GE...</td>
+<td>/tiles/7/83/72.png?reference=False&amp;variable=ta...</td>
 <td>5</td>
 <td>0</td>
-<td>280.0</td>
-<td>293.979037</td>
-<td>254.348352</td>
-<td>395.962576</td>
-<td>693.00000</td>
-<td>0.077756</td>
+<td>700.000000</td>
+<td>684.947807</td>
+<td>625.818475</td>
+<td>717.249067</td>
+<td>693.000000</td>
+<td>0.037808</td>
 <td>...</td>
-<td>280</td>
-<td>280</td>
-<td>400</td>
-<td>400</td>
-<td>400</td>
-<td>400</td>
-<td>400</td>
-<td>400</td>
-<td>400</td>
-<td>400</td>
+<td>720</td>
+<td>720</td>
+<td>720</td>
+<td>720</td>
+<td>720</td>
+<td>720</td>
+<td>720</td>
+<td>720</td>
+<td>720</td>
+<td>720</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">98</td>
+<td>GET</td>
+<td>/tiles/7/93/16.png?reference=False&amp;variable=ta...</td>
+<td>5</td>
+<td>0</td>
+<td>650.000000</td>
+<td>652.703136</td>
+<td>584.409517</td>
+<td>749.996356</td>
+<td>693.000000</td>
+<td>0.037808</td>
+<td>...</td>
+<td>690</td>
+<td>690</td>
+<td>750</td>
+<td>750</td>
+<td>750</td>
+<td>750</td>
+<td>750</td>
+<td>750</td>
+<td>750</td>
+<td>750</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">99</td>
+<td>GET</td>
+<td>/tiles/7/97/16.png?reference=False&amp;variable=ta...</td>
+<td>5</td>
+<td>0</td>
+<td>620.000000</td>
+<td>651.336655</td>
+<td>584.445595</td>
+<td>731.562882</td>
+<td>738.000000</td>
+<td>0.037808</td>
+<td>...</td>
+<td>730</td>
+<td>730</td>
+<td>730</td>
+<td>730</td>
+<td>730</td>
+<td>730</td>
+<td>730</td>
+<td>730</td>
+<td>730</td>
+<td>730</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">100</td>
 <td>NaN</td>
 <td>Aggregated</td>
 <td>498</td>
 <td>0</td>
-<td>290.0</td>
-<td>311.948515</td>
-<td>238.372005</td>
-<td>1304.428969</td>
-<td>1476.75502</td>
-<td>7.744516</td>
+<td>640.000000</td>
+<td>661.315717</td>
+<td>578.563731</td>
+<td>1287.539062</td>
+<td>1747.548193</td>
+<td>3.765648</td>
 <td>...</td>
-<td>310</td>
-<td>330</td>
-<td>340</td>
-<td>400</td>
-<td>420</td>
-<td>540</td>
-<td>780</td>
+<td>690</td>
+<td>710</td>
+<td>720</td>
+<td>730</td>
+<td>750</td>
+<td>830</td>
+<td>920</td>
 <td>1300</td>
 <td>1300</td>
 <td>1300</td>
@@ -772,11 +772,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 
-<p>99 rows × 22 columns</p>
+<p>101 rows × 22 columns</p>
 </div>
 </div>
 </div>
-<div class="cell" data-execution_count="14">
+<div class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>generate_zooms_plot(results_df, collection_name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="e2e-results_files/figure-html/cell-8-output-1.png" class="img-fluid"></p>
@@ -1137,8 +1137,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../approaches/tiling/zarr.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Zarr Test Results</span>
+      <a href="../../approaches/tiling/cmip6-zarr-performance.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">CMIP6 Zarr Benchmarks</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

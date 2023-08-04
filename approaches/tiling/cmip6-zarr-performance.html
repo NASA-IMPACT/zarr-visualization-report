@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Zarr Visualization Cookbook - CMIP6 Zarr Benchmarks</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../approaches/tiling/e2e-results.html" rel="next">
+<link href="../../approaches/tiling/cog-pgstac.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../approaches/index.html">Approaches</a></li><li class="breadcrumb-item"><a href="../../approaches/tiling.html">Tiling</a></li><li class="breadcrumb-item"><a href="../../approaches/tiling/cog-pgstac.html">Results in Detail</a></li><li class="breadcrumb-item"><a href="../../approaches/tiling/cmip6-zarr-performance.html">CMIP6 Zarr Benchmarks</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+      <a href="../../index.html" class="sidebar-logo-link">
+      <img src="../../images/impact-logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      </a>
+      <div class="sidebar-tools-main">
+    <a href="https://github.com/NASA-IMPACT/zarr-visualization-cookbook" rel="" title="Zarr Visualization Cookbook" class="quarto-navigation-tool px-1" aria-label="Zarr Visualization Cookbook"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../approaches/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Approaches</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../approaches/tiling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tiling</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../approaches/tiling/benchmarking-methodology.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Benchmarking Methodology</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../approaches/tiling/results-summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Results Summary</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Results in Detail</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth3 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../approaches/tiling/cog-pgstac.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Profiling tiling code for pgSTAC + COG</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../approaches/tiling/cmip6-zarr-performance.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">CMIP6 Zarr Benchmarks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../approaches/tiling/e2e-results.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">End to End Test Results</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../approaches/tiling/recommendations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Recommendations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../approaches/tiling/future-areas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Future Areas</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../approaches/direct-client.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Direct Client</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../approaches/direct-client/benchmarking-methodology.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Benchmarking Methodology</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../approaches/direct-client/e2e-results.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">End-to-End Benchmarking</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../approaches/direct-client/recommendations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Recommendations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../approaches/direct-client/future-areas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Future Areas</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#dataset-preprocessing" id="toc-dataset-preprocessing" class="nav-link active" data-scroll-target="#dataset-preprocessing">Dataset Preprocessing</a></li>
+  <li><a href="#code-profiling-methodology" id="toc-code-profiling-methodology" class="nav-link" data-scroll-target="#code-profiling-methodology">Code Profiling Methodology</a></li>
+  <li><a href="#interpretation-of-the-results" id="toc-interpretation-of-the-results" class="nav-link" data-scroll-target="#interpretation-of-the-results">Interpretation of the Results</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#open-questions-and-future-work" id="toc-open-questions-and-future-work" class="nav-link" data-scroll-target="#open-questions-and-future-work">Open questions and future work:</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.dev/nasa-impact/zarr-visualization-cookbook/blob/main/approaches/tiling/cmip6-zarr-performance.ipynb" class="toc-action">Edit this page</a></p><p><a href="https://github.com/nasa-impact/zarr-visualization-cookbook/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">CMIP6 Zarr Benchmarks</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="dataset-preprocessing" class="level2">
+<h2 class="anchored" data-anchor-id="dataset-preprocessing">Dataset Preprocessing</h2>
+<p>Benchmarks were generated for multiple copies of the CMIP6 daily data to understand the performance for different data pre-processing options. These copies were differentiated by:</p>
+<ul>
+<li>data file format (netCDF or Zarr), and,</li>
+<li>different chunking configurations</li>
+</ul>
+<p>Details on each dataset configuration:</p>
+<ol type="1">
+<li>kerchunk + netCDF: A kerchunk reference file for NetCDF files stored on S3.</li>
+<li>Zarr stores with different chunking configurations and pyramids.
+<ul>
+<li>Chunked to optimize for time series analysis:
+<ul>
+<li>latitude: 252, longitude: 252, time: 365.</li>
+<li>This dataset has larger chunks, but more timesteps are loaded into each chunk.</li>
+</ul></li>
+<li>Chunked to optimize for visualization at a single time step.
+<ul>
+<li>latitude: 600, longitude: 1440, time: 1.</li>
+<li>This dataset has small chunks, but will likely not work well for time series generation.</li>
+</ul></li>
+<li>Chunked to optimize for both time series and visualization:
+<ul>
+<li>latitude: 600, longitude: 1440, time: 29.</li>
+<li>This dataset has larger chunks, but more timesteps are loaded into each chunk.</li>
+</ul></li>
+</ul></li>
+<li>Zarr store with no coordinate chunking. At this time there is a known issue with pangeo-forge data generation where coordinates are chunked. This makes a significant impact on performance.</li>
+</ol>
+</section>
+<section id="code-profiling-methodology" class="level2">
+<h2 class="anchored" data-anchor-id="code-profiling-methodology">Code Profiling Methodology</h2>
+<p>The time to generate a tile at zoom 0 to 11 was tested for each data store 10 times. The mean of these times is reported. Tests were run on the VEDA JupyterHub and the details can be reviewed in the <a href="https://github.com/developmentseed/tile-benchmarking/blob/main/profiling/profile.ipynb">profile.ipynb notebook of the tile-benchmarking</a> repo.</p>
+<p>The libraries used to generate image tiles are xarray for reading the Zarr metadata and rio_tiler’s XarrayReader for reading data from the NetCDFs on S3.</p>
+<p>Code from these libraries is copied into <a href="https://github.com/developmentseed/tile-benchmarking/blob/main/profiling/zarr_reader.py">tile-benchmarking</a> to generate tiles and is replicated in the titiler-xarray API codebase. Maintaining a copy enabled full control to add timers to blocks of code and logs to understand where time was being spent. Specifically:</p>
+<ul>
+<li><code>import s3fs; s3fs.core.setup_logging("DEBUG")</code> was used to debug calls to S3. This was used to understand that the most time is spent opening the dataset, which was impacted by open all the coordinate chunks.</li>
+<li>Timing code blocks also demonstrated that the most time, other than opening the dataset, was spent in reprojecting the data. Time to reproject the data is positively correlated with the chunk size, since the minimum amount of data that can be read from S3 is the size of the data chunk.</li>
+</ul>
+</section>
+<section id="interpretation-of-the-results" class="level1">
+<h1>Interpretation of the Results</h1>
+<p>Note: The spatial resolution is the same for all datasets but chunk size difference due to chunk shape.</p>
+<ul>
+<li>The best performance was for data that was not chunked spatially and only had 1 timestep per chunk.</li>
+<li>The performance was about the same for the kerchunk reference of this dataset. It is important to consider this is because the NetCDF data is chunked the same way. Even though 365 time steps (days) are stored in each NetCDF file, it is chunked by day.</li>
+<li>Chunking the data spatially likely impacts performance at low zoom levels. Notice how the data chunked into spatial chunks of 262x262 has the greatest difference between the time to tile at zoom 0 vs zoom 11.</li>
+</ul>
+</section>
+<section id="summary" class="level1">
+<h1>Summary</h1>
+<p>Data at the CMIP6 spatial resolution (600 x 1440), if chunked at 1 timestep per chunk, will work pretty well. But this does not tell us at what point we should chunk or pyramid the data. For that, we direct readers to a future notebook on when to chunk.</p>
+<div class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> hvplot</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>pd.options.plotting.backend <span class="op">=</span> <span class="st">'holoviews'</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>git_url_path <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/developmentseed/tile-benchmarking/main/profiling/results"</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="ss">f"</span><span class="sc">{</span>git_url_path<span class="sc">}</span><span class="ss">/profiled_zarr_results.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">'collection_name'</span>, <span class="st">'chunks'</span>, <span class="st">'lat_resolution'</span>, <span class="st">'lon_resolution'</span>, <span class="st">'chunk_size_mb'</span>, <span class="st">'number_coord_chunks'</span>, <span class="st">'zoom 0'</span>, <span class="st">'zoom 11'</span>]].sort_values(<span class="st">'zoom 0'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="25">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">collection_name</th>
+<th data-quarto-table-cell-role="th">chunks</th>
+<th data-quarto-table-cell-role="th">lat_resolution</th>
+<th data-quarto-table-cell-role="th">lon_resolution</th>
+<th data-quarto-table-cell-role="th">chunk_size_mb</th>
+<th data-quarto-table-cell-role="th">number_coord_chunks</th>
+<th data-quarto-table-cell-role="th">zoom 0</th>
+<th data-quarto-table-cell-role="th">zoom 11</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>600_1440_1_no-coord-chunks</td>
+<td>{'time': 1, 'lat': 600, 'lon': 1440}</td>
+<td>0.25</td>
+<td>0.25</td>
+<td>3.295898</td>
+<td>3</td>
+<td>200.876</td>
+<td>221.971</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">0</td>
+<td>kerchunk</td>
+<td>{'time': 1, 'lat': 600, 'lon': 1440}</td>
+<td>0.25</td>
+<td>0.25</td>
+<td>3.295898</td>
+<td>3</td>
+<td>219.537</td>
+<td>184.691</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">3</td>
+<td>600_1440_29</td>
+<td>{'time': 29, 'lat': 600, 'lon': 1440}</td>
+<td>0.25</td>
+<td>0.25</td>
+<td>95.581055</td>
+<td>27</td>
+<td>699.789</td>
+<td>652.922</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">4</td>
+<td>365_262_262</td>
+<td>{'time': 365, 'lat': 262, 'lon': 262}</td>
+<td>0.25</td>
+<td>0.25</td>
+<td>95.577469</td>
+<td>9</td>
+<td>1430.254</td>
+<td>706.272</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1</td>
+<td>600_1440_1</td>
+<td>{'time': 1, 'lat': 600, 'lon': 1440}</td>
+<td>0.25</td>
+<td>0.25</td>
+<td>3.295898</td>
+<td>732</td>
+<td>1690.967</td>
+<td>1668.944</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>zooms <span class="op">=</span> [<span class="ss">f"zoom </span><span class="sc">{</span>zlev<span class="sc">}</span><span class="ss">"</span> <span class="cf">for</span> zlev <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">12</span>)]</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>zoom_df <span class="op">=</span> df[[<span class="st">'collection_name'</span>] <span class="op">+</span> zooms]</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>melted <span class="op">=</span> pd.melt(zoom_df, id_vars<span class="op">=</span>[<span class="st">'collection_name'</span>], var_name<span class="op">=</span><span class="st">'zoom'</span>, value_name<span class="op">=</span><span class="st">'time in ms'</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>melted.plot.scatter(x<span class="op">=</span><span class="st">'zoom'</span>, y<span class="op">=</span><span class="st">'time in ms'</span>, by<span class="op">=</span><span class="st">'collection_name'</span>, width<span class="op">=</span><span class="dv">1000</span>, height<span class="op">=</span><span class="dv">500</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+</div>
+<div class="cell-output cell-output-display" data-execution_count="24">
+<div id="3516">
+
+
+
+
+
+  <div class="bk-root" id="ad2bbbe6-5a53-40f6-ad39-cef8ac20dc45" data-root-id="3516"></div>
+</div>
+<script type="application/javascript">(function(root) {
+  function embed_document(root) {
+    var docs_json = {"0a9134df-fc6a-4f51-b9f4-f9ba91d32d83":{"defs":[{"extends":null,"module":null,"name":"ReactiveHTML1","overrides":[],"properties":[]},{"extends":null,"module":null,"name":"FlexBox1","overrides":[],"properties":[{"default":"flex-start","kind":null,"name":"align_content"},{"default":"flex-start","kind":null,"name":"align_items"},{"default":"row","kind":null,"name":"flex_direction"},{"default":"wrap","kind":null,"name":"flex_wrap"},{"default":"flex-start","kind":null,"name":"justify_content"}]},{"extends":null,"module":null,"name":"TemplateActions1","overrides":[],"properties":[{"default":0,"kind":null,"name":"open_modal"},{"default":0,"kind":null,"name":"close_modal"}]},{"extends":null,"module":null,"name":"MaterialTemplateActions1","overrides":[],"properties":[{"default":0,"kind":null,"name":"open_modal"},{"default":0,"kind":null,"name":"close_modal"}]}],"roots":{"references":[{"attributes":{"coordinates":null,"group":null,"text_color":"black","text_font_size":"12pt"},"id":"3526","type":"Title"},{"attributes":{},"id":"3545","type":"ResetTool"},{"attributes":{"data":{"collection_name":["600_1440_1_no-coord-chunks","600_1440_1_no-coord-chunks","600_1440_1_no-coord-chunks","600_1440_1_no-coord-chunks","600_1440_1_no-coord-chunks","600_1440_1_no-coord-chunks","600_1440_1_no-coord-chunks","600_1440_1_no-coord-chunks","600_1440_1_no-coord-chunks","600_1440_1_no-coord-chunks","600_1440_1_no-coord-chunks","600_1440_1_no-coord-chunks"],"time in ms":{"__ndarray__":"eukmMQgcaUBQjZduEsNnQCKwcmiRtWVAZTvfT42fZECyne+nxvdkQPyp8dJNxmRA3SQGgZWfZkB7FK5H4QZlQNajcD0KI2VAuR6F61F8ZEC0yHa+n4JnQFCNl24Sv2tA","dtype":"float64","order":"little","shape":[12]},"time_in_ms":{"__ndarray__":"eukmMQgcaUBQjZduEsNnQCKwcmiRtWVAZTvfT42fZECyne+nxvdkQPyp8dJNxmRA3SQGgZWfZkB7FK5H4QZlQNajcD0KI2VAuR6F61F8ZEC0yHa+n4JnQFCNl24Sv2tA","dtype":"float64","order":"little","shape":[12]},"zoom":["zoom 0","zoom 1","zoom 2","zoom 3","zoom 4","zoom 5","zoom 6","zoom 7","zoom 8","zoom 9","zoom 10","zoom 11"]},"selected":{"id":"3604"},"selection_policy":{"id":"3622"}},"id":"3603","type":"ColumnDataSource"},{"attributes":{"angle":{"value":0.0},"fill_alpha":{"value":1.0},"fill_color":{"value":"#8b8b8b"},"hatch_alpha":{"value":1.0},"hatch_color":{"value":"#8b8b8b"},"hatch_scale":{"value":12.0},"hatch_weight":{"value":1.0},"line_alpha":{"value":1.0},"line_cap":{"value":"butt"},"line_color":{"value":"#8b8b8b"},"line_dash":{"value":[]},"line_dash_offset":{"value":0},"line_join":{"value":"bevel"},"line_width":{"value":1},"marker":{"value":"circle"},"size":{"value":5.477225575051661},"x":{"field":"zoom"},"y":{"field":"time in ms"}},"id":"3680","type":"Scatter"},{"attributes":{},"id":"3542","type":"PanTool"},{"attributes":{},"id":"3535","type":"CategoricalTicker"},{"attributes":{"axis_label":"time in ms","coordinates":null,"formatter":{"id":"3558"},"group":null,"major_label_policy":{"id":"3559"},"ticker":{"id":"3538"}},"id":"3537","type":"LinearAxis"},{"attributes":{},"id":"3538","type":"BasicTicker"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"#30a2da"},"hatch_alpha":{"value":0.1},"hatch_color":{"value":"#30a2da"},"line_alpha":{"value":0.1},"line_color":{"value":"#30a2da"},"size":{"value":5.477225575051661},"x":{"field":"zoom"},"y":{"field":"time in ms"}},"id":"3564","type":"Scatter"},{"attributes":{},"id":"3575","type":"UnionRenderers"},{"attributes":{},"id":"3582","type":"Selection"},{"attributes":{},"id":"3654","type":"Selection"},{"attributes":{"fill_alpha":{"value":0.2},"fill_color":{"value":"#fc4f30"},"hatch_alpha":{"value":0.2},"hatch_color":{"value":"#fc4f30"},"line_alpha":{"value":0.2},"line_color":{"value":"#fc4f30"},"size":{"value":5.477225575051661},"x":{"field":"zoom"},"y":{"field":"time in ms"}},"id":"3586","type":"Scatter"},{"attributes":{},"id":"3530","type":"CategoricalScale"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"#e5ae38"},"hatch_alpha":{"value":0.1},"hatch_color":{"value":"#e5ae38"},"line_alpha":{"value":0.1},"line_color":{"value":"#e5ae38"},"size":{"value":5.477225575051661},"x":{"field":"zoom"},"y":{"field":"time in ms"}},"id":"3607","type":"Scatter"},{"attributes":{"fill_alpha":{"value":0.2},"fill_color":{"value":"#e5ae38"},"hatch_alpha":{"value":0.2},"hatch_color":{"value":"#e5ae38"},"line_alpha":{"value":0.2},"line_color":{"value":"#e5ae38"},"size":{"value":5.477225575051661},"x":{"field":"zoom"},"y":{"field":"time in ms"}},"id":"3608","type":"Scatter"},{"attributes":{},"id":"3541","type":"SaveTool"},{"attributes":{"data":{"collection_name":["kerchunk","kerchunk","kerchunk","kerchunk","kerchunk","kerchunk","kerchunk","kerchunk","kerchunk","kerchunk","kerchunk","kerchunk"],"time in ms":{"__ndarray__":"d76fGi9xa0B56SYxCMxgQHa+nxov9WJAQmDl0CKDYUAj2/l+athiQO58PzVermNACtejcD36YUARWDm0yKJkQLTIdr6ffmZAMQisHFrgYUD+1HjpJlVkQCcxCKwcFmdA","dtype":"float64","order":"little","shape":[12]},"time_in_ms":{"__ndarray__":"d76fGi9xa0B56SYxCMxgQHa+nxov9WJAQmDl0CKDYUAj2/l+athiQO58PzVermNACtejcD36YUARWDm0yKJkQLTIdr6ffmZAMQisHFrgYUD+1HjpJlVkQCcxCKwcFmdA","dtype":"float64","order":"little","shape":[12]},"zoom":["zoom 0","zoom 1","zoom 2","zoom 3","zoom 4","zoom 5","zoom 6","zoom 7","zoom 8","zoom 9","zoom 10","zoom 11"]},"selected":{"id":"3654"},"selection_policy":{"id":"3676"}},"id":"3653","type":"ColumnDataSource"},{"attributes":{"coordinates":null,"data_source":{"id":"3627"},"glyph":{"id":"3630"},"group":null,"hover_glyph":null,"muted_glyph":{"id":"3632"},"nonselection_glyph":{"id":"3631"},"selection_glyph":{"id":"3652"},"view":{"id":"3634"}},"id":"3633","type":"GlyphRenderer"},{"attributes":{"angle":{"value":0.0},"fill_alpha":{"value":1.0},"fill_color":{"value":"#30a2da"},"hatch_alpha":{"value":1.0},"hatch_color":{"value":"#30a2da"},"hatch_scale":{"value":12.0},"hatch_weight":{"value":1.0},"line_alpha":{"value":1.0},"line_cap":{"value":"butt"},"line_color":{"value":"#30a2da"},"line_dash":{"value":[]},"line_dash_offset":{"value":0},"line_join":{"value":"bevel"},"line_width":{"value":1},"marker":{"value":"circle"},"size":{"value":5.477225575051661},"x":{"field":"zoom"},"y":{"field":"time in ms"}},"id":"3580","type":"Scatter"},{"attributes":{"fill_alpha":{"value":0.2},"fill_color":{"value":"#30a2da"},"hatch_alpha":{"value":0.2},"hatch_color":{"value":"#30a2da"},"line_alpha":{"value":0.2},"line_color":{"value":"#30a2da"},"size":{"value":5.477225575051661},"x":{"field":"zoom"},"y":{"field":"time in ms"}},"id":"3565","type":"Scatter"},{"attributes":{"below":[{"id":"3534"}],"center":[{"id":"3536"},{"id":"3540"}],"height":500,"left":[{"id":"3537"}],"margin":[5,5,5,5],"min_border_bottom":10,"min_border_left":10,"min_border_right":10,"min_border_top":10,"renderers":[{"id":"3566"},{"id":"3587"},{"id":"3609"},{"id":"3633"},{"id":"3659"}],"right":[{"id":"3578"}],"sizing_mode":"fixed","title":{"id":"3526"},"toolbar":{"id":"3547"},"width":1000,"x_range":{"id":"3518"},"x_scale":{"id":"3530"},"y_range":{"id":"3519"},"y_scale":{"id":"3532"}},"id":"3525","subtype":"Figure","type":"Plot"},{"attributes":{"label":{"value":"600_1440_1"},"renderers":[{"id":"3587"}]},"id":"3601","type":"LegendItem"},{"attributes":{},"id":"3622","type":"UnionRenderers"},{"attributes":{"margin":[5,5,5,5],"name":"HSpacer07343","sizing_mode":"stretch_width"},"id":"3517","type":"Spacer"},{"attributes":{"callback":null,"renderers":[{"id":"3566"},{"id":"3587"},{"id":"3609"},{"id":"3633"},{"id":"3659"}],"tags":["hv_created"],"tooltips":[["collection_name","@{collection_name}"],["zoom","@{zoom}"],["time in ms","@{time_in_ms}"]]},"id":"3520","type":"HoverTool"},{"attributes":{"label":{"value":"600_1440_1_no-coord-chunks"},"renderers":[{"id":"3609"}]},"id":"3625","type":"LegendItem"},{"attributes":{"label":{"value":"365_262_262"},"renderers":[{"id":"3566"}]},"id":"3579","type":"LegendItem"},{"attributes":{"tools":[{"id":"3520"},{"id":"3541"},{"id":"3542"},{"id":"3543"},{"id":"3544"},{"id":"3545"}]},"id":"3547","type":"Toolbar"},{"attributes":{},"id":"3556","type":"AllLabels"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"#6d904f"},"hatch_alpha":{"value":0.1},"hatch_color":{"value":"#6d904f"},"line_alpha":{"value":0.1},"line_color":{"value":"#6d904f"},"size":{"value":5.477225575051661},"x":{"field":"zoom"},"y":{"field":"time in ms"}},"id":"3631","type":"Scatter"},{"attributes":{"source":{"id":"3581"}},"id":"3588","type":"CDSView"},{"attributes":{},"id":"3598","type":"UnionRenderers"},{"attributes":{"data":{"collection_name":["365_262_262","365_262_262","365_262_262","365_262_262","365_262_262","365_262_262","365_262_262","365_262_262","365_262_262","365_262_262","365_262_262","365_262_262"],"time in ms":{"__ndarray__":"vHSTGARZlkDWo3A9Cq6LQLbz/dR4ioZAILByaJGchkDl0CLb+SWGQFpkO99PCoZADy2yne/bhUBKDAIrh2+GQF2PwvUoXYZAzvdT46UdhkBOYhBYOYKGQBoEVg4tEoZA","dtype":"float64","order":"little","shape":[12]},"time_in_ms":{"__ndarray__":"vHSTGARZlkDWo3A9Cq6LQLbz/dR4ioZAILByaJGchkDl0CLb+SWGQFpkO99PCoZADy2yne/bhUBKDAIrh2+GQF2PwvUoXYZAzvdT46UdhkBOYhBYOYKGQBoEVg4tEoZA","dtype":"float64","order":"little","shape":[12]},"zoom":["zoom 0","zoom 1","zoom 2","zoom 3","zoom 4","zoom 5","zoom 6","zoom 7","zoom 8","zoom 9","zoom 10","zoom 11"]},"selected":{"id":"3561"},"selection_policy":{"id":"3575"}},"id":"3560","type":"ColumnDataSource"},{"attributes":{},"id":"3676","type":"UnionRenderers"},{"attributes":{"source":{"id":"3560"}},"id":"3567","type":"CDSView"},{"attributes":{},"id":"3543","type":"WheelZoomTool"},{"attributes":{"data":{"collection_name":["600_1440_1","600_1440_1","600_1440_1","600_1440_1","600_1440_1","600_1440_1","600_1440_1","600_1440_1","600_1440_1","600_1440_1","600_1440_1","600_1440_1"],"time in ms":{"__ndarray__":"7nw/Nd5rmkBg5dAiWwqaQDm0yHY+Q5pAsp3vp0YUmkD6fmq89N2ZQJ7vp8ZLYZpAKDEIrBw3mkBGtvP9VEuaQAaBlUMLWZpApZvEILBVmkCe76fGS2uaQLKd76fGE5pA","dtype":"float64","order":"little","shape":[12]},"time_in_ms":{"__ndarray__":"7nw/Nd5rmkBg5dAiWwqaQDm0yHY+Q5pAsp3vp0YUmkD6fmq89N2ZQJ7vp8ZLYZpAKDEIrBw3mkBGtvP9VEuaQAaBlUMLWZpApZvEILBVmkCe76fGS2uaQLKd76fGE5pA","dtype":"float64","order":"little","shape":[12]},"zoom":["zoom 0","zoom 1","zoom 2","zoom 3","zoom 4","zoom 5","zoom 6","zoom 7","zoom 8","zoom 9","zoom 10","zoom 11"]},"selected":{"id":"3582"},"selection_policy":{"id":"3598"}},"id":"3581","type":"ColumnDataSource"},{"attributes":{},"id":"3558","type":"BasicTickFormatter"},{"attributes":{"fill_color":{"value":"#8b8b8b"},"hatch_color":{"value":"#8b8b8b"},"line_color":{"value":"#8b8b8b"},"size":{"value":5.477225575051661},"x":{"field":"zoom"},"y":{"field":"time in ms"}},"id":"3656","type":"Scatter"},{"attributes":{"children":[{"id":"3517"},{"id":"3525"},{"id":"3843"}],"margin":[0,0,0,0],"name":"Row07339","tags":["embedded"]},"id":"3516","type":"Row"},{"attributes":{"angle":{"value":0.0},"fill_alpha":{"value":1.0},"fill_color":{"value":"#6d904f"},"hatch_alpha":{"value":1.0},"hatch_color":{"value":"#6d904f"},"hatch_scale":{"value":12.0},"hatch_weight":{"value":1.0},"line_alpha":{"value":1.0},"line_cap":{"value":"butt"},"line_color":{"value":"#6d904f"},"line_dash":{"value":[]},"line_dash_offset":{"value":0},"line_join":{"value":"bevel"},"line_width":{"value":1},"marker":{"value":"circle"},"size":{"value":5.477225575051661},"x":{"field":"zoom"},"y":{"field":"time in ms"}},"id":"3652","type":"Scatter"},{"attributes":{},"id":"3559","type":"AllLabels"},{"attributes":{"fill_color":{"value":"#e5ae38"},"hatch_color":{"value":"#e5ae38"},"line_color":{"value":"#e5ae38"},"size":{"value":5.477225575051661},"x":{"field":"zoom"},"y":{"field":"time in ms"}},"id":"3606","type":"Scatter"},{"attributes":{"end":1846.6261000000002,"reset_end":1846.6261000000002,"reset_start":-21.28310000000002,"start":-21.28310000000002,"tags":[[["time in ms","time in ms",null]]]},"id":"3519","type":"Range1d"},{"attributes":{"label":{"value":"600_1440_29"},"renderers":[{"id":"3633"}]},"id":"3651","type":"LegendItem"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"#8b8b8b"},"hatch_alpha":{"value":0.1},"hatch_color":{"value":"#8b8b8b"},"line_alpha":{"value":0.1},"line_color":{"value":"#8b8b8b"},"size":{"value":5.477225575051661},"x":{"field":"zoom"},"y":{"field":"time in ms"}},"id":"3657","type":"Scatter"},{"attributes":{"coordinates":null,"data_source":{"id":"3581"},"glyph":{"id":"3584"},"group":null,"hover_glyph":null,"muted_glyph":{"id":"3586"},"nonselection_glyph":{"id":"3585"},"selection_glyph":{"id":"3602"},"view":{"id":"3588"}},"id":"3587","type":"GlyphRenderer"},{"attributes":{"fill_alpha":{"value":0.2},"fill_color":{"value":"#6d904f"},"hatch_alpha":{"value":0.2},"hatch_color":{"value":"#6d904f"},"line_alpha":{"value":0.2},"line_color":{"value":"#6d904f"},"size":{"value":5.477225575051661},"x":{"field":"zoom"},"y":{"field":"time in ms"}},"id":"3632","type":"Scatter"},{"attributes":{"factors":["zoom 0","zoom 1","zoom 2","zoom 3","zoom 4","zoom 5","zoom 6","zoom 7","zoom 8","zoom 9","zoom 10","zoom 11"],"tags":[[["zoom","zoom",null]]]},"id":"3518","type":"FactorRange"},{"attributes":{},"id":"3561","type":"Selection"},{"attributes":{"fill_alpha":{"value":0.2},"fill_color":{"value":"#8b8b8b"},"hatch_alpha":{"value":0.2},"hatch_color":{"value":"#8b8b8b"},"line_alpha":{"value":0.2},"line_color":{"value":"#8b8b8b"},"size":{"value":5.477225575051661},"x":{"field":"zoom"},"y":{"field":"time in ms"}},"id":"3658","type":"Scatter"},{"attributes":{"coordinates":null,"data_source":{"id":"3653"},"glyph":{"id":"3656"},"group":null,"hover_glyph":null,"muted_glyph":{"id":"3658"},"nonselection_glyph":{"id":"3657"},"selection_glyph":{"id":"3680"},"view":{"id":"3660"}},"id":"3659","type":"GlyphRenderer"},{"attributes":{"fill_color":{"value":"#6d904f"},"hatch_color":{"value":"#6d904f"},"line_color":{"value":"#6d904f"},"size":{"value":5.477225575051661},"x":{"field":"zoom"},"y":{"field":"time in ms"}},"id":"3630","type":"Scatter"},{"attributes":{},"id":"3604","type":"Selection"},{"attributes":{"coordinates":null,"data_source":{"id":"3560"},"glyph":{"id":"3563"},"group":null,"hover_glyph":null,"muted_glyph":{"id":"3565"},"nonselection_glyph":{"id":"3564"},"selection_glyph":{"id":"3580"},"view":{"id":"3567"}},"id":"3566","type":"GlyphRenderer"},{"attributes":{"coordinates":null,"data_source":{"id":"3603"},"glyph":{"id":"3606"},"group":null,"hover_glyph":null,"muted_glyph":{"id":"3608"},"nonselection_glyph":{"id":"3607"},"selection_glyph":{"id":"3626"},"view":{"id":"3610"}},"id":"3609","type":"GlyphRenderer"},{"attributes":{},"id":"3555","type":"CategoricalTickFormatter"},{"attributes":{"data":{"collection_name":["600_1440_29","600_1440_29","600_1440_29","600_1440_29","600_1440_29","600_1440_29","600_1440_29","600_1440_29","600_1440_29","600_1440_29","600_1440_29","600_1440_29"],"time in ms":{"__ndarray__":"WmQ730/ehUD+1HjpJquEQGQ730+NjIRAqvHSTWJLhUAX2c73U3WEQLPIdr6fpYRAXI/C9SgXhUC0yHa+n5eEQIPAyqFFXoRAILByaJG5hEDjpZvEIMiEQEs3iUFgZ4RA","dtype":"float64","order":"little","shape":[12]},"time_in_ms":{"__ndarray__":"WmQ730/ehUD+1HjpJquEQGQ730+NjIRAqvHSTWJLhUAX2c73U3WEQLPIdr6fpYRAXI/C9SgXhUC0yHa+n5eEQIPAyqFFXoRAILByaJG5hEDjpZvEIMiEQEs3iUFgZ4RA","dtype":"float64","order":"little","shape":[12]},"zoom":["zoom 0","zoom 1","zoom 2","zoom 3","zoom 4","zoom 5","zoom 6","zoom 7","zoom 8","zoom 9","zoom 10","zoom 11"]},"selected":{"id":"3628"},"selection_policy":{"id":"3648"}},"id":"3627","type":"ColumnDataSource"},{"attributes":{"source":{"id":"3627"}},"id":"3634","type":"CDSView"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"#fc4f30"},"hatch_alpha":{"value":0.1},"hatch_color":{"value":"#fc4f30"},"line_alpha":{"value":0.1},"line_color":{"value":"#fc4f30"},"size":{"value":5.477225575051661},"x":{"field":"zoom"},"y":{"field":"time in ms"}},"id":"3585","type":"Scatter"},{"attributes":{"click_policy":"mute","coordinates":null,"group":null,"items":[{"id":"3579"},{"id":"3601"},{"id":"3625"},{"id":"3651"},{"id":"3679"}],"location":[0,0],"title":"collection_name"},"id":"3578","type":"Legend"},{"attributes":{"axis_label":"zoom","coordinates":null,"formatter":{"id":"3555"},"group":null,"major_label_policy":{"id":"3556"},"ticker":{"id":"3535"}},"id":"3534","type":"CategoricalAxis"},{"attributes":{"fill_color":{"value":"#fc4f30"},"hatch_color":{"value":"#fc4f30"},"line_color":{"value":"#fc4f30"},"size":{"value":5.477225575051661},"x":{"field":"zoom"},"y":{"field":"time in ms"}},"id":"3584","type":"Scatter"},{"attributes":{"source":{"id":"3653"}},"id":"3660","type":"CDSView"},{"attributes":{},"id":"3628","type":"Selection"},{"attributes":{"fill_color":{"value":"#30a2da"},"hatch_color":{"value":"#30a2da"},"line_color":{"value":"#30a2da"},"size":{"value":5.477225575051661},"x":{"field":"zoom"},"y":{"field":"time in ms"}},"id":"3563","type":"Scatter"},{"attributes":{"margin":[5,5,5,5],"name":"HSpacer07344","sizing_mode":"stretch_width"},"id":"3843","type":"Spacer"},{"attributes":{"bottom_units":"screen","coordinates":null,"fill_alpha":0.5,"fill_color":"lightgrey","group":null,"left_units":"screen","level":"overlay","line_alpha":1.0,"line_color":"black","line_dash":[4,4],"line_width":2,"right_units":"screen","syncable":false,"top_units":"screen"},"id":"3546","type":"BoxAnnotation"},{"attributes":{"overlay":{"id":"3546"}},"id":"3544","type":"BoxZoomTool"},{"attributes":{},"id":"3532","type":"LinearScale"},{"attributes":{"angle":{"value":0.0},"fill_alpha":{"value":1.0},"fill_color":{"value":"#e5ae38"},"hatch_alpha":{"value":1.0},"hatch_color":{"value":"#e5ae38"},"hatch_scale":{"value":12.0},"hatch_weight":{"value":1.0},"line_alpha":{"value":1.0},"line_cap":{"value":"butt"},"line_color":{"value":"#e5ae38"},"line_dash":{"value":[]},"line_dash_offset":{"value":0},"line_join":{"value":"bevel"},"line_width":{"value":1},"marker":{"value":"circle"},"size":{"value":5.477225575051661},"x":{"field":"zoom"},"y":{"field":"time in ms"}},"id":"3626","type":"Scatter"},{"attributes":{"source":{"id":"3603"}},"id":"3610","type":"CDSView"},{"attributes":{"label":{"value":"kerchunk"},"renderers":[{"id":"3659"}]},"id":"3679","type":"LegendItem"},{"attributes":{"axis":{"id":"3534"},"coordinates":null,"grid_line_color":null,"group":null,"ticker":null},"id":"3536","type":"Grid"},{"attributes":{},"id":"3648","type":"UnionRenderers"},{"attributes":{"axis":{"id":"3537"},"coordinates":null,"dimension":1,"grid_line_color":null,"group":null,"ticker":null},"id":"3540","type":"Grid"},{"attributes":{"angle":{"value":0.0},"fill_alpha":{"value":1.0},"fill_color":{"value":"#fc4f30"},"hatch_alpha":{"value":1.0},"hatch_color":{"value":"#fc4f30"},"hatch_scale":{"value":12.0},"hatch_weight":{"value":1.0},"line_alpha":{"value":1.0},"line_cap":{"value":"butt"},"line_color":{"value":"#fc4f30"},"line_dash":{"value":[]},"line_dash_offset":{"value":0},"line_join":{"value":"bevel"},"line_width":{"value":1},"marker":{"value":"circle"},"size":{"value":5.477225575051661},"x":{"field":"zoom"},"y":{"field":"time in ms"}},"id":"3602","type":"Scatter"}],"root_ids":["3516"]},"title":"Bokeh Application","version":"2.4.2"}};
+    var render_items = [{"docid":"0a9134df-fc6a-4f51-b9f4-f9ba91d32d83","root_ids":["3516"],"roots":{"3516":"ad2bbbe6-5a53-40f6-ad39-cef8ac20dc45"}}];
+    root.Bokeh.embed.embed_items_notebook(docs_json, render_items);
+  }
+  if (root.Bokeh !== undefined && root.Bokeh.Panel !== undefined) {
+    embed_document(root);
+  } else {
+    var attempts = 0;
+    var timer = setInterval(function(root) {
+      if (root.Bokeh !== undefined && root.Bokeh.Panel !== undefined) {
+        clearInterval(timer);
+        embed_document(root);
+      } else if (document.readyState == "complete") {
+        attempts++;
+        if (attempts > 200) {
+          clearInterval(timer);
+          console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
+        }
+      }
+    }, 25, root)
+  }
+})(window);</script>
+</div>
+</div>
+</section>
+<section id="open-questions-and-future-work" class="level1">
+<h1>Open questions and future work:</h1>
+<ul>
+<li>A fast response is returned for data with a chunk size of 3MB. But if data must be fetched from multiple chunks to create a single tile how does this impact performance? If you store your data in many small chunks when (in zoom level and resolution) does this impact performance?</li>
+<li>More exploration of the pyramiding option is required, since the pyramid has all timesteps in each chunk and thus is not faster than data chunked optimally for visualitation</li>
+<li>How to balance testing and optimizing for time series generation.</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../approaches/tiling/cog-pgstac.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Profiling tiling code for pgSTAC + COG</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../approaches/tiling/e2e-results.html" class="pagination-link">
+        <span class="nav-page-text">End to End Test Results</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">© CC-By Openscapes, 2022</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">This page is built with ❤️ and <a href="https://quarto.org/">Quarto</a>.</div>
+  </div>
+</footer>
+
+
+
+</body></html>
