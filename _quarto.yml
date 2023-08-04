@@ -23,23 +23,29 @@ website:
 
     style: "docked"
     search: true
-    collapse-level: 3
+    collapse-level: 2
     contents:
       - href: index.qmd
         text: Welcome
       - section: approaches/index.qmd
         contents: 
+          - section: approaches/tiling.qmd
+            contents:
+            - approaches/tiling/benchmarking-methodology.qmd
+            - approaches/tiling/results-summary.md
+            - section: Results in Detail
+              contents:
+              - approaches/tiling/pgstac-cog.md
+              - approaches/tiling/zarr.md
+              - approaches/tiling/e2e-results.ipynb
+            - approaches/tiling/recommendations.md
+            - approaches/tiling/future-areas.md
           - section: approaches/direct-client.qmd
             contents:
             - approaches/direct-client/benchmarking-methodology.qmd
             - approaches/direct-client/e2e-results.ipynb
             - approaches/direct-client/recommendations.qmd
-            - approaches/direct-client/future-areas.qmd
-          - section: approaches/tiling.md
-            contents:
-            - approaches/tiling/preprocessing.md
-            - approaches/tiling/benchmarks.md
-            - approaches/tiling/future-areas.md
+            - approaches/direct-client/future-areas.qmd         
 
 
 
