@@ -29,7 +29,11 @@ website:
         text: Welcome
       - section: approaches/index.qmd
         contents: 
-          - section: approaches/direct-client.md        
+          - section: approaches/direct-client.qmd
+            contents:
+            - approaches/direct-client/benchmarking-methodology.qmd
+            - approaches/direct-client/recommendations.qmd
+            - approaches/direct-client/future-areas.qmd  
           - section: approaches/tiling.md
             contents:
             - approaches/tiling/preprocessing.md
