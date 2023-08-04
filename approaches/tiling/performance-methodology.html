@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Making sharable documents with Quarto – benchmarks</title>
+<title>Making sharable documents with Quarto – performance-methodology</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -29,6 +29,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
+<link href="../../approaches/tiling/results-summary.html" rel="next">
+<link href="../../approaches/tiling.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -74,7 +76,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../approaches/index.html">Approaches</a></li><li class="breadcrumb-item"><a href="../../approaches/tiling.html">Tiling</a></li><li class="breadcrumb-item"><a href="../../approaches/tiling/performance-methodology.html">Performance Methodology</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -122,14 +124,14 @@ ul.task-list li input[type="checkbox"] {
       <div class="sidebar-item-container"> 
             <a href="../../approaches/tiling.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Tiling</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../approaches/tiling/performance-methodology.html" class="sidebar-item-text sidebar-link">
+  <a href="../../approaches/tiling/performance-methodology.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Performance Methodology</span></a>
   </div>
 </li>
@@ -198,20 +200,44 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#benchmarks" id="toc-benchmarks" class="nav-link active" data-scroll-target="#benchmarks">Benchmarks</a></li>
+  <li><a href="#performance-methodology" id="toc-performance-methodology" class="nav-link active" data-scroll-target="#performance-methodology">Performance Methodology</a>
+  <ul class="collapse">
+  <li><a href="#datasets" id="toc-datasets" class="nav-link" data-scroll-target="#datasets">Datasets</a></li>
+  <li><a href="#performance-testing-methodology" id="toc-performance-testing-methodology" class="nav-link" data-scroll-target="#performance-testing-methodology">Performance Testing Methodology</a>
+  <ul class="collapse">
+  <li><a href="#code-profiling" id="toc-code-profiling" class="nav-link" data-scroll-target="#code-profiling">code profiling</a></li>
+  <li><a href="#e2e-testing" id="toc-e2e-testing" class="nav-link" data-scroll-target="#e2e-testing">e2e testing</a></li>
+  </ul></li>
+  </ul></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/nasa-impact/zarr-visualization-cookbook/edit/main/approaches/direct-client/benchmarks.md" class="toc-action">Edit this page</a></p><p><a href="https://github.com/nasa-impact/zarr-visualization-cookbook/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/nasa-impact/zarr-visualization-cookbook/edit/main/approaches/tiling/performance-methodology.md" class="toc-action">Edit this page</a></p><p><a href="https://github.com/nasa-impact/zarr-visualization-cookbook/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
 
-<section id="benchmarks" class="level1">
-<h1>Benchmarks</h1>
-<p>To be merged with https://github.com/carbonplan/benchmark-maps</p>
+<section id="performance-methodology" class="level1">
+<h1>Performance Methodology</h1>
+<section id="datasets" class="level2">
+<h2 class="anchored" data-anchor-id="datasets">Datasets</h2>
+<p>Reproducibility is important to the integrity of this project and its reported results. That is why we selected a publicly available dataset and attempt to make the steps as fully documented and reproducible as possible. We used the <a href="https://aws.amazon.com/marketplace/pp/prodview-k6adk576fiwmm#overview">NASA Earth Exchange Global Daily Downscaled Projections (NEX-GDDP-CMIP6)</a> AWS public dataset for this project.</p>
+<p>There are 2 datasets listed on AWS: 1 is an archive of NetCDF files from about 35 different climate models, each supplying historical and predicted values for up to 9 environment variables, daily, from 1950 to 2100. To minimize preprocessing, test datasets were generated for the first 2 years of historical data, for 1 model and for 1 variable. These variables or dataset could easily be modified or swapped, but we expect the relative performance using different datasets to be the same.</p>
+<p>In addition to the NetCDF data, there is an archives of COGs generated from that NetCDF data to support visualization via dynamic tiling using COGs. COGs are only available for 2 models, so for inter comparison of the tiling approach between COGs and Zarr, one of those models (<code>GISS-E2-1-G</code>) is used to generate Zarr stores.</p>
+<p>At this time, a different model is used for the direct client approach (<code>ACCESS-CM2</code>), but we will demonstrate how there is no meaningful difference in the performance of tiling across these models.</p>
+<p>Benchmarks for the tiling approach were run on the <a href="https://nasa-veda.2i2c.cloud/">VEDA JupyterHub</a>. The VEDA documentation details how to request access: https://nasa-impact.github.io/veda-docs/services/jupyterhub.html. Because we don’t want to make the database or S3 bucket with datasets fully public, you must be logged into the VEDA JupyterHub to run those benchmarks.</p>
+</section>
+<section id="performance-testing-methodology" class="level2">
+<h2 class="anchored" data-anchor-id="performance-testing-methodology">Performance Testing Methodology</h2>
+<section id="code-profiling" class="level3">
+<h3 class="anchored" data-anchor-id="code-profiling">code profiling</h3>
+</section>
+<section id="e2e-testing" class="level3">
+<h3 class="anchored" data-anchor-id="e2e-testing">e2e testing</h3>
 
 
+</section>
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -563,6 +589,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../approaches/tiling.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Tiling</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../approaches/tiling/results-summary.html" class="pagination-link">
+        <span class="nav-page-text">Results Summary</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">

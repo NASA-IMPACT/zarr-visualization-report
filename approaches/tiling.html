@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Making sharable documents with Quarto – tiling</title>
+<title>Making sharable documents with Quarto - Tiling</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -29,8 +29,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../approaches/tiling/preprocessing.html" rel="next">
-<link href="../approaches/direct-client.html" rel="prev">
+<link href="../approaches/tiling/performance-methodology.html" rel="next">
+<link href="../approaches/index.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -121,28 +121,59 @@ ul.task-list li input[type="checkbox"] {
       </div>
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item sidebar-item-section">
-      <span class="sidebar-item-text sidebar-link text-start">
- <span class="menu-text">Direct Client</span></span>
-  </li>
-          <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="../approaches/tiling.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Tiling</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 show">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../approaches/tiling/preprocessing.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Preprocessing</span></a>
+  <a href="../approaches/tiling/performance-methodology.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Performance Methodology</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../approaches/tiling/benchmarks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Benchmarks</span></a>
+  <a href="../approaches/tiling/results-summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Results Summary</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false">
+ <span class="menu-text">Results in Detail</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../approaches/tiling/pgstac-cog.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">pgSTAC + COG results</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../approaches/tiling/zarr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Zarr Test Results</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../approaches/tiling/e2e.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">End-to-End Tests</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../approaches/tiling/recommendations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Recommendations</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -153,6 +184,10 @@ ul.task-list li input[type="checkbox"] {
 </li>
       </ul>
   </li>
+          <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">Direct Client</span></span>
+  </li>
       </ul>
   </li>
     </ul>
@@ -161,26 +196,32 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#tiling" id="toc-tiling" class="nav-link active" data-scroll-target="#tiling">Tiling</a></li>
-  </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/nasa-impact/zarr-visualization-cookbook/edit/main/approaches/tiling.md" class="toc-action">Edit this page</a></p><p><a href="https://github.com/nasa-impact/zarr-visualization-cookbook/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Tiling</h1>
+</div>
 
 
-<section id="tiling" class="level1">
-<h1>Tiling</h1>
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
 <p>The tiling approach is to provide image tiles via the <a href="https://en.wikipedia.org/wiki/Tiled_web_map">XYZ Protocol</a> and <a href="https://docs.ogc.org/is/20-057/20-057.html">OGC API - Tiles</a> API specifications.</p>
 <p>This approach relies on the <a href="https://github.com/cogeotiff/rio-tiler/blob/main/rio_tiler/io/xarray.py"><code>rio_tiler.XarrayReader</code></a> library which includes the <code>tile</code> function. This function and others in that module are used to provide an API for tiles. An example API infrastructure can be found in <a href="https://github.com/developmentseed/titiler-xarray">titiler-xarray</a>. Please note this library is still in development and is not intended for production use at this time.</p>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -533,13 +574,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../approaches/direct-client.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Direct Client</span>
+      <a href="../approaches/index.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Approaches</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../approaches/tiling/preprocessing.html" class="pagination-link">
-        <span class="nav-page-text">Preprocessing</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../approaches/tiling/performance-methodology.html" class="pagination-link">
+        <span class="nav-page-text">Performance Methodology</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -549,7 +590,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     <div class="nav-footer-left">© CC-By Openscapes, 2022</div>   
     <div class="nav-footer-center">
       &nbsp;
-    </div>
+    <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/nasa-impact/zarr-visualization-cookbook/edit/main/approaches/tiling.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/nasa-impact/zarr-visualization-cookbook/issues/new" class="toc-action">Report an issue</a></p></div></div></div>
     <div class="nav-footer-right">This page is built with ❤️ and <a href="https://quarto.org/">Quarto</a>.</div>
   </div>
 </footer>

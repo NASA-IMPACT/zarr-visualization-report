@@ -1,31 +1,17 @@
 [
   {
-    "objectID": "approaches/direct-client.html",
-    "href": "approaches/direct-client.html",
-    "title": "Direct Client",
+    "objectID": "approaches/tiling.html",
+    "href": "approaches/tiling.html",
+    "title": "Tiling",
     "section": "",
-    "text": "Traditional approaches to rendering raster datasets in the browser involve the creation of tiles in a pixelated impact format like PNG or JPEG. These tiles can be pre-generated or created by a tiling server on demand, as described in the tiling approach chapter. While the image tiles are fast to load and easy to render, tiling offers limited flexibility for dynamically customizing visualizations based on user input. In contrast, the direct client approach leverages Zarr to render the data directly using WebGL rather than through an intermediate layer. The Zarr format is ideal for direct rendering in the browser because the chunks of a Zarr dataset serve a similar purpose to the tiles of a web map. In additional, data can be chunked across additional dimensions which prevents the need for generating individual tiles per time step. Lastly, as a cloud-optimized data format Zarr allows for fast, parallel reading and writing from object storage.\nThe direct client approach leverages pyramids created with the ndpyramid package for performant rendering of data at multiple zoom levels. The approach loads Zarr V2 or V3 data using the zarr-js JavaScript library and renders the fetched chunks via WebGL using the regl library. The open-source library called @carbonplan/maps provides a small set of React components for rendering raster data using this approach and supports rendering traditional vector layers side-by-side using mapbox-gl-js.\n\n\n\nFreeman, J., K. Martin, and J. Hamman, 2021: A new toolkit for data-driven maps, https://carbonplan.org/blog/maps-library-release"
-  },
-  {
-    "objectID": "approaches/direct-client.html#introduction",
-    "href": "approaches/direct-client.html#introduction",
-    "title": "Direct Client",
-    "section": "",
-    "text": "Traditional approaches to rendering raster datasets in the browser involve the creation of tiles in a pixelated impact format like PNG or JPEG. These tiles can be pre-generated or created by a tiling server on demand, as described in the tiling approach chapter. While the image tiles are fast to load and easy to render, tiling offers limited flexibility for dynamically customizing visualizations based on user input. In contrast, the direct client approach leverages Zarr to render the data directly using WebGL rather than through an intermediate layer. The Zarr format is ideal for direct rendering in the browser because the chunks of a Zarr dataset serve a similar purpose to the tiles of a web map. In additional, data can be chunked across additional dimensions which prevents the need for generating individual tiles per time step. Lastly, as a cloud-optimized data format Zarr allows for fast, parallel reading and writing from object storage.\nThe direct client approach leverages pyramids created with the ndpyramid package for performant rendering of data at multiple zoom levels. The approach loads Zarr V2 or V3 data using the zarr-js JavaScript library and renders the fetched chunks via WebGL using the regl library. The open-source library called @carbonplan/maps provides a small set of React components for rendering raster data using this approach and supports rendering traditional vector layers side-by-side using mapbox-gl-js."
-  },
-  {
-    "objectID": "approaches/direct-client.html#references",
-    "href": "approaches/direct-client.html#references",
-    "title": "Direct Client",
-    "section": "",
-    "text": "Freeman, J., K. Martin, and J. Hamman, 2021: A new toolkit for data-driven maps, https://carbonplan.org/blog/maps-library-release"
+    "text": "The tiling approach is to provide image tiles via the XYZ Protocol and OGC API - Tiles API specifications.\nThis approach relies on the rio_tiler.XarrayReader library which includes the tile function. This function and others in that module are used to provide an API for tiles. An example API infrastructure can be found in titiler-xarray. Please note this library is still in development and is not intended for production use at this time."
   },
   {
     "objectID": "approaches/index.html",
     "href": "approaches/index.html",
     "title": "Approaches",
     "section": "",
-    "text": "For browser-based visualization of Zarr, there are 2 approaches covered in this cookbook:\n\nDirect Client\nTiling"
+    "text": "For browser-based visualization of Zarr, there are 2 approaches covered in this cookbook:\n\nTiling\nDirect Client\n\nThe tile server provides an API which is interoperable with multiple interfaces, but requires maintaining a tile server. also the response delivered to the client is an image format, not the raw data itself. The direct client has access to the underlying data and thus maximum flexibility in rendering and analysis for the user."
   },
   {
     "objectID": "approaches/direct-client/future-areas.html",
@@ -35,25 +21,46 @@
     "text": "Future Areas"
   },
   {
-    "objectID": "approaches/tiling/benchmarks.html",
-    "href": "approaches/tiling/benchmarks.html",
-    "title": "Benchmarks",
+    "objectID": "approaches/tiling/e2e.html",
+    "href": "approaches/tiling/e2e.html",
+    "title": "End-to-End Tests",
     "section": "",
-    "text": "Benchmarks\nTo be merged with https://github.com/nasa-impact/tile-benchmarking"
+    "text": "End-to-End Tests\nFrom https://github.com/developmentseed/tile-benchmarking/tree/main/e2e/README.md"
   },
   {
-    "objectID": "approaches/tiling/preprocessing.html",
-    "href": "approaches/tiling/preprocessing.html",
-    "title": "Preprocessing",
+    "objectID": "approaches/tiling/future-areas.html",
+    "href": "approaches/tiling/future-areas.html",
+    "title": "Future Areas",
     "section": "",
-    "text": "Preprocessing\nThis document details the preprocessing steps to deliver performant zarr visualization via the tile approach."
+    "text": "Future Areas"
+  },
+  {
+    "objectID": "approaches/tiling/performance-methodology.html",
+    "href": "approaches/tiling/performance-methodology.html",
+    "title": "Performance Methodology",
+    "section": "",
+    "text": "Reproducibility is important to the integrity of this project and its reported results. That is why we selected a publicly available dataset and attempt to make the steps as fully documented and reproducible as possible. We used the NASA Earth Exchange Global Daily Downscaled Projections (NEX-GDDP-CMIP6) AWS public dataset for this project.\nThere are 2 datasets listed on AWS: 1 is an archive of NetCDF files from about 35 different climate models, each supplying historical and predicted values for up to 9 environment variables, daily, from 1950 to 2100. To minimize preprocessing, test datasets were generated for the first 2 years of historical data, for 1 model and for 1 variable. These variables or dataset could easily be modified or swapped, but we expect the relative performance using different datasets to be the same.\nIn addition to the NetCDF data, there is an archives of COGs generated from that NetCDF data to support visualization via dynamic tiling using COGs. COGs are only available for 2 models, so for inter comparison of the tiling approach between COGs and Zarr, one of those models (GISS-E2-1-G) is used to generate Zarr stores.\nAt this time, a different model is used for the direct client approach (ACCESS-CM2), but we will demonstrate how there is no meaningful difference in the performance of tiling across these models.\nBenchmarks for the tiling approach were run on the VEDA JupyterHub. The VEDA documentation details how to request access: https://nasa-impact.github.io/veda-docs/services/jupyterhub.html. Because we don’t want to make the database or S3 bucket with datasets fully public, you must be logged into the VEDA JupyterHub to run those benchmarks."
+  },
+  {
+    "objectID": "approaches/tiling/performance-methodology.html#datasets",
+    "href": "approaches/tiling/performance-methodology.html#datasets",
+    "title": "Performance Methodology",
+    "section": "",
+    "text": "Reproducibility is important to the integrity of this project and its reported results. That is why we selected a publicly available dataset and attempt to make the steps as fully documented and reproducible as possible. We used the NASA Earth Exchange Global Daily Downscaled Projections (NEX-GDDP-CMIP6) AWS public dataset for this project.\nThere are 2 datasets listed on AWS: 1 is an archive of NetCDF files from about 35 different climate models, each supplying historical and predicted values for up to 9 environment variables, daily, from 1950 to 2100. To minimize preprocessing, test datasets were generated for the first 2 years of historical data, for 1 model and for 1 variable. These variables or dataset could easily be modified or swapped, but we expect the relative performance using different datasets to be the same.\nIn addition to the NetCDF data, there is an archives of COGs generated from that NetCDF data to support visualization via dynamic tiling using COGs. COGs are only available for 2 models, so for inter comparison of the tiling approach between COGs and Zarr, one of those models (GISS-E2-1-G) is used to generate Zarr stores.\nAt this time, a different model is used for the direct client approach (ACCESS-CM2), but we will demonstrate how there is no meaningful difference in the performance of tiling across these models.\nBenchmarks for the tiling approach were run on the VEDA JupyterHub. The VEDA documentation details how to request access: https://nasa-impact.github.io/veda-docs/services/jupyterhub.html. Because we don’t want to make the database or S3 bucket with datasets fully public, you must be logged into the VEDA JupyterHub to run those benchmarks."
+  },
+  {
+    "objectID": "approaches/tiling/recommendations.html",
+    "href": "approaches/tiling/recommendations.html",
+    "title": "Recommendations",
+    "section": "",
+    "text": "Recommendations\nTBD"
   },
   {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Zarr Visualization Cookbook",
     "section": "",
-    "text": "Zarr Visualization Cookbook\nThis site documents different approaches and benchmarks for zarr visualization.\nThe intention is to support zarr data providers with some methods for visualizing zarr. This guide and report is intended to inform zarr data producers who want to understand the requirements for data pre-processing and chunking in order to support visualization through tiling server and direct client approahces."
+    "text": "This site documents different approaches and benchmarks for zarr visualization.\nThe intention is to support zarr data providers with some methods for visualizing zarr. This guide and report is intended to inform zarr data producers who want to understand the requirements for data pre-processing and chunking in order to support visualization through tiling server and direct client approahces.\n\nBackground\nVisualization of Earth science data is key to exploring and understanding Earth data. Web browsers offer a near-universal platform for exploring this data. However browsers of the web expect near instantaneous page rendering. The scale of geospatial data makes it challenging to serve this data “on-demand” as browsers cannot reproject and create image tiles fast enough for a good user experience.\nThe scale of geospatial data makes it challenging to serve this data “on-demand” as browsers cannot reproject and create image tiles fast enough for a good user experience. This challenge led to the development of pre-generated static map tiles.\nWhile pregenerated map tiles make it possible to visualize data quickly, there are drawbacks. The most significant is the data provider chooses how the data will appear. Next generation approaches give that power to the user. Other drawbacks impact the data provider, such as storage costs and maintaining a pipeline to constantly update or reprocess the tile storage with new and updated data. But the user is impacted by having no power to adjust the visualization, such as modifying the color scale, color map or perform “band math” where multiple variables are combined to produce a new variable.\nMore recent years have seen the success of the dynamic tiling approach which allows for on-demand map tile creation. This approach has traditionally relied on reading data from Cloud-Optimized GeoTIFFs (COGs). When the Zarr data format gained popularity for large-scale n-dimensional data analysis, users started to opine for browser-based visualization. The conventional Zarr chunk size stored for analysis (~100mb) was acknowledged to be too large to be fetched by a browser.\nNow there are 2 options: a dynamic tile server and a direct client. rio_tiler’s XarrayReader supports tile rendering from anything that is xarray-readable. This means a tile server can render tiles from Zarr stores as well as netCDF4/HDF5 and other formats. However, a tile server still requires running a server while the second option, a “direct client”, reads Zarr directly in the browser client and uses webGL to render map tiles.\nThis cookbook will describe these 2 approaches. We will discuss the tradeoffs, requirements for preprocessing the data and present performance testing results for when those preprocessing steps were taken or not. We hope that readers will be able to reuse lessons learned and recommendations to deliver their Zarr data to users in web browser and contribute to the wider adoption of this format for large scale environmental data understanding."
   },
   {
     "objectID": "transition-from-rmarkdown.html",
@@ -84,11 +91,25 @@
     "text": "Troubleshooting\n\nGitHub Action fails, says you need RMarkdown but you don’t have R code!\nAnd you changed all .Rmds to .qmds!\nYou likely have a few setup code chunks from RMarkdown, that look like this:\n{r setup, include=FALSE}\nknitr::opts_chunk$set(echo = FALSE)\nYou can find them by opening each of your files and having a look, or use GitHub’s search for the keyword knitr"
   },
   {
-    "objectID": "approaches/tiling/future-areas.html",
-    "href": "approaches/tiling/future-areas.html",
-    "title": "Future Areas",
+    "objectID": "approaches/tiling/results-summary.html",
+    "href": "approaches/tiling/results-summary.html",
+    "title": "Results Summary",
     "section": "",
-    "text": "Future Areas"
+    "text": "Results Summary\nFrom https://github.com/developmentseed/tile-benchmarking/blob/main/profiling/profile.ipynb and https://github.com/developmentseed/tile-benchmarking/blob/main/e2e/read-results.ipynb"
+  },
+  {
+    "objectID": "approaches/tiling/pgstac-cog.html",
+    "href": "approaches/tiling/pgstac-cog.html",
+    "title": "pgSTAC + COG results",
+    "section": "",
+    "text": "pgSTAC + COG results\nFrom https://github.com/developmentseed/tile-benchmarking/blob/main/profiling/profile.ipynb"
+  },
+  {
+    "objectID": "approaches/tiling/zarr.html",
+    "href": "approaches/tiling/zarr.html",
+    "title": "Zarr Test Results",
+    "section": "",
+    "text": "Zarr Test Results\nFrom https://github.com/developmentseed/tile-benchmarking/blob/main/profiling/profile.ipynb"
   },
   {
     "objectID": "approaches/direct-client/preprocessing.html",
@@ -105,10 +126,24 @@
     "text": "Benchmarks\nTo be merged with https://github.com/carbonplan/benchmark-maps"
   },
   {
-    "objectID": "approaches/tiling.html",
-    "href": "approaches/tiling.html",
-    "title": "Tiling",
+    "objectID": "approaches/direct-client.html",
+    "href": "approaches/direct-client.html",
+    "title": "Direct Client",
     "section": "",
-    "text": "Tiling\nThe tiling approach is to provide image tiles via the XYZ Protocol and OGC API - Tiles API specifications.\nThis approach relies on the rio_tiler.XarrayReader library which includes the tile function. This function and others in that module are used to provide an API for tiles. An example API infrastructure can be found in titiler-xarray. Please note this library is still in development and is not intended for production use at this time."
+    "text": "Traditional approaches to rendering raster datasets in the browser involve the creation of tiles in a pixelated impact format like PNG or JPEG. These tiles can be pre-generated or created by a tiling server on demand, as described in the tiling approach chapter. While the image tiles are fast to load and easy to render, tiling offers limited flexibility for dynamically customizing visualizations based on user input. In contrast, the direct client approach leverages Zarr to render the data directly using WebGL rather than through an intermediate layer. The Zarr format is ideal for direct rendering in the browser because the chunks of a Zarr dataset serve a similar purpose to the tiles of a web map. In additional, data can be chunked across additional dimensions which prevents the need for generating individual tiles per time step. Lastly, as a cloud-optimized data format Zarr allows for fast, parallel reading and writing from object storage.\nThe direct client approach leverages pyramids created with the ndpyramid package for performant rendering of data at multiple zoom levels. The approach loads Zarr V2 or V3 data using the zarr-js JavaScript library and renders the fetched chunks via WebGL using the regl library. The open-source library called @carbonplan/maps provides a small set of React components for rendering raster data using this approach and supports rendering traditional vector layers side-by-side using mapbox-gl-js.\n\n\n\nFreeman, J., K. Martin, and J. Hamman, 2021: A new toolkit for data-driven maps, https://carbonplan.org/blog/maps-library-release"
+  },
+  {
+    "objectID": "approaches/direct-client.html#introduction",
+    "href": "approaches/direct-client.html#introduction",
+    "title": "Direct Client",
+    "section": "",
+    "text": "Traditional approaches to rendering raster datasets in the browser involve the creation of tiles in a pixelated impact format like PNG or JPEG. These tiles can be pre-generated or created by a tiling server on demand, as described in the tiling approach chapter. While the image tiles are fast to load and easy to render, tiling offers limited flexibility for dynamically customizing visualizations based on user input. In contrast, the direct client approach leverages Zarr to render the data directly using WebGL rather than through an intermediate layer. The Zarr format is ideal for direct rendering in the browser because the chunks of a Zarr dataset serve a similar purpose to the tiles of a web map. In additional, data can be chunked across additional dimensions which prevents the need for generating individual tiles per time step. Lastly, as a cloud-optimized data format Zarr allows for fast, parallel reading and writing from object storage.\nThe direct client approach leverages pyramids created with the ndpyramid package for performant rendering of data at multiple zoom levels. The approach loads Zarr V2 or V3 data using the zarr-js JavaScript library and renders the fetched chunks via WebGL using the regl library. The open-source library called @carbonplan/maps provides a small set of React components for rendering raster data using this approach and supports rendering traditional vector layers side-by-side using mapbox-gl-js."
+  },
+  {
+    "objectID": "approaches/direct-client.html#references",
+    "href": "approaches/direct-client.html#references",
+    "title": "Direct Client",
+    "section": "",
+    "text": "Freeman, J., K. Martin, and J. Hamman, 2021: A new toolkit for data-driven maps, https://carbonplan.org/blog/maps-library-release"
   }
 ]
