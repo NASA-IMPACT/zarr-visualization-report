@@ -36,7 +36,7 @@ website:
             - section: Results in Detail
               contents:
               - approaches/tiling/cog-pgstac.ipynb
-              - approaches/tiling/cmip6-zarr-performance.ipynb
+              - approaches/tiling/cmip6-zarr-benchmarks.ipynb
               - approaches/tiling/e2e-results.ipynb
             - approaches/tiling/recommendations.md
             - approaches/tiling/future-areas.md
