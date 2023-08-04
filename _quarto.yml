@@ -23,18 +23,24 @@ website:
 
     style: "docked"
     search: true
-    collapse-level: 3
+    collapse-level: 2
     contents:
       - href: index.qmd
         text: Welcome
       - section: approaches/index.qmd
-        contents: 
-          - section: approaches/direct-client.md        
-          - section: approaches/tiling.md
+        contents:   
+          - section: approaches/tiling.qmd
             contents:
-            - approaches/tiling/preprocessing.md
-            - approaches/tiling/benchmarks.md
+            - approaches/tiling/performance-methodology.md
+            - approaches/tiling/results-summary.md
+            - section: Results in Detail
+              contents:
+              - approaches/tiling/pgstac-cog.md
+              - approaches/tiling/zarr.md
+              - approaches/tiling/e2e.md
+            - approaches/tiling/recommendations.md
             - approaches/tiling/future-areas.md
+          - section: approaches/direct-client.md            
 
 
 

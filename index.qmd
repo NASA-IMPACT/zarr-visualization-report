@@ -3,8 +3,21 @@ title: "Zarr Visualization Cookbook"
 subtitle: "Methods and benchmarks for visualizing Zarr"
 ---
 
-# Zarr Visualization Cookbook
-
 This site documents different approaches and benchmarks for zarr visualization.
 
 The intention is to support zarr data providers with some methods for visualizing zarr. This guide and report is intended to inform zarr data producers who want to understand the requirements for data pre-processing and chunking in order to support visualization through tiling server and direct client approahces.
+
+# Background
+
+Visualization of Earth science data is key to exploring and understanding Earth data. Web browsers offer a near-universal platform for exploring this data. However browsers of the web expect near instantaneous page rendering. The scale of geospatial data makes it challenging to serve this data “on-demand” as browsers cannot reproject and create image tiles fast enough for a good user experience.
+
+The scale of geospatial data makes it challenging to serve this data “on-demand” as browsers cannot reproject and create image tiles fast enough for a good user experience. This challenge led to the development of pre-generated static map tiles. 
+
+While pregenerated map tiles make it possible to visualize data quickly, there are drawbacks. The most significant is the data provider chooses how the data will appear. Next generation approaches give that power to the user. Other drawbacks impact the data provider, such as storage costs and maintaining a pipeline to constantly update or reprocess the tile storage with new and updated data. But the user is impacted by having no power to adjust the visualization, such as modifying the color scale, color map or perform “band math” where multiple variables are combined to produce a new variable.
+
+More recent years have seen the success of the dynamic tiling approach which allows for on-demand map tile creation. This approach has traditionally relied on reading data from Cloud-Optimized GeoTIFFs (COGs). When the Zarr data format gained popularity for large-scale n-dimensional data analysis, users started to opine for browser-based visualization. The conventional Zarr chunk size stored for analysis (~100mb) was acknowledged to be too large to be fetched by a browser.
+
+Now there are 2 options: a dynamic tile server and a direct client. rio_tiler’s XarrayReader supports tile rendering from anything that is xarray-readable. This means a tile server can render tiles from Zarr stores as well as netCDF4/HDF5 and other formats. However, a tile server still requires running a server while the second option, a “direct client”, reads Zarr directly in the browser client and uses webGL to render map tiles.
+
+This cookbook will describe these 2 approaches. We will discuss the tradeoffs, requirements for preprocessing the data and present performance testing results for when those preprocessing steps were taken or not. We hope that readers will be able to reuse lessons learned and recommendations to deliver their Zarr data to users in web browser and contribute to the wider adoption of this format for large scale environmental data understanding.
+
