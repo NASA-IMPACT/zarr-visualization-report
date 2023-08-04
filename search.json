@@ -112,22 +112,22 @@
     "text": "Recommendations\nCOMING SOON."
   },
   {
-    "objectID": "approaches/tiling/cmip6-zarr-performance.html",
-    "href": "approaches/tiling/cmip6-zarr-performance.html",
+    "objectID": "approaches/tiling/cmip6-zarr-benchmarks.html",
+    "href": "approaches/tiling/cmip6-zarr-benchmarks.html",
     "title": "CMIP6 Zarr Benchmarks",
     "section": "",
     "text": "Benchmarks were generated for multiple copies of the CMIP6 daily data to understand the performance for different data pre-processing options. These copies were differentiated by:\n\ndata file format (netCDF or Zarr), and,\ndifferent chunking configurations\n\nDetails on each dataset configuration:\n\nkerchunk + netCDF: A kerchunk reference file for NetCDF files stored on S3.\nZarr stores with different chunking configurations and pyramids.\n\nChunked to optimize for time series analysis:\n\nlatitude: 252, longitude: 252, time: 365.\nThis dataset has larger chunks, but more timesteps are loaded into each chunk.\n\nChunked to optimize for visualization at a single time step.\n\nlatitude: 600, longitude: 1440, time: 1.\nThis dataset has small chunks, but will likely not work well for time series generation.\n\nChunked to optimize for both time series and visualization:\n\nlatitude: 600, longitude: 1440, time: 29.\nThis dataset has larger chunks, but more timesteps are loaded into each chunk.\n\n\nZarr store with no coordinate chunking. At this time there is a known issue with pangeo-forge data generation where coordinates are chunked. This makes a significant impact on performance."
   },
   {
-    "objectID": "approaches/tiling/cmip6-zarr-performance.html#dataset-preprocessing",
-    "href": "approaches/tiling/cmip6-zarr-performance.html#dataset-preprocessing",
+    "objectID": "approaches/tiling/cmip6-zarr-benchmarks.html#dataset-preprocessing",
+    "href": "approaches/tiling/cmip6-zarr-benchmarks.html#dataset-preprocessing",
     "title": "CMIP6 Zarr Benchmarks",
     "section": "",
     "text": "Benchmarks were generated for multiple copies of the CMIP6 daily data to understand the performance for different data pre-processing options. These copies were differentiated by:\n\ndata file format (netCDF or Zarr), and,\ndifferent chunking configurations\n\nDetails on each dataset configuration:\n\nkerchunk + netCDF: A kerchunk reference file for NetCDF files stored on S3.\nZarr stores with different chunking configurations and pyramids.\n\nChunked to optimize for time series analysis:\n\nlatitude: 252, longitude: 252, time: 365.\nThis dataset has larger chunks, but more timesteps are loaded into each chunk.\n\nChunked to optimize for visualization at a single time step.\n\nlatitude: 600, longitude: 1440, time: 1.\nThis dataset has small chunks, but will likely not work well for time series generation.\n\nChunked to optimize for both time series and visualization:\n\nlatitude: 600, longitude: 1440, time: 29.\nThis dataset has larger chunks, but more timesteps are loaded into each chunk.\n\n\nZarr store with no coordinate chunking. At this time there is a known issue with pangeo-forge data generation where coordinates are chunked. This makes a significant impact on performance."
   },
   {
-    "objectID": "approaches/tiling/cmip6-zarr-performance.html#code-profiling-methodology",
-    "href": "approaches/tiling/cmip6-zarr-performance.html#code-profiling-methodology",
+    "objectID": "approaches/tiling/cmip6-zarr-benchmarks.html#code-profiling-methodology",
+    "href": "approaches/tiling/cmip6-zarr-benchmarks.html#code-profiling-methodology",
     "title": "CMIP6 Zarr Benchmarks",
     "section": "Code Profiling Methodology",
     "text": "Code Profiling Methodology\nThe time to generate a tile at zoom 0 to 11 was tested for each data store 10 times. The mean of these times is reported. Tests were run on the VEDA JupyterHub and the details can be reviewed in the profile.ipynb notebook of the tile-benchmarking repo.\nThe libraries used to generate image tiles are xarray for reading the Zarr metadata and rio_tiler’s XarrayReader for reading data from the NetCDFs on S3.\nCode from these libraries is copied into tile-benchmarking to generate tiles and is replicated in the titiler-xarray API codebase. Maintaining a copy enabled full control to add timers to blocks of code and logs to understand where time was being spent. Specifically:\n\nimport s3fs; s3fs.core.setup_logging(\"DEBUG\") was used to debug calls to S3. This was used to understand that the most time is spent opening the dataset, which was impacted by open all the coordinate chunks.\nTiming code blocks also demonstrated that the most time, other than opening the dataset, was spent in reprojecting the data. Time to reproject the data is positively correlated with the chunk size, since the minimum amount of data that can be read from S3 is the size of the data chunk."
