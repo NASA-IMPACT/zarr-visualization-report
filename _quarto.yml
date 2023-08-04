@@ -32,8 +32,9 @@ website:
           - section: approaches/direct-client.qmd
             contents:
             - approaches/direct-client/benchmarking-methodology.qmd
+            - approaches/direct-client/e2e-results.ipynb
             - approaches/direct-client/recommendations.qmd
-            - approaches/direct-client/future-areas.qmd  
+            - approaches/direct-client/future-areas.qmd
           - section: approaches/tiling.md
             contents:
             - approaches/tiling/preprocessing.md
