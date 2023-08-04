@@ -28,7 +28,7 @@ website:
       - href: index.qmd
         text: Welcome
       - section: approaches/index.qmd
-        contents:   
+        contents: 
           - section: approaches/tiling.qmd
             contents:
             - approaches/tiling/benchmarking-methodology.qmd
@@ -40,7 +40,12 @@ website:
               - approaches/tiling/e2e-results.ipynb
             - approaches/tiling/recommendations.md
             - approaches/tiling/future-areas.md
-          - section: approaches/direct-client.md            
+          - section: approaches/direct-client.qmd
+            contents:
+            - approaches/direct-client/benchmarking-methodology.qmd
+            - approaches/direct-client/e2e-results.ipynb
+            - approaches/direct-client/recommendations.qmd
+            - approaches/direct-client/future-areas.qmd         
 
 
 
