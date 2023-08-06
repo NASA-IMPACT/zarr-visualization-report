@@ -2,25 +2,27 @@
 title: Benchmarking Methodology
 ---
 
+Benchmarks are provided for a deployed API (**end-to-end tests**, described below) as well as for the underlying code.
+
 ## Code Benchmarks
 
-While end-to-end tests are useful to understand tiling performance as experienced by an end user, they are not useful to understanding the performance of the code used to create image tiles. End-to-end tests include the network of the requesting client and the responding server, which can be highly variable and difficult to control. To understand the performance of the underlying libraries, we used code profiling.
+While end-to-end benchmarks establish tiling performance as experienced by an end user, the introduction of the network of the requesting client and responding server introduce variables which are difficult to control. The authors replicated and tested the tiling code to diagnose slowness due to data and code, without the introduction of a network.
 
 ### Code Benchmarks: Datasets
 
-Reproducibility is important to the integrity of this project and its reported results. That is why we selected a publicly available dataset and attempt to make the steps as fully documented and reproducible as possible. For code profiling, we focused the [NASA Earth Exchange Global Daily Downscaled Projections (NEX-GDDP-CMIP6)](https://aws.amazon.com/marketplace/pp/prodview-k6adk576fiwmm#overview) AWS public dataset for this project.
+Reproducibility is important to the integrity of this project and its results. We used a publicly available dataset and attempt to make the steps as fully documented and reproducible as possible. For code profiling, we focused the [NASA Earth Exchange Global Daily Downscaled Projections (NEX-GDDP-CMIP6)](https://aws.amazon.com/marketplace/pp/prodview-k6adk576fiwmm#overview) AWS public dataset for this project.
 
-There are 2 datasets listed on AWS: 1 is an archive of NetCDF files from about 35 different climate models, each supplying historical and predicted values for up to 9 environment variables, daily, from 1950 to 2100. To minimize preprocessing, test datasets were generated for the first 2 years of historical data, for 1 model and for 1 variable. These variables or dataset could easily be modified or swapped, but we expect the relative performance using different datasets to be the same. 
+There are 2 datasets listed on AWS from this project. One (1) is an archive of NetCDF files from about 35 different climate models, each supplying historical and predicted values for up to 9 environment variables, daily, from 1950 to 2100. To minimize preprocessing, test datasets were generated for the first 2 years of historical data, for 1 model and for 1 variable. These variables or dataset could easily be modified or swapped, but we expect the relative performance using different datasets to be the same. 
 
-In addition to the NetCDF data, there is an archives of COGs generated from that NetCDF data to support visualization via dynamic tiling using COGs.  COGs are only available for 2 models, so for inter comparison of the tiling approach between COGs and Zarr, one of those models (`GISS-E2-1-G`) is used to generate Zarr stores.
+In addition to the NetCDF data, there is an archives of COGs generated from that NetCDF data to support visualization via dynamic tiling using COGs. COGs are only available for 2 models, so for intercomparison of the tiling approach between COGs and Zarr, one of those models (`GISS-E2-1-G`) is used to generate Zarr stores.
 
 TODO: At this time, a different model is used for the direct client benchmarks (`ACCESS-CM2`), but we plan to demonstrate how there is no meaningful difference in the performance of tiling across these models.
 
-Code profiling for the tiling approach were run on the [VEDA JupyterHub](https://nasa-veda.2i2c.cloud/). The VEDA documentation details how to request access: https://nasa-impact.github.io/veda-docs/services/jupyterhub.html. Because we don't want to make the database or S3 bucket with datasets fully public, you must be logged into the VEDA JupyterHub to run those benchmarks.
+Code profiling for the tiling approach were run on the [VEDA JupyterHub](https://nasa-veda.2i2c.cloud/). The VEDA documentation details how to request access: https://nasa-impact.github.io/veda-docs/services/jupyterhub.html. We chose not to make the database or S3 bucket `nasa-eodc-data-store` fully public, you must be logged into the VEDA JupyterHub to run those benchmarks or reproduce the test datasets, which should be possible via code in tile-benchmarking.
 
 ### Code Benchmarks: Approach
 
-We include performance results of code for tiling both COGs and Zarr to help data providers decide which format better suits their overall needs. To make these results comparable, we assume 2 step process for creating image tiles. Assuming a collection of interest has been selected and some query parameters such as bounding box, temporal extent, and variable, the first step is to query the metadata for the relevant data files and the second step is to generate tiles from those data files. Details on each step are provided below.
+We include performance results of code for tiling both COGs and Zarr to help data providers decide which format better suits their overall needs. To make these results comparable, we assume the following process for creating image tiles:
 
 1. Assume you are starting with a known collection and query parameters
 2. Read metadata
@@ -30,9 +32,14 @@ We include performance results of code for tiling both COGs and Zarr to help dat
    a. For COGs, the mosaic ID returned from the registered query is used to read chunks from COGs on S3.
    b. For Zarr, the metadata is used by xarray to read chunks from NetCDFs or Zarrs on S3 and the XarrayReader of `rio_tiler` is used to generate tiles.
 
-To make as close to an apples to apples comparison as possible, we have stored COG metadata using [pgSTAC](https://github.com/stac-utils/pgstac) for data in the [nex-gddp-cmip6-cog bucket](https://nex-gddp-cmip6-cog.s3.us-west-2.amazonaws.com/index.html) in AWS Relational Database Service (RDS) and Zarr metadata and data files in S3.
+To make as close to an "apples to apples" comparison as possible, we have stored COG metadata using [pgSTAC](https://github.com/stac-utils/pgstac) for data in the [nex-gddp-cmip6-cog bucket](https://nex-gddp-cmip6-cog.s3.us-west-2.amazonaws.com/index.html) in AWS Relational Database Service (RDS) and Zarr metadata and data files in S3.
 
-To profile the code for rendering tiles with both XarrayReader and titiler-pgstac, code was copied from those projects as needed to inject timers and use the `cprofile` library. Logs to s3fs were also inspected. Results can be reviewed in the [Results Summary]('./tiling/results-summary.md') and its child pages.
+To profile the code for rendering tiles with both XarrayReader and titiler-pgstac, code was copied from those projects as needed to inject timers, print logs from the `s3fs` library and used the `cprofile` library. 
+
+### Review Results
+
+1. [COG Tile Server Benchmarks](./cmip6-cog-tile-server-benchmarks.ipynb)
+2. [Zarr Tile Server Benchmarks](./cmip6-zarr-tile-server-benchmarks.ipynb)
 
 ## End-to-End Benchmarks
 

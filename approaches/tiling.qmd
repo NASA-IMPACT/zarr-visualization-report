@@ -2,7 +2,7 @@
 title: "Tiling"
 ---
 
-The tiling approach is to provide image tiles via the [XYZ Protocol](https://en.wikipedia.org/wiki/Tiled_web_map) and [OGC API - Tiles](https://docs.ogc.org/is/20-057/20-057.html) API specifications.
+An xarray tile server provides image tiles via the [XYZ Protocol](https://en.wikipedia.org/wiki/Tiled_web_map) and [OGC Tiles](https://docs.ogc.org/is/20-057/20-057.html) API specifications.
 
-This approach relies on the [`rio_tiler.XarrayReader`](https://github.com/cogeotiff/rio-tiler/blob/main/rio_tiler/io/xarray.py) library which includes the `tile` function. This function and others in that module are used to provide an API for tiles. An example API infrastructure can be found in [titiler-xarray](https://github.com/developmentseed/titiler-xarray). Please note this library is still in development and is not intended for production use at this time.
+The tile server approach relies on the [`rio_tiler.XarrayReader`](https://github.com/cogeotiff/rio-tiler/blob/main/rio_tiler/io/xarray.py) library which includes the `tile` function. This module supports tiling of anything that is xarray-readable, so a tile server using this library can render tiles from Zarr stores as well as netCDF4/HDF5 and other formats. An example API infrastructure can be found in [titiler-xarray](https://github.com/developmentseed/titiler-xarray). Please note this library is still in development and is not intended for production use at this time.
 
