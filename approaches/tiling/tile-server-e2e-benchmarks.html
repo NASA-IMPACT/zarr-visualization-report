@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Zarr Visualization Cookbook - End to End Test Results</title>
+<title>Zarr Visualization Cookbook - Tile Server End to End Benchmakrs</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -64,7 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
 <link href="../../approaches/tiling/recommendations.html" rel="next">
-<link href="../../approaches/tiling/cmip6-zarr-benchmarks.html" rel="prev">
+<link href="../../approaches/tiling/cmip6-zarr-tile-server-benchmarks.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -113,7 +113,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../approaches/index.html">Approaches</a></li><li class="breadcrumb-item"><a href="../../approaches/tiling.html">Tiling</a></li><li class="breadcrumb-item"><a href="../../approaches/tiling/cog-pgstac.html">Results in Detail</a></li><li class="breadcrumb-item"><a href="../../approaches/tiling/e2e-results.html">End to End Test Results</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../approaches/index.html">Approaches</a></li><li class="breadcrumb-item"><a href="../../approaches/tiling.html">Tiling</a></li><li class="breadcrumb-item"><a href="../../approaches/tiling/cmip6-cog-tile-server-benchmarks.html">Results in Detail</a></li><li class="breadcrumb-item"><a href="../../approaches/tiling/tile-server-e2e-benchmarks.html">Tile Server End to End Benchmakrs</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -189,20 +189,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth3 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../approaches/tiling/cog-pgstac.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Profiling tiling code for pgSTAC + COG</span></a>
+  <a href="../../approaches/tiling/cmip6-cog-tile-server-benchmarks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">CMIP6 COG Tile Server Benchmarks</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../approaches/tiling/cmip6-zarr-benchmarks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">CMIP6 Zarr Benchmarks</span></a>
+  <a href="../../approaches/tiling/cmip6-zarr-tile-server-benchmarks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">CMIP6 Zarr Tile Server Benchmarks</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../approaches/tiling/e2e-results.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">End to End Test Results</span></a>
+  <a href="../../approaches/tiling/tile-server-e2e-benchmarks.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Tile Server End to End Benchmakrs</span></a>
   </div>
 </li>
       </ul>
@@ -268,21 +268,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#import-necessary-libraries" id="toc-import-necessary-libraries" class="nav-link active" data-scroll-target="#import-necessary-libraries">Import necessary libraries</a></li>
-  <li><a href="#define-the-data-location" id="toc-define-the-data-location" class="nav-link" data-scroll-target="#define-the-data-location">Define the data location</a></li>
-  <li><a href="#define-some-helper-functions" id="toc-define-some-helper-functions" class="nav-link" data-scroll-target="#define-some-helper-functions">Define some helper functions</a></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a></li>
   <li><a href="#parse-collection-results-into-a-data-frame" id="toc-parse-collection-results-into-a-data-frame" class="nav-link" data-scroll-target="#parse-collection-results-into-a-data-frame">Parse collection results into a data frame</a></li>
   <li><a href="#review-the-results" id="toc-review-the-results" class="nav-link" data-scroll-target="#review-the-results">Review the results</a></li>
   <li><a href="#read-results-for-a-specific-dataset" id="toc-read-results-for-a-specific-dataset" class="nav-link" data-scroll-target="#read-results-for-a-specific-dataset">Read results for a specific dataset</a></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.dev/nasa-impact/zarr-visualization-cookbook/blob/main/approaches/tiling/e2e-results.ipynb" class="toc-action">Edit this page</a></p><p><a href="https://github.com/nasa-impact/zarr-visualization-cookbook/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.dev/nasa-impact/zarr-visualization-cookbook/blob/main/approaches/tiling/tile-server-e2e-benchmarks.ipynb" class="toc-action">Edit this page</a></p><p><a href="https://github.com/nasa-impact/zarr-visualization-cookbook/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">End to End Test Results</h1>
+<h1 class="title">Tile Server End to End Benchmakrs</h1>
 </div>
 
 
@@ -298,71 +296,63 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 <p>This notebook parses results from end-to-end testing as documented in <a href="https://github.com/developmentseed/tile-benchmarking/blob/main/e2e/e2e.ipynb">tile-benchmarking/e2e/e2e.ipynb</a>.</p>
-<section id="import-necessary-libraries" class="level2">
-<h2 class="anchored" data-anchor-id="import-necessary-libraries">Import necessary libraries</h2>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<p>Import libraries, define results location and define plotting functions.</p>
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="define-the-data-location" class="level2">
-<h2 class="anchored" data-anchor-id="define-the-data-location">Define the data location</h2>
-<div class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>git_url_path <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/developmentseed/tile-benchmarking/main/e2e"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="define-some-helper-functions" class="level2">
-<h2 class="anchored" data-anchor-id="define-some-helper-functions">Define some helper functions</h2>
-<div class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_zooms_plot(df, dataset):</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    zooms <span class="op">=</span> [<span class="bu">int</span>(path.split(<span class="st">'/'</span>)[<span class="dv">2</span>]) <span class="cf">for</span> path <span class="kw">in</span> df[<span class="st">'Name'</span>][:<span class="op">-</span><span class="dv">1</span>]]</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a new figure</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    plt.figure()</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a scatter plot</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    plt.scatter(zooms, df[<span class="st">'Median Response Time'</span>][:<span class="op">-</span><span class="dv">1</span>])</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add title and labels</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    plt.title(dataset)</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'Zoom'</span>)</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'Time (ms)'</span>)</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Display the plot</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    plt.show() </span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> git_url(filename):</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="ss">f'</span><span class="sc">{</span>git_url_path<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>filename<span class="sc">}</span><span class="ss">'</span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add_to_specs(collection_name: <span class="bu">str</span>, df: pd.DataFrame):</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    zarr_specs.loc[collection_name, <span class="st">'mean median response time'</span>] <span class="op">=</span> np.mean(df[<span class="st">'Median Response Time'</span>][<span class="dv">1</span>:])</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    zarr_specs.loc[collection_name, <span class="st">'median median response time'</span>] <span class="op">=</span> np.median(df[<span class="st">'Median Response Time'</span>][<span class="dv">1</span>:])   </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>                        </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>git_url_path <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/developmentseed/tile-benchmarking/main/e2e"</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_zooms_plot(df, dataset):</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    zooms <span class="op">=</span> [<span class="bu">int</span>(path.split(<span class="st">'/'</span>)[<span class="dv">2</span>]) <span class="cf">for</span> path <span class="kw">in</span> df[<span class="st">'Name'</span>][:<span class="op">-</span><span class="dv">1</span>]]</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a new figure</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    plt.figure()</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a scatter plot</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    plt.scatter(zooms, df[<span class="st">'Median Response Time'</span>][:<span class="op">-</span><span class="dv">1</span>])</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add title and labels</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    plt.title(dataset)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'Zoom'</span>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'Time (ms)'</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Display the plot</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    plt.show() </span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> git_url(filename):</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="ss">f'</span><span class="sc">{</span>git_url_path<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>filename<span class="sc">}</span><span class="ss">'</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add_to_specs(collection_name: <span class="bu">str</span>, df: pd.DataFrame):</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    zarr_specs.loc[collection_name, <span class="st">'mean median response time'</span>] <span class="op">=</span> np.mean(df[<span class="st">'Median Response Time'</span>])</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    zarr_specs.loc[collection_name, <span class="st">'median median response time'</span>] <span class="op">=</span> np.median(df[<span class="st">'Median Response Time'</span>])   </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="parse-collection-results-into-a-data-frame" class="level2">
 <h2 class="anchored" data-anchor-id="parse-collection-results-into-a-data-frame">Parse collection results into a data frame</h2>
-<p>Which also has the specs of the data, such as chunk size.</p>
-<div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>zarr_specs <span class="op">=</span> pd.read_csv(<span class="ss">f"</span><span class="sc">{</span>git_url_path<span class="sc">}</span><span class="ss">/zarr_info.csv"</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>zarr_specs.index <span class="op">=</span> zarr_specs[<span class="st">'collection_name'</span>]</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> collection_name <span class="kw">in</span> zarr_specs.index:</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    filename <span class="op">=</span> <span class="ss">f'results/</span><span class="sc">{</span>collection_name<span class="sc">}</span><span class="ss">_urls_stats.csv'</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    results_df <span class="op">=</span> pd.read_csv(git_url(filename))</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    add_to_specs(collection_name, results_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Benchmarks are reported alongside specifications of the dataset, such as chunk shape and size.</p>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>zarr_specs <span class="op">=</span> pd.read_csv(<span class="ss">f"</span><span class="sc">{</span>git_url_path<span class="sc">}</span><span class="ss">/zarr_info.csv"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>zarr_specs.index <span class="op">=</span> zarr_specs[<span class="st">'collection_name'</span>]</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> collection_name <span class="kw">in</span> zarr_specs.index:</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    filename <span class="op">=</span> <span class="ss">f'results/</span><span class="sc">{</span>collection_name<span class="sc">}</span><span class="ss">_urls_stats.csv'</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    results_df <span class="op">=</span> pd.read_csv(git_url(filename))</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    add_to_specs(collection_name, results_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="review-the-results" class="level1">
 <h1>Review the results</h1>
-<p>Mean median response time represents the average median response time for all tiles tested, minus the first tile since the first tile request tended to be an outlier. Tested tiles ranged from zoom 0 to zoom 7. From testing we noticed that the most important factors in determining response time were the number of coordinate chunks and the chunk size.</p>
-<p><strong>Based on this, the recommendation would be to create chunks as small as possible (e.g.&nbsp;1 timestep per chunk if visualization is the main goal) and not to chunk coordinate data.</strong></p>
+<p>Mean median response time represents the average median response time for all tiles tested. Tested tiles ranged from zoom 0 to zoom 7. From testing we noticed that the most important factors in determining response time were the number of coordinate chunks and the chunk size.</p>
+<p><strong>Based on this, the recommendation would be to create chunks as small as possible (e.g.&nbsp;1 timestep per chunk for the full spatial extent if visualization is the main goal) and not to chunk coordinate data.</strong></p>
 <p>However more testing on a high resolution dataset is needed to determine when data should be chunked spatially to deliver good performance. For example, the gpm3imergdl has large chunks because all spatial data is stored in one chunk, but each chunk also has 10 time steps. If each chunk had 1 timestep, each chunk would be ~24.7MB. How would this compare with the performance of the same dataset, chunked spatially into even smaller chunks?</p>
-<p>TODO: Revisit the zoom 0 statement, since the first request was always to the 0/0/0 tile.</p>
-<div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>zarr_specs[</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    [<span class="st">'shape'</span>, <span class="st">'chunks'</span>, <span class="st">'chunk_size_mb'</span>, <span class="st">'number_coord_chunks'</span>, <span class="st">'mean median response time'</span>]</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>].sort_values(<span class="st">'mean median response time'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="5">
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>zarr_specs[</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    [<span class="st">'shape'</span>, <span class="st">'chunks'</span>, <span class="st">'chunk_size_mb'</span>, <span class="st">'number_coord_chunks'</span>, <span class="st">'mean median response time'</span>]</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>].sort_values(<span class="st">'mean median response time'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
 <div>
 
 
@@ -392,7 +382,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>{'time': 1, 'lat': 600, 'lon': 1440}</td>
 <td>3.295898</td>
 <td>732</td>
-<td>2132.982857</td>
+<td>2134.653028</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">gpm3imergdl</td>
@@ -400,23 +390,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>{'time': 10, 'lon': 3600, 'lat': 1800}</td>
 <td>247.192383</td>
 <td>3</td>
-<td>2021.094272</td>
+<td>2039.883329</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">CMIP6_daily_GISS-E2-1-G_tas-600_1440_29</td>
-<td>{'time': 730, 'lat': 600, 'lon': 1440}</td>
-<td>{'time': 29, 'lat': 600, 'lon': 1440}</td>
-<td>95.581055</td>
-<td>27</td>
-<td>652.554858</td>
-</tr>
-<tr class="even">
 <td data-quarto-table-cell-role="th">CMIP6_daily_GISS-E2-1-G_tas-365_262_262</td>
 <td>{'time': 730, 'lat': 600, 'lon': 1440}</td>
 <td>{'time': 365, 'lat': 262, 'lon': 262}</td>
 <td>95.577469</td>
 <td>9</td>
-<td>641.327968</td>
+<td>671.213544</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">CMIP6_daily_GISS-E2-1-G_tas-600_1440_29</td>
+<td>{'time': 730, 'lat': 600, 'lon': 1440}</td>
+<td>{'time': 29, 'lat': 600, 'lon': 1440}</td>
+<td>95.581055</td>
+<td>27</td>
+<td>654.707780</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">CMIP6_GISS-E2-1-G_historical</td>
@@ -424,7 +414,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>{'time': 600, 'lat': 90, 'lon': 144}</td>
 <td>29.663086</td>
 <td>3</td>
-<td>582.263112</td>
+<td>624.022883</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">power_901_monthly_meteorology_utc</td>
@@ -432,7 +422,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>{'time': 492, 'lat': 25, 'lon': 25}</td>
 <td>2.346039</td>
 <td>43</td>
-<td>482.190977</td>
+<td>507.882906</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">aws-noaa-oisst-avhrr-only</td>
@@ -440,23 +430,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>{'time': 1, 'zlev': 1, 'lat': 720, 'lon': 1440}</td>
 <td>1.977539</td>
 <td>4</td>
-<td>468.469388</td>
+<td>494.040404</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">CMIP6_daily_GISS-E2-1-G_tas-no-coord-chunks</td>
-<td>{'time': 730, 'lat': 600, 'lon': 1440}</td>
-<td>{'time': 1, 'lat': 600, 'lon': 1440}</td>
-<td>3.295898</td>
-<td>3</td>
-<td>295.876289</td>
-</tr>
-<tr class="odd">
 <td data-quarto-table-cell-role="th">FWI-GEOS-5-Hourly</td>
 <td>{'time': 26880, 'lat': 533, 'lon': 1152}</td>
 <td>{'time': 120, 'lat': 100, 'lon': 100}</td>
 <td>4.577637</td>
 <td>3</td>
-<td>291.349429</td>
+<td>298.103475</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">CMIP6_daily_GISS-E2-1-G_tas-no-coord-chunks</td>
+<td>{'time': 730, 'lat': 600, 'lon': 1440}</td>
+<td>{'time': 1, 'lat': 600, 'lon': 1440}</td>
+<td>3.295898</td>
+<td>3</td>
+<td>297.244898</td>
 </tr>
 </tbody>
 </table>
@@ -467,13 +457,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="read-results-for-a-specific-dataset" class="level1">
 <h1>Read results for a specific dataset</h1>
-<div class="cell" data-scrolled="true" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Can replace with any of the collection names</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>collection_name <span class="op">=</span> <span class="st">'CMIP6_daily_GISS-E2-1-G_tas-600_1440_29'</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>filename <span class="op">=</span> <span class="ss">f'results/</span><span class="sc">{</span>collection_name<span class="sc">}</span><span class="ss">_urls_stats.csv'</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>results_df <span class="op">=</span> pd.read_csv(git_url(filename))</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>results_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="8">
+<div class="cell" data-scrolled="true" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Can replace with any of the collection names</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>collection_name <span class="op">=</span> <span class="st">'CMIP6_daily_GISS-E2-1-G_tas-600_1440_29'</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>filename <span class="op">=</span> <span class="ss">f'results/</span><span class="sc">{</span>collection_name<span class="sc">}</span><span class="ss">_urls_stats.csv'</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>results_df <span class="op">=</span> pd.read_csv(git_url(filename))</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>results_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
 <div>
 
 
@@ -777,9 +767,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>generate_zooms_plot(results_df, collection_name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>generate_zooms_plot(results_df, collection_name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="e2e-results_files/figure-html/cell-8-output-1.png" class="img-fluid"></p>
+<p><img src="tile-server-e2e-benchmarks_files/figure-html/cell-6-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 
@@ -1137,8 +1127,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../approaches/tiling/cmip6-zarr-benchmarks.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">CMIP6 Zarr Benchmarks</span>
+      <a href="../../approaches/tiling/cmip6-zarr-tile-server-benchmarks.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">CMIP6 Zarr Tile Server Benchmarks</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

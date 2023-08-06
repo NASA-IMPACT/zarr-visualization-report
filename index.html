@@ -151,20 +151,20 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth3 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./approaches/tiling/cog-pgstac.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Profiling tiling code for pgSTAC + COG</span></a>
+  <a href="./approaches/tiling/cmip6-cog-tile-server-benchmarks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">CMIP6 COG Tile Server Benchmarks</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./approaches/tiling/cmip6-zarr-benchmarks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">CMIP6 Zarr Benchmarks</span></a>
+  <a href="./approaches/tiling/cmip6-zarr-tile-server-benchmarks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">CMIP6 Zarr Tile Server Benchmarks</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./approaches/tiling/e2e-results.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">End to End Test Results</span></a>
+  <a href="./approaches/tiling/tile-server-e2e-benchmarks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tile Server End to End Benchmakrs</span></a>
   </div>
 </li>
       </ul>
@@ -230,7 +230,12 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background">Background</a></li>
+  <li><a href="#background-motivation" id="toc-background-motivation" class="nav-link active" data-scroll-target="#background-motivation">Background + Motivation</a>
+  <ul class="collapse">
+  <li><a href="#pre-generated-map-tiles---drawbacks" id="toc-pre-generated-map-tiles---drawbacks" class="nav-link" data-scroll-target="#pre-generated-map-tiles---drawbacks">Pre-generated Map Tiles - Drawbacks</a></li>
+  <li><a href="#new-approaches" id="toc-new-approaches" class="nav-link" data-scroll-target="#new-approaches">New Approaches</a></li>
+  <li><a href="#cookbook-goals" id="toc-cookbook-goals" class="nav-link" data-scroll-target="#cookbook-goals">Cookbook Goals</a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/nasa-impact/zarr-visualization-cookbook/edit/main/index.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/nasa-impact/zarr-visualization-cookbook/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -255,18 +260,25 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>This site documents different approaches and benchmarks for zarr visualization.</p>
-<p>The intention is to support zarr data providers with some methods for visualizing zarr. This guide and report is intended to inform zarr data producers who want to understand the requirements for data pre-processing and chunking in order to support visualization through tiling server and direct client approahces.</p>
-<section id="background" class="level1">
-<h1>Background</h1>
-<p>Visualization of Earth science data is key to exploring and understanding Earth data. Web browsers offer a near-universal platform for exploring this data. However browsers of the web expect near instantaneous page rendering. The scale of geospatial data makes it challenging to serve this data “on-demand” as browsers cannot reproject and create image tiles fast enough for a good user experience.</p>
-<p>The scale of geospatial data makes it challenging to serve this data “on-demand” as browsers cannot reproject and create image tiles fast enough for a good user experience. This challenge led to the development of pre-generated static map tiles.</p>
-<p>While pregenerated map tiles make it possible to visualize data quickly, there are drawbacks. The most significant is the data provider chooses how the data will appear. Next generation approaches give that power to the user. Other drawbacks impact the data provider, such as storage costs and maintaining a pipeline to constantly update or reprocess the tile storage with new and updated data. But the user is impacted by having no power to adjust the visualization, such as modifying the color scale, color map or perform “band math” where multiple variables are combined to produce a new variable.</p>
-<p>More recent years have seen the success of the dynamic tiling approach which allows for on-demand map tile creation. This approach has traditionally relied on reading data from Cloud-Optimized GeoTIFFs (COGs). When the Zarr data format gained popularity for large-scale n-dimensional data analysis, users started to opine for browser-based visualization. The conventional Zarr chunk size stored for analysis (~100mb) was acknowledged to be too large to be fetched by a browser.</p>
-<p>Now there are 2 options: a dynamic tile server and a direct client. rio_tiler’s XarrayReader supports tile rendering from anything that is xarray-readable. This means a tile server can render tiles from Zarr stores as well as netCDF4/HDF5 and other formats. However, a tile server still requires running a server while the second option, a “direct client”, reads Zarr directly in the browser client and uses webGL to render map tiles.</p>
-<p>This cookbook will describe these 2 approaches. We will discuss the tradeoffs, requirements for preprocessing the data and present performance testing results for when those preprocessing steps were taken or not. We hope that readers will be able to reuse lessons learned and recommendations to deliver their Zarr data to users in web browser and contribute to the wider adoption of this format for large scale environmental data understanding.</p>
+<p>This site documents different approaches and benchmarks for zarr visualization. If you use or create Zarr data and wish to visualize it in a web browser, this guide is for you. It describes the requirements for data pre-processing and chunking in order to support visualization through tiling server and direct client approahces.</p>
+<section id="background-motivation" class="level1">
+<h1>Background + Motivation</h1>
+<p>Visualization is key to exploring and understanding Earth data. Web browsers offer a near-universal platform fordata exploration. However, web users expect near instantaneous page rendering. The scale of geospatial data makes it challenging to serve this data instantenously as browsers cannot read, reproject and create image tiles fast enough for a good user experience.</p>
+<section id="pre-generated-map-tiles---drawbacks" class="level2">
+<h2 class="anchored" data-anchor-id="pre-generated-map-tiles---drawbacks">Pre-generated Map Tiles - Drawbacks</h2>
+<p>The challenge of visualizing large geospatial datasets led to the development of pre-generated static map tiles. While pregenerated map tiles make it possible to visualize data quickly, there are drawbacks. The most significant drawback is the data provider chooses how the data will appear. Next generation approaches give that power to the user. Other drawbacks impact the data provider, such as storage costs and maintaining a pipeline to constantly update or reprocess the tile storage with new and updated data. But the user is impacted by having no power to adjust the visualization, such as modifying the color scale, color map or perform “band math” where multiple variables are combined to produce a new variable.</p>
+</section>
+<section id="new-approaches" class="level2">
+<h2 class="anchored" data-anchor-id="new-approaches">New Approaches</h2>
+<p>More recent years have seen the success of the dynamic tiling approach which allows for on-demand map tile creation. This approach has traditionally relied on reading data from Cloud-Optimized GeoTIFFs (COGs). When the Zarr data format gained popularity for large-scale n-dimensional data analysis, users started to ask for browser-based visualization. The conventional Zarr chunk size stored for analysis (~100mb) was acknowledged to be too large to be fetched by a browser.</p>
+<p>Now there are 2 options for visualizing Zarr data: a tile server and a direct client. rio_tiler’s XarrayReader supports tile rendering from anything that is xarray-readable. This means a tile server can render tiles from Zarr stores as well as netCDF4/HDF5 and other formats. However, a tile server still requires running a server while the second option, a “direct client”, reads Zarr directly in the browser client and uses webGL to render map tiles.</p>
+</section>
+<section id="cookbook-goals" class="level2">
+<h2 class="anchored" data-anchor-id="cookbook-goals">Cookbook Goals</h2>
+<p>This cookbook will describe these 2 approaches. We will discuss the tradeoffs, preprocessing options and provide performance benchmarks for a variety of preprocessing options. We hope readers will be able to reuse lessons learned and recommendations to deliver their Zarr data to users in web browser and contribute to the wider adoption of this format for large scale environmental data understanding.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
