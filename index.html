@@ -185,8 +185,8 @@ ul.task-list li input[type="checkbox"] {
   </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./approaches/direct-client.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Direct Client</span></a>
+            <a href="./approaches/dynamic-client.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dynamic Client</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -194,25 +194,25 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./approaches/direct-client/benchmarking-methodology.html" class="sidebar-item-text sidebar-link">
+  <a href="./approaches/dynamic-client/benchmarking-methodology.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Benchmarking Methodology</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./approaches/direct-client/e2e-results.html" class="sidebar-item-text sidebar-link">
+  <a href="./approaches/dynamic-client/e2e-results.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">End-to-End Benchmarking</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./approaches/direct-client/recommendations.html" class="sidebar-item-text sidebar-link">
+  <a href="./approaches/dynamic-client/recommendations.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Recommendations</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./approaches/direct-client/future-areas.html" class="sidebar-item-text sidebar-link">
+  <a href="./approaches/dynamic-client/future-areas.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Future Areas</span></a>
   </div>
 </li>
@@ -260,7 +260,7 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>This site documents different approaches and benchmarks for zarr visualization. If you use or create Zarr data and wish to visualize it in a web browser, this guide is for you. It describes the requirements for data pre-processing and chunking in order to support visualization through tiling server and direct client approahces.</p>
+<p>This site documents different approaches and benchmarks for zarr visualization. If you use or create Zarr data and wish to visualize it in a web browser, this guide is for you. It describes the requirements for data pre-processing and chunking in order to support visualization through tiling server and dynamic client approahces.</p>
 <section id="background-motivation" class="level1">
 <h1>Background + Motivation</h1>
 <p>Visualization is key to exploring and understanding Earth data. Web browsers offer a near-universal platform fordata exploration. However, web users expect near instantaneous page rendering. The scale of geospatial data makes it challenging to serve this data instantenously as browsers cannot read, reproject and create image tiles fast enough for a good user experience.</p>
@@ -270,12 +270,12 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="new-approaches" class="level2">
 <h2 class="anchored" data-anchor-id="new-approaches">New Approaches</h2>
-<p>More recent years have seen the success of the dynamic tiling approach which allows for on-demand map tile creation. This approach has traditionally relied on reading data from Cloud-Optimized GeoTIFFs (COGs). When the Zarr data format gained popularity for large-scale n-dimensional data analysis, users started to ask for browser-based visualization. The conventional Zarr chunk size stored for analysis (~100mb) was acknowledged to be too large to be fetched by a browser.</p>
-<p>Now there are 2 options for visualizing Zarr data: a tile server and a direct client. rio_tiler’s XarrayReader supports tile rendering from anything that is xarray-readable. This means a tile server can render tiles from Zarr stores as well as netCDF4/HDF5 and other formats. However, a tile server still requires running a server while the second option, a “direct client”, reads Zarr directly in the browser client and uses webGL to render map tiles.</p>
+<p>More recent years have seen the success of the dynamic tiling approach which allows for on-demand map tile creation. This approach has traditionally relied on reading data from Cloud-Optimized GeoTIFFs (COGs). When the Zarr data format gained popularity for large-scale N-dimensional data analysis, users started to ask for browser-based visualization. The conventional Zarr chunk size stored for analysis (~100MB) was acknowledged to be too large to be fetched by a browser.</p>
+<p>Now there are two options for visualizing Zarr data: a tile server and dynamic client. rio_tiler’s XarrayReader supports tile rendering from anything that is xarray-readable. This means a tile server can render tiles from Zarr stores as well as netCDF4/HDF5 and other formats. However, a tile server still requires running a server while the second option, “dynamic client”, reads Zarr directly in the browser client and uses webGL to render map tiles.</p>
 </section>
 <section id="cookbook-goals" class="level2">
 <h2 class="anchored" data-anchor-id="cookbook-goals">Cookbook Goals</h2>
-<p>This cookbook will describe these 2 approaches. We will discuss the tradeoffs, preprocessing options and provide performance benchmarks for a variety of preprocessing options. We hope readers will be able to reuse lessons learned and recommendations to deliver their Zarr data to users in web browser and contribute to the wider adoption of this format for large scale environmental data understanding.</p>
+<p>This cookbook will describe these two approaches. We will discuss the tradeoffs, pre-processing options and provide performance benchmarks for a variety of data configurations. We hope readers will be able to reuse lessons learned and recommendations to deliver their Zarr data to users in web browser and contribute to the wider adoption of this format for large scale environmental data understanding.</p>
 
 
 </section>

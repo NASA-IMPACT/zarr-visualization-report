@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Zarr Visualization Cookbook - Future Areas</title>
+<title>Zarr Visualization Cookbook - Benchmarking Methodology</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -29,7 +63,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../approaches/direct-client/recommendations.html" rel="prev">
+<link href="../../approaches/dynamic-client/e2e-results.html" rel="next">
+<link href="../../approaches/dynamic-client.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -75,7 +110,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../approaches/index.html">Approaches</a></li><li class="breadcrumb-item"><a href="../../approaches/direct-client.html">Direct Client</a></li><li class="breadcrumb-item"><a href="../../approaches/direct-client/future-areas.html">Future Areas</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../approaches/index.html">Approaches</a></li><li class="breadcrumb-item"><a href="../../approaches/dynamic-client.html">Dynamic Client</a></li><li class="breadcrumb-item"><a href="../../approaches/dynamic-client/benchmarking-methodology.html">Benchmarking Methodology</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -185,8 +220,8 @@ ul.task-list li input[type="checkbox"] {
   </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../../approaches/direct-client.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Direct Client</span></a>
+            <a href="../../approaches/dynamic-client.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dynamic Client</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -194,25 +229,25 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../approaches/direct-client/benchmarking-methodology.html" class="sidebar-item-text sidebar-link">
+  <a href="../../approaches/dynamic-client/benchmarking-methodology.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Benchmarking Methodology</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../approaches/direct-client/e2e-results.html" class="sidebar-item-text sidebar-link">
+  <a href="../../approaches/dynamic-client/e2e-results.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">End-to-End Benchmarking</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../approaches/direct-client/recommendations.html" class="sidebar-item-text sidebar-link">
+  <a href="../../approaches/dynamic-client/recommendations.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Recommendations</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../approaches/direct-client/future-areas.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../approaches/dynamic-client/future-areas.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Future Areas</span></a>
   </div>
 </li>
@@ -226,14 +261,26 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#end-to-end-benchmarks" id="toc-end-to-end-benchmarks" class="nav-link active" data-scroll-target="#end-to-end-benchmarks">End-to-End Benchmarks</a>
+  <ul class="collapse">
+  <li><a href="#end-to-end-benchmarks-datasets" id="toc-end-to-end-benchmarks-datasets" class="nav-link" data-scroll-target="#end-to-end-benchmarks-datasets">End-to-End Benchmarks: Datasets</a></li>
+  <li><a href="#end-to-end-benchmarks-approach" id="toc-end-to-end-benchmarks-approach" class="nav-link" data-scroll-target="#end-to-end-benchmarks-approach">End-to-End Benchmarks: Approach</a></li>
+  <li><a href="#end-to-end-benchmarks-instructions" id="toc-end-to-end-benchmarks-instructions" class="nav-link" data-scroll-target="#end-to-end-benchmarks-instructions">End-to-End Benchmarks: Instructions</a></li>
+  <li><a href="#end-to-end-benchmarks-processing" id="toc-end-to-end-benchmarks-processing" class="nav-link" data-scroll-target="#end-to-end-benchmarks-processing">End-to-End Benchmarks: Processing</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/nasa-impact/zarr-visualization-cookbook/edit/main/approaches/dynamic-client/benchmarking-methodology.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/nasa-impact/zarr-visualization-cookbook/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Future Areas</h1>
+<h1 class="title">Benchmarking Methodology</h1>
 </div>
 
 
@@ -248,8 +295,50 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
+<section id="end-to-end-benchmarks" class="level2">
+<h2 class="anchored" data-anchor-id="end-to-end-benchmarks">End-to-End Benchmarks</h2>
+<p>The end-to-end benchmarks capture the user experience for various interactions. The suite of benchmarks included in this cookbook are designed to inform how the choice of Zarr versions and chunking schemes influence the user experience.</p>
+<section id="end-to-end-benchmarks-datasets" class="level3">
+<h3 class="anchored" data-anchor-id="end-to-end-benchmarks-datasets">End-to-End Benchmarks: Datasets</h3>
+<p>We used the publicly available <a href="https://aws.amazon.com/marketplace/pp/prodview-k6adk576fiwmm#overview">NASA Earth Exchange Global Daily Downscaled Projections (NEX-GDDP-CMIP6)</a> AWS public dataset for this project. For this demonstration, we used two years of the the daily maximum near-surface air temperature (tasmax) variable from the <code>ACCESS-CM2</code> climate model.</p>
+<p>We first leveraged the <a href="https://pangeo-forge.readthedocs.io/en/latest/pangeo_forge_recipes/index.html">pangeo-forge-recipes</a> Python package to transform the NetCDF files hosted on S3 to Zarr stores, with the full notebook available in the <a href="https://github.com/carbonplan/benchmark-maps/blob/main/stores/01_cmip6_netcdf_to_zarr.ipynb">benchmark-maps repository</a>.</p>
+<p>Next, we used <a href="https://github.com/carbonplan/ndpyramid">ndpyramid</a> to generate pyramids for the Zarr store. The notebook for generating pyramids is available in the <a href="https://github.com/carbonplan/benchmark-maps/blob/main/stores/02_zarr_to_pyramids.ipynb">benchmark-maps repository</a>. We created pyramids containing four zoom levels using the <code>pyramid_reproject</code> function in ndpyramid. We includes 128 pixels per tile in each spatial dimension. For this demonstration, we targeted 1MB, 5MB, 10MB, and 25MB chunk sizes. The chunk size along the time dimension was defined as the largest number of time slices that would produce an uncompressed chunk that did not exceed the target size. The data were encoded as float32 while the time coordinate was encoded as int32 using level 1 gzip compression.</p>
+<p>We used the experimental <a href="https://github.com/scalableminds/zarrita">zarrita</a> library to convert the pyramids to Zarr V3 data for performance testing. The data leveraged the same encoding as the Zarr V2 pyramids, with the addition of a sharding codec. The shard size was set to the entire data size and the chunk size within each shard was equivalent to the V2 chunking scheme.</p>
+</section>
+<section id="end-to-end-benchmarks-approach" class="level3">
+<h3 class="anchored" data-anchor-id="end-to-end-benchmarks-approach">End-to-End Benchmarks: Approach</h3>
+<p>CarbonPlan’s <a href="https://github.com/carbonplan/benchmark-maps">benchmark-maps</a> repository leverages <a href="https://playwright.dev/python/">Playwright</a> for the end-to-end performance benchmarks. By default, the benchmarks are run on <a href="https://prototype-maps.vercel.app/">https://prototype-maps.vercel.app/</a> although the url is configurable. The <a href="../../approaches/dynamic-client.html#prototype-library">dynamic client prototype library</a> shows this domain after selecting a dataset and Zarr version.</p>
+<p>The benchmarking script takes the following steps:</p>
+<ol type="1">
+<li>Launch chromium browser</li>
+<li>Create a new page</li>
+<li>Start chromium tracing</li>
+<li>Navigate to web mapping application</li>
+<li>Select Dataset in the dropdown</li>
+<li>Wait 5 seconds for the page the render</li>
+<li>Zoom in a defined number of times, waiting 5 seconds after each action</li>
+<li>Write out metadata about each run and the trace record</li>
+</ol>
+</section>
+<section id="end-to-end-benchmarks-instructions" class="level3">
+<h3 class="anchored" data-anchor-id="end-to-end-benchmarks-instructions">End-to-End Benchmarks: Instructions</h3>
+<p>The <a href="https://github.com/carbonplan/benchmark-maps">benchmark-maps</a> repository can be used to run the benchmarking suite. The first step is to clone the repository:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/carbonplan/benchmark-maps.git</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The next step is to create an environment for running the benchmarks. We recommend <a href="https://mamba.readthedocs.io/en/latest/">mamba</a> for managing the environment. You will also need to install the required dependencies for <code>playwright</code>:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> env create <span class="at">--file</span> binder/environment.yml</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> activate benchmark-maps</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">playwright</span> install</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Once the environment is set up, you can run the benchmarks by running the following command:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> main.py <span class="at">--dataset</span> 1MB-chunks <span class="at">--zarr-version</span> v2 <span class="at">--action</span> zoom_in <span class="at">--zoom-level</span> 4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In addition, <code>main.sh</code> in the <a href="https://github.com/carbonplan/benchmark-maps">benchmark-maps</a> repository is a script for running multiple iterations of the benchmarks on multiple datasets and Zarr versions.</p>
+</section>
+<section id="end-to-end-benchmarks-processing" class="level3">
+<h3 class="anchored" data-anchor-id="end-to-end-benchmarks-processing">End-to-End Benchmarks: Processing</h3>
+<p>Each benchmark yields a metadata file and trace record. The <code>carbonplan_benchmarks</code> Python package provides utilities for analyzing and visualizing these outputs.</p>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -602,11 +691,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../approaches/direct-client/recommendations.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Recommendations</span>
+      <a href="../../approaches/dynamic-client.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Dynamic Client</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../../approaches/dynamic-client/e2e-results.html" class="pagination-link">
+        <span class="nav-page-text">End-to-End Benchmarking</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->
@@ -615,7 +707,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     <div class="nav-footer-left">© CC-By Openscapes, 2022</div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/nasa-impact/zarr-visualization-cookbook/edit/main/approaches/direct-client/future-areas.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/nasa-impact/zarr-visualization-cookbook/issues/new" class="toc-action">Report an issue</a></p></div></div></div>
+    </div>
     <div class="nav-footer-right">This page is built with ❤️ and <a href="https://quarto.org/">Quarto</a>.</div>
   </div>
 </footer>
