@@ -7,7 +7,7 @@ This site documents different approaches and benchmarks for zarr visualization. 
 
 # Background + Motivation
 
-Visualization is key to exploring and understanding Earth data. Web browsers offer a near-universal platform fordata exploration. However, web users expect near instantaneous page rendering. The scale of geospatial data makes it challenging to serve this data instantenously as browsers cannot read, reproject and create image tiles fast enough for a good user experience.
+Visualization is key to exploring and understanding Earth data. Web browsers offer a near-universal platform for data exploration. However, web users expect near instantaneous page rendering. The scale of geospatial data makes it challenging to serve this data instantenously as browsers cannot read, reproject and create image tiles fast enough for a good user experience.
 
 ## Pre-generated Map Tiles - Drawbacks
 
