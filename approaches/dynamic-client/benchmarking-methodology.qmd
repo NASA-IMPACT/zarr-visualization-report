@@ -19,7 +19,7 @@ We used the experimental [zarrita](https://github.com/scalableminds/zarrita) lib
 
 ### End-to-End Benchmarks: Approach
 
-CarbonPlan's [benchmark-maps](https://github.com/carbonplan/benchmark-maps) repository leverages [Playwright](https://playwright.dev/python/) for the end-to-end performance benchmarks. By default, the benchmarks are run on [https://prototype-maps.vercel.app/](https://prototype-maps.vercel.app/) although the url is configurable. The [dynamic tiling prototype library](./../dynamic-rendering.qmd#prototype-library) shows this domain after selecting a dataset and Zarr version.
+CarbonPlan's [benchmark-maps](https://github.com/carbonplan/benchmark-maps) repository leverages [Playwright](https://playwright.dev/python/) for the end-to-end performance benchmarks. By default, the benchmarks are run on [https://prototype-maps.vercel.app/](https://prototype-maps.vercel.app/) although the url is configurable. The [dynamic client prototype library](./../dynamic-client.qmd#prototype-library) shows this domain after selecting a dataset and Zarr version.
 
 The benchmarking script takes the following steps:
 

@@ -40,12 +40,12 @@ website:
               - approaches/tiling/tile-server-e2e-benchmarks.ipynb
             - approaches/tiling/recommendations.md
             - approaches/tiling/future-areas.md
-          - section: approaches/dynamic-rendering.qmd
+          - section: approaches/dynamic-client.qmd
             contents:
-            - approaches/dynamic-rendering/benchmarking-methodology.qmd
-            - approaches/dynamic-rendering/e2e-results.ipynb
-            - approaches/dynamic-rendering/recommendations.qmd
-            - approaches/dynamic-rendering/future-areas.qmd         
+            - approaches/dynamic-client/benchmarking-methodology.qmd
+            - approaches/dynamic-client/e2e-results.ipynb
+            - approaches/dynamic-client/recommendations.qmd
+            - approaches/dynamic-client/future-areas.qmd         
 
 
 

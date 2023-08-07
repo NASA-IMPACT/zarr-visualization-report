@@ -3,7 +3,7 @@ title: "Zarr Visualization Cookbook"
 subtitle: "Methods and benchmarks for visualizing Zarr"
 ---
 
-This site documents different approaches and benchmarks for zarr visualization. If you use or create Zarr data and wish to visualize it in a web browser, this guide is for you. It describes the requirements for data pre-processing and chunking in order to support visualization through tiling server and dynamic rendering approahces.
+This site documents different approaches and benchmarks for zarr visualization. If you use or create Zarr data and wish to visualize it in a web browser, this guide is for you. It describes the requirements for data pre-processing and chunking in order to support visualization through tiling server and dynamic client approahces.
 
 # Background + Motivation
 
@@ -17,7 +17,7 @@ The challenge of visualizing large geospatial datasets led to the development of
 
 More recent years have seen the success of the dynamic tiling approach which allows for on-demand map tile creation. This approach has traditionally relied on reading data from Cloud-Optimized GeoTIFFs (COGs). When the Zarr data format gained popularity for large-scale N-dimensional data analysis, users started to ask for browser-based visualization. The conventional Zarr chunk size stored for analysis (~100MB) was acknowledged to be too large to be fetched by a browser.
 
-Now there are two options for visualizing Zarr data: a tile server and dynamic rendering. rio_tiler’s XarrayReader supports tile rendering from anything that is xarray-readable. This means a tile server can render tiles from Zarr stores as well as netCDF4/HDF5 and other formats. However, a tile server still requires running a server while the second option, "dynamic rendering", reads Zarr directly in the browser client and uses webGL to render map tiles.
+Now there are two options for visualizing Zarr data: a tile server and dynamic client. rio_tiler’s XarrayReader supports tile rendering from anything that is xarray-readable. This means a tile server can render tiles from Zarr stores as well as netCDF4/HDF5 and other formats. However, a tile server still requires running a server while the second option, "dynamic client", reads Zarr directly in the browser client and uses webGL to render map tiles.
 
 ## Cookbook Goals
 
