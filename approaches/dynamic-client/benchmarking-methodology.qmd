@@ -1,0 +1,62 @@
+---
+title: Benchmarking Methodology
+---
+
+## End-to-End Benchmarks
+
+The end-to-end benchmarks capture the user experience for various interactions. The suite of benchmarks included in this cookbook are designed to inform how the choice of Zarr versions and chunking schemes influence the user experience.
+
+### End-to-End Benchmarks: Datasets
+
+We used the publicly available [NASA Earth Exchange Global Daily Downscaled Projections (NEX-GDDP-CMIP6)](https://aws.amazon.com/marketplace/pp/prodview-k6adk576fiwmm#overview) AWS public dataset for this project. For this demonstration, we used two years of the the daily maximum near-surface air temperature (tasmax) variable from the `ACCESS-CM2` climate model.
+
+We first leveraged the [pangeo-forge-recipes](https://pangeo-forge.readthedocs.io/en/latest/pangeo_forge_recipes/index.html) Python package to transform the NetCDF files hosted on S3 to Zarr stores, with the full notebook available in the [benchmark-maps repository](https://github.com/carbonplan/benchmark-maps/blob/main/stores/01_cmip6_netcdf_to_zarr.ipynb).
+
+
+Next, we used [ndpyramid](https://github.com/carbonplan/ndpyramid) to generate pyramids for the Zarr store. The notebook for generating pyramids is available in the [benchmark-maps repository](https://github.com/carbonplan/benchmark-maps/blob/main/stores/02_zarr_to_pyramids.ipynb). We created pyramids containing four zoom levels using the `pyramid_reproject` function in ndpyramid. We includes 128 pixels per tile in each spatial dimension. For this demonstration, we targeted 1MB, 5MB, 10MB, and 25MB chunk sizes. The chunk size along the time dimension was defined as the largest number of time slices that would produce an uncompressed chunk that did not exceed the target size. The data were encoded as float32 while the time coordinate was encoded as int32 using level 1 gzip compression.
+
+We used the experimental [zarrita](https://github.com/scalableminds/zarrita) library to convert the pyramids to Zarr V3 data for performance testing. The data leveraged the same encoding as the Zarr V2 pyramids, with the addition of a sharding codec. The shard size was set to the entire data size and the chunk size within each shard was equivalent to the V2 chunking scheme.
+
+### End-to-End Benchmarks: Approach
+
+CarbonPlan's [benchmark-maps](https://github.com/carbonplan/benchmark-maps) repository leverages [Playwright](https://playwright.dev/python/) for the end-to-end performance benchmarks. By default, the benchmarks are run on [https://prototype-maps.vercel.app/](https://prototype-maps.vercel.app/) although the url is configurable. The [dynamic client prototype library](./../dynamic-client.qmd#prototype-library) shows this domain after selecting a dataset and Zarr version.
+
+The benchmarking script takes the following steps:
+
+1. Launch chromium browser 
+2. Create a new page
+3. Start chromium tracing
+4. Navigate to web mapping application
+5. Select Dataset in the dropdown
+6. Wait 5 seconds for the page the render
+7. Zoom in a defined number of times, waiting 5 seconds after each action
+8. Write out metadata about each run and the trace record
+
+### End-to-End Benchmarks: Instructions
+
+The [benchmark-maps](https://github.com/carbonplan/benchmark-maps) repository can be used to run the benchmarking suite. The first step is to clone the repository:
+
+```bash
+git clone https://github.com/carbonplan/benchmark-maps.git
+```
+
+The next step is to create an environment for running the benchmarks. We recommend [mamba](https://mamba.readthedocs.io/en/latest/) for managing the environment. You will also need to install the required dependencies for `playwright`:
+
+
+```bash
+mamba env create --file binder/environment.yml
+mamba activate benchmark-maps
+playwright install
+```
+
+Once the environment is set up, you can run the benchmarks by running the following command:
+
+```bash
+python main.py --dataset 1MB-chunks --zarr-version v2 --action zoom_in --zoom-level 4
+```
+
+In addition, `main.sh` in the [benchmark-maps](https://github.com/carbonplan/benchmark-maps) repository is a script for running multiple iterations of the benchmarks on multiple datasets and Zarr versions.
+
+### End-to-End Benchmarks: Processing
+
+Each benchmark yields a metadata file and trace record. The `carbonplan_benchmarks` Python package provides utilities for analyzing and visualizing these outputs.

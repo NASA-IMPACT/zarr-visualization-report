@@ -1,0 +1,45 @@
+---
+title: "Dynamic Client"
+---
+
+## Background
+
+Traditional approaches to rendering raster datasets in the browser involve the creation of tiles in a pixelated image format like PNG or JPEG. These tiles can be pre-generated or created by a tiling server on demand, as described in the [tiling approach chapter](tiling.qmd). While the image tiles are fast to load and easy to render, tiling offers limited flexibility for dynamically customizing visualizations based on user input. In contrast, dynamic client leverages Zarr to render the data directly using WebGL rather than through an intermediate layer. The Zarr format is ideal for direct rendering in the browser because the chunks of a Zarr dataset serve a similar purpose to the tiles of a web map. In addition, data can be chunked across non-spatial dimensions like time, which removes the requirement of generating individual tiles per time step. Lastly, Zarr is a cloud-optimized data format Zarr that allows for fast, parallel reading and writing from object storage.
+
+The dynamic client approach leverages pyramids created with the [ndpyramid](https://github.com/carbonplan/ndpyramid) package in order to performantly render data at multiple zoom levels. The approach loads Zarr data using the [zarr-js](https://github.com/freeman-lab/zarr-js) JavaScript library and renders the fetched chunks via WebGL using the [regl](https://github.com/regl-project/regl) library. The open-source library called [@carbonplan/maps](https://github.com/carbonplan/maps) provides a small set of React components for loading and rendering Zarr data using this approach and supports rendering traditional vector layers side-by-side using `mapbox-gl-js`.
+
+CarbonPlan has used this approach to quickly develop visualizations for climate science ([some](https://carbonplan.org/research/cmip6-downscaling) [example](https://carbonplan.org/research/seaweed-farming) [visualizations](https://carbonplan.org/research/forest-carbon)).
+
+### Zarr V2 vs V3
+
+Historically, building these visualizations has required creating a second, visualization-specific copy of the data. The primary factor being the gap between the low limit of request sizes that can be reasonably fetched by the browser (<10 MB) and the conventional Zarr chunk sizes (~100 MB) used for analysis. With the introduction of the [sharding extension](https://zarr.dev/zeps/draft/ZEP0002.html) to the Zarr V3 spec, both access patterns can now be accommodated by a single dataset.
+
+
+### Pyramids
+
+Pyramids are used to improve rendering performance for most web mapping approaches. Pyramids contain successively lower resolution versions of the same dataset, which are commonly referred to as zoom levels or overviews. When viewing the entire dataset, the coarsest zoom level can be quickly fetched and rendered. Finer zoom levels are smoothly fetched and rendered as the user zooms in.
+
+The dynamic client approach currently relies on pyramids in the Zarr stores, although we will explore relaxing this requirement in the future. [ndpyramid](https://github.com/carbonplan/ndpyramid) is a small Python package providing utilities for generating N-dimensional Zarr pyramids using Xarray. Ndpyramid currently generates pyramids through either reprojection or coarsening. The prior requirement of web mercator pyramids has been removed from the dynamic client approach in the interest of directly visualizing analysis-ready datasets. The data can be reprojected in the client itself instead.
+
+
+
+## Prototype library
+
+We started the [prototype-maps](https://github.com/carbonplan/prototype-maps) project to support visualizing Zarr data using multiple approaches in a consolidated application. The project is currently deployed at [https://prototype-maps.vercel.app/](https://prototype-maps.vercel.app/). Only the dynamic client approach is currently live, although the tiling approach will be [added shortly](https://github.com/carbonplan/prototype-maps/pull/7). The current version of the dynamic client page includes the option to select from several different datasets. Datasets are available for either Zarr V2 or Zarr V3 with chunking schemes of  ~1MB/chunk, ~5MB/chunk, ~10MB/chunk, or ~25MB/chunk. The time slider allows scrolling through the two years of daily data included in this demonstration.
+ 
+```{=html}
+<iframe
+  style='transform: scale(0.5); transform-origin: top left;'
+  id="Dynamic-Client-Selection"
+  title="Prototype Maps - Dynamic Client"
+  width="1440"
+  height="1055"
+  src="https://prototype-maps.vercel.app/direct-client/v2/1MB-chunks"
+>
+</iframe>
+```
+
+
+## References
+
+[Freeman, J., K. Martin, and J. Hamman, 2021: A new toolkit for data-driven maps, https://carbonplan.org/blog/maps-library-release](https://carbonplan.org/blog/maps-library-release)

@@ -5,6 +5,6 @@ title: Approaches
 For browser-based visualization of Zarr, there are 2 approaches covered in this cookbook:
 
 1. [Tiling](./tiling.qmd)
-2. [Direct Client](./direct-client.qmd)
+2. [Dynamic client](./dynamic-client.qmd)
 
-The tile server provides an API which is interoperable with multiple interfaces, but requires maintaining a tile server. also the response delivered to the client is an image format, not the raw data itself. The direct client has access to the underlying data and thus maximum flexibility in rendering and analysis for the user.
+The tile server provides an API which is interoperable with multiple interfaces, but requires maintaining a tile server. also the response delivered to the client is an image format, not the raw data itself. The dynamic client approach has access to the underlying data and thus maximum flexibility in rendering and analysis for the user.
