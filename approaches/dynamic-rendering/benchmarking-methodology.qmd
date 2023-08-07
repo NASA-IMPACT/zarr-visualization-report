@@ -13,7 +13,7 @@ We used the publicly available [NASA Earth Exchange Global Daily Downscaled Proj
 We first leveraged the [pangeo-forge-recipes](https://pangeo-forge.readthedocs.io/en/latest/pangeo_forge_recipes/index.html) Python package to transform the NetCDF files hosted on S3 to Zarr stores, with the full notebook available in the [benchmark-maps repository](https://github.com/carbonplan/benchmark-maps/blob/main/stores/01_cmip6_netcdf_to_zarr.ipynb).
 
 
-Next, we used [ndpyramid](https://github.com/carbonplan/ndpyramid) to generate pyramids for the Zarr store. The notebook for generating pyramids is available in the [benchmark-maps repository](https://github.com/carbonplan/benchmark-maps/blob/main/stores/02_zarr_to_pyramids.ipynb). We created pyramids containing four zoom levels using the `pyramid_reproject` function in ndpyramid. We includes 128 pixels per tile in each spatial dimension. For this demonstration, we targeted 1MB, 5MB, 10MB, and 25MB chunk sizes. The chunk size along the time dimension was defined as the largest number of time slices that would produce an uncompressed chunk that did not exceed the target size. The data were incoded as float32 while the time coordinate was encoded as int32 using level 1 gzip compression.
+Next, we used [ndpyramid](https://github.com/carbonplan/ndpyramid) to generate pyramids for the Zarr store. The notebook for generating pyramids is available in the [benchmark-maps repository](https://github.com/carbonplan/benchmark-maps/blob/main/stores/02_zarr_to_pyramids.ipynb). We created pyramids containing four zoom levels using the `pyramid_reproject` function in ndpyramid. We includes 128 pixels per tile in each spatial dimension. For this demonstration, we targeted 1MB, 5MB, 10MB, and 25MB chunk sizes. The chunk size along the time dimension was defined as the largest number of time slices that would produce an uncompressed chunk that did not exceed the target size. The data were encoded as float32 while the time coordinate was encoded as int32 using level 1 gzip compression.
 
 We used the experimental [zarrita](https://github.com/scalableminds/zarrita) library to convert the pyramids to Zarr V3 data for performance testing. The data leveraged the same encoding as the Zarr V2 pyramids, with the addition of a sharding codec. The shard size was set to the entire data size and the chunk size within each shard was equivalent to the V2 chunking scheme.
 
@@ -27,7 +27,7 @@ The benchmarking script takes the following steps:
 2. Create a new page
 3. Start chromium tracing
 4. Navigate to web mapping application
-5. Select Dataset in the dropbown
+5. Select Dataset in the dropdown
 6. Wait 5 seconds for the page the render
 7. Zoom in a defined number of times, waiting 5 seconds after each action
 8. Write out metadata about each run and the trace record
