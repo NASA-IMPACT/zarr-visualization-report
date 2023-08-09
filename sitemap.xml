@@ -2,66 +2,66 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/approaches/tiling.html</loc>
-    <lastmod>2023-08-08T19:40:31.202Z</lastmod>
+    <lastmod>2023-08-09T19:04:54.461Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/approaches/dynamic-client/recommendations.html</loc>
-    <lastmod>2023-08-08T19:40:30.362Z</lastmod>
+    <lastmod>2023-08-09T19:04:53.641Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/approaches/dynamic-client/benchmarking-methodology.html</loc>
-    <lastmod>2023-08-08T19:40:29.334Z</lastmod>
+    <lastmod>2023-08-09T19:04:52.537Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/approaches/index.html</loc>
-    <lastmod>2023-08-08T19:40:28.502Z</lastmod>
+    <lastmod>2023-08-09T19:04:51.709Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/approaches/tiling/tile-server-e2e-benchmarks.html</loc>
-    <lastmod>2023-08-08T19:40:26.710Z</lastmod>
+    <lastmod>2023-08-09T19:04:49.901Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/approaches/tiling/cmip6-zarr-tile-server-benchmarks.html</loc>
-    <lastmod>2023-08-08T19:40:25.426Z</lastmod>
+    <lastmod>2023-08-09T19:04:48.649Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/approaches/tiling/results-summary.html</loc>
-    <lastmod>2023-08-08T19:40:23.238Z</lastmod>
+    <lastmod>2023-08-09T19:04:46.517Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/transition-from-rmarkdown.html</loc>
-    <lastmod>2023-08-08T19:40:22.522Z</lastmod>
+    <lastmod>2023-08-09T19:04:45.825Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/index.html</loc>
-    <lastmod>2023-08-08T19:40:21.154Z</lastmod>
+    <lastmod>2023-08-09T19:04:44.273Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/approaches/tiling/recommendations.html</loc>
-    <lastmod>2023-08-08T19:40:22.890Z</lastmod>
+    <lastmod>2023-08-09T19:04:46.173Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/approaches/tiling/benchmarking-methodology.html</loc>
-    <lastmod>2023-08-08T19:40:23.770Z</lastmod>
+    <lastmod>2023-08-09T19:04:47.021Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/approaches/tiling/future-areas.html</loc>
-    <lastmod>2023-08-08T19:40:25.786Z</lastmod>
+    <lastmod>2023-08-09T19:04:48.997Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/approaches/tiling/cmip6-cog-tile-server-benchmarks.html</loc>
-    <lastmod>2023-08-08T19:40:28.134Z</lastmod>
+    <lastmod>2023-08-09T19:04:51.337Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/approaches/dynamic-client/future-areas.html</loc>
-    <lastmod>2023-08-08T19:40:28.858Z</lastmod>
+    <lastmod>2023-08-09T19:04:52.061Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/approaches/dynamic-client/e2e-results.html</loc>
-    <lastmod>2023-08-08T19:40:30.010Z</lastmod>
+    <lastmod>2023-08-09T19:04:53.301Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/approaches/dynamic-client.html</loc>
-    <lastmod>2023-08-08T19:40:30.830Z</lastmod>
+    <lastmod>2023-08-09T19:04:54.097Z</lastmod>
   </url>
 </urlset>
