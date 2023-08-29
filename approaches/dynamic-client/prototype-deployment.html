@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Zarr Visualization Cookbook – recommendations</title>
+<title>Zarr Visualization Cookbook - Prototype deployment</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -29,8 +29,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../approaches/tiling/future-areas.html" rel="next">
-<link href="../../approaches/tiling/tile-server-e2e-benchmarks.html" rel="prev">
+<link href="../../approaches/dynamic-client/benchmarking-methodology.html" rel="next">
+<link href="../../approaches/dynamic-client.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -76,7 +76,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../approaches/index.html">Approaches</a></li><li class="breadcrumb-item"><a href="../../approaches/tiling.html">Tiling</a></li><li class="breadcrumb-item"><a href="../../approaches/tiling/recommendations.html">Recommendations</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../approaches/index.html">Approaches</a></li><li class="breadcrumb-item"><a href="../../approaches/dynamic-client.html">Dynamic Client</a></li><li class="breadcrumb-item"><a href="../../approaches/dynamic-client/prototype-deployment.html">Prototype deployment</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -124,11 +124,11 @@ ul.task-list li input[type="checkbox"] {
       <div class="sidebar-item-container"> 
             <a href="../../approaches/tiling.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Tiling</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 show">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../approaches/tiling/benchmarking-methodology.html" class="sidebar-item-text sidebar-link">
@@ -172,7 +172,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../approaches/tiling/recommendations.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../approaches/tiling/recommendations.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Recommendations</span></a>
   </div>
 </li>
@@ -188,14 +188,14 @@ ul.task-list li input[type="checkbox"] {
       <div class="sidebar-item-container"> 
             <a href="../../approaches/dynamic-client.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Dynamic Client</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../approaches/dynamic-client/prototype-deployment.html" class="sidebar-item-text sidebar-link">
+  <a href="../../approaches/dynamic-client/prototype-deployment.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Prototype deployment</span></a>
   </div>
 </li>
@@ -237,18 +237,40 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#recommendations" id="toc-recommendations" class="nav-link active" data-scroll-target="#recommendations">Recommendations</a></li>
+  <li><a href="#prototype-maps" id="toc-prototype-maps" class="nav-link active" data-scroll-target="#prototype-maps"><code>prototype-maps</code></a></li>
+  <li><a href="#prototype-maps-technology-stack" id="toc-prototype-maps-technology-stack" class="nav-link" data-scroll-target="#prototype-maps-technology-stack"><code>prototype-maps</code>: Technology stack</a></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/nasa-impact/zarr-visualization-cookbook/edit/main/approaches/tiling/recommendations.md" class="toc-action">Edit this page</a></p><p><a href="https://github.com/nasa-impact/zarr-visualization-cookbook/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/nasa-impact/zarr-visualization-cookbook/edit/main/approaches/dynamic-client/prototype-deployment.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/nasa-impact/zarr-visualization-cookbook/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Prototype deployment</h1>
+</div>
 
 
-<section id="recommendations" class="level1">
-<h1>Recommendations</h1>
-<p>COMING SOON.</p>
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="prototype-maps" class="level2">
+<h2 class="anchored" data-anchor-id="prototype-maps"><code>prototype-maps</code></h2>
+<p>We started the <a href="https://github.com/carbonplan/prototype-maps">prototype-maps</a> project to support visualizing Zarr data using multiple approaches in a consolidated application. The project is currently deployed at <a href="https://prototype-maps.vercel.app/">https://prototype-maps.vercel.app/</a>. Only the dynamic client approach is currently live, although the tiling approach will be <a href="https://github.com/carbonplan/prototype-maps/pull/7">added shortly</a>. The current version of the dynamic client page includes the option to select from several different datasets. Datasets are available in either Zarr V2 or Zarr V3 format, with different projections (equirectangular or mercator), chunking schemes (~1MB/chunk, ~5MB/chunk, ~10MB/chunk, or ~25MB/chunk), and sharding schemes (none, ~50MB/shard, ~100MB/shard). The time slider allows scrolling through the two years of daily data included in this demonstration.</p>
+<iframe style="transform: scale(0.5); transform-origin: top left; margin-bottom: -450px; margin-right: -720px;" id="Dynamic-Client-Selection" title="Prototype Maps - Dynamic Client" width="1440" height="900" src="https://prototype-maps.vercel.app/">
+</iframe>
+</section>
+<section id="prototype-maps-technology-stack" class="level2">
+<h2 class="anchored" data-anchor-id="prototype-maps-technology-stack"><code>prototype-maps</code>: Technology stack</h2>
+<p>The prototype deployment was built using <a href="https://github.com/carbonplan/maps"><span class="citation" data-cites="carbonplan/maps">@carbonplan/maps</span></a> with different configurations of <code>projection</code> and Zarr <code>version</code>, for which support was added in <code>3.1.0</code>. Upstream, the <code>@carbonplan/maps</code> library depends on <code>zarr-js@3.3.0</code>, for support reading Zarr in v3 and sharded formats as well as <code>mapbox-gl@1.13.1</code> for the mapping context in which the Zarr data are rendered.</p>
 
 
 </section>
@@ -604,13 +626,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../approaches/tiling/tile-server-e2e-benchmarks.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Tile Server End to End Benchmakrs</span>
+      <a href="../../approaches/dynamic-client.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Dynamic Client</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../approaches/tiling/future-areas.html" class="pagination-link">
-        <span class="nav-page-text">Future Areas</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../approaches/dynamic-client/benchmarking-methodology.html" class="pagination-link">
+        <span class="nav-page-text">Benchmarking Methodology</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

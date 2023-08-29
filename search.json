@@ -1,89 +1,5 @@
 [
   {
-    "objectID": "approaches/tiling.html",
-    "href": "approaches/tiling.html",
-    "title": "Tiling",
-    "section": "",
-    "text": "An xarray tile server provides image tiles via the XYZ Protocol and OGC Tiles API specifications.\nThe tile server approach relies on the rio_tiler.XarrayReader library which includes the tile function. This module supports tiling of anything that is xarray-readable, so a tile server using this library can render tiles from Zarr stores as well as netCDF4/HDF5 and other formats. An example API infrastructure can be found in titiler-xarray. Please note this library is still in development and is not intended for production use at this time."
-  },
-  {
-    "objectID": "approaches/dynamic-client/recommendations.html",
-    "href": "approaches/dynamic-client/recommendations.html",
-    "title": "Recommendations",
-    "section": "",
-    "text": "COMING SOON."
-  },
-  {
-    "objectID": "approaches/dynamic-client/benchmarking-methodology.html",
-    "href": "approaches/dynamic-client/benchmarking-methodology.html",
-    "title": "Benchmarking Methodology",
-    "section": "",
-    "text": "The end-to-end benchmarks capture the user experience for various interactions. The suite of benchmarks included in this cookbook are designed to inform how the choice of Zarr versions and chunking schemes influence the user experience.\n\n\nWe used the publicly available NASA Earth Exchange Global Daily Downscaled Projections (NEX-GDDP-CMIP6) AWS public dataset for this project. For this demonstration, we used two years of the the daily maximum near-surface air temperature (tasmax) variable from the ACCESS-CM2 climate model.\nWe first leveraged the pangeo-forge-recipes Python package to transform the NetCDF files hosted on S3 to Zarr stores, with the full notebook available in the benchmark-maps repository.\nNext, we used ndpyramid to generate pyramids for the Zarr store. The notebook for generating pyramids is available in the benchmark-maps repository. We created pyramids containing four zoom levels using the pyramid_reproject function in ndpyramid. We includes 128 pixels per tile in each spatial dimension. For this demonstration, we targeted 1MB, 5MB, 10MB, and 25MB chunk sizes. The chunk size along the time dimension was defined as the largest number of time slices that would produce an uncompressed chunk that did not exceed the target size. The data were encoded as float32 while the time coordinate was encoded as int32 using level 1 gzip compression.\nWe used the experimental zarrita library to convert the pyramids to Zarr V3 data for performance testing. The data leveraged the same encoding as the Zarr V2 pyramids, with the addition of a sharding codec. The shard size was set to the entire data size and the chunk size within each shard was equivalent to the V2 chunking scheme.\n\n\n\nCarbonPlan’s benchmark-maps repository leverages Playwright for the end-to-end performance benchmarks. By default, the benchmarks are run on https://prototype-maps.vercel.app/ although the url is configurable. The dynamic client prototype library shows this domain after selecting a dataset and Zarr version.\nThe benchmarking script takes the following steps:\n\nLaunch chromium browser\nCreate a new page\nStart chromium tracing\nNavigate to web mapping application\nSelect Dataset in the dropdown\nWait 5 seconds for the page the render\nZoom in a defined number of times, waiting 5 seconds after each action\nWrite out metadata about each run and the trace record\n\n\n\n\nThe benchmark-maps repository can be used to run the benchmarking suite. The first step is to clone the repository:\ngit clone https://github.com/carbonplan/benchmark-maps.git\nThe next step is to create an environment for running the benchmarks. We recommend mamba for managing the environment. You will also need to install the required dependencies for playwright:\nmamba env create --file binder/environment.yml\nmamba activate benchmark-maps\nplaywright install\nOnce the environment is set up, you can run the benchmarks by running the following command:\npython main.py --dataset 1MB-chunks --zarr-version v2 --action zoom_in --zoom-level 4\nIn addition, main.sh in the benchmark-maps repository is a script for running multiple iterations of the benchmarks on multiple datasets and Zarr versions.\n\n\n\nEach benchmark yields a metadata file and trace record. The carbonplan_benchmarks Python package provides utilities for analyzing and visualizing these outputs."
-  },
-  {
-    "objectID": "approaches/dynamic-client/benchmarking-methodology.html#end-to-end-benchmarks",
-    "href": "approaches/dynamic-client/benchmarking-methodology.html#end-to-end-benchmarks",
-    "title": "Benchmarking Methodology",
-    "section": "",
-    "text": "The end-to-end benchmarks capture the user experience for various interactions. The suite of benchmarks included in this cookbook are designed to inform how the choice of Zarr versions and chunking schemes influence the user experience.\n\n\nWe used the publicly available NASA Earth Exchange Global Daily Downscaled Projections (NEX-GDDP-CMIP6) AWS public dataset for this project. For this demonstration, we used two years of the the daily maximum near-surface air temperature (tasmax) variable from the ACCESS-CM2 climate model.\nWe first leveraged the pangeo-forge-recipes Python package to transform the NetCDF files hosted on S3 to Zarr stores, with the full notebook available in the benchmark-maps repository.\nNext, we used ndpyramid to generate pyramids for the Zarr store. The notebook for generating pyramids is available in the benchmark-maps repository. We created pyramids containing four zoom levels using the pyramid_reproject function in ndpyramid. We includes 128 pixels per tile in each spatial dimension. For this demonstration, we targeted 1MB, 5MB, 10MB, and 25MB chunk sizes. The chunk size along the time dimension was defined as the largest number of time slices that would produce an uncompressed chunk that did not exceed the target size. The data were encoded as float32 while the time coordinate was encoded as int32 using level 1 gzip compression.\nWe used the experimental zarrita library to convert the pyramids to Zarr V3 data for performance testing. The data leveraged the same encoding as the Zarr V2 pyramids, with the addition of a sharding codec. The shard size was set to the entire data size and the chunk size within each shard was equivalent to the V2 chunking scheme.\n\n\n\nCarbonPlan’s benchmark-maps repository leverages Playwright for the end-to-end performance benchmarks. By default, the benchmarks are run on https://prototype-maps.vercel.app/ although the url is configurable. The dynamic client prototype library shows this domain after selecting a dataset and Zarr version.\nThe benchmarking script takes the following steps:\n\nLaunch chromium browser\nCreate a new page\nStart chromium tracing\nNavigate to web mapping application\nSelect Dataset in the dropdown\nWait 5 seconds for the page the render\nZoom in a defined number of times, waiting 5 seconds after each action\nWrite out metadata about each run and the trace record\n\n\n\n\nThe benchmark-maps repository can be used to run the benchmarking suite. The first step is to clone the repository:\ngit clone https://github.com/carbonplan/benchmark-maps.git\nThe next step is to create an environment for running the benchmarks. We recommend mamba for managing the environment. You will also need to install the required dependencies for playwright:\nmamba env create --file binder/environment.yml\nmamba activate benchmark-maps\nplaywright install\nOnce the environment is set up, you can run the benchmarks by running the following command:\npython main.py --dataset 1MB-chunks --zarr-version v2 --action zoom_in --zoom-level 4\nIn addition, main.sh in the benchmark-maps repository is a script for running multiple iterations of the benchmarks on multiple datasets and Zarr versions.\n\n\n\nEach benchmark yields a metadata file and trace record. The carbonplan_benchmarks Python package provides utilities for analyzing and visualizing these outputs."
-  },
-  {
-    "objectID": "approaches/index.html",
-    "href": "approaches/index.html",
-    "title": "Approaches",
-    "section": "",
-    "text": "For browser-based visualization of Zarr, there are 2 approaches covered in this cookbook:\n\nTiling\nDynamic client\n\nThe tile server provides an API which is interoperable with multiple interfaces, but requires maintaining a tile server. also the response delivered to the client is an image format, not the raw data itself. The dynamic client approach has access to the underlying data and thus maximum flexibility in rendering and analysis for the user."
-  },
-  {
-    "objectID": "approaches/tiling/tile-server-e2e-benchmarks.html",
-    "href": "approaches/tiling/tile-server-e2e-benchmarks.html",
-    "title": "Tile Server End to End Benchmakrs",
-    "section": "",
-    "text": "This notebook parses results from end-to-end testing as documented in tile-benchmarking/e2e/e2e.ipynb."
-  },
-  {
-    "objectID": "approaches/tiling/tile-server-e2e-benchmarks.html#setup",
-    "href": "approaches/tiling/tile-server-e2e-benchmarks.html#setup",
-    "title": "Tile Server End to End Benchmakrs",
-    "section": "Setup",
-    "text": "Setup\nImport libraries, define results location and define plotting functions.\n\nimport pandas as pd\nimport numpy as np\nimport matplotlib.pyplot as plt\n                        \ngit_url_path = \"https://raw.githubusercontent.com/developmentseed/tile-benchmarking/main/e2e\"\n\ndef generate_zooms_plot(df, dataset):\n    zooms = [int(path.split('/')[2]) for path in df['Name'][:-1]]\n    # Create a new figure\n    plt.figure()\n\n    # Create a scatter plot\n    plt.scatter(zooms, df['Median Response Time'][:-1])\n\n    # Add title and labels\n    plt.title(dataset)\n    plt.xlabel('Zoom')\n    plt.ylabel('Time (ms)')\n\n    # Display the plot\n    plt.show() \n    \ndef git_url(filename):\n    return f'{git_url_path}/{filename}'\n\ndef add_to_specs(collection_name: str, df: pd.DataFrame):\n    zarr_specs.loc[collection_name, 'mean median response time'] = np.mean(df['Median Response Time'])\n    zarr_specs.loc[collection_name, 'median median response time'] = np.median(df['Median Response Time'])"
-  },
-  {
-    "objectID": "approaches/tiling/tile-server-e2e-benchmarks.html#parse-collection-results-into-a-data-frame",
-    "href": "approaches/tiling/tile-server-e2e-benchmarks.html#parse-collection-results-into-a-data-frame",
-    "title": "Tile Server End to End Benchmakrs",
-    "section": "Parse collection results into a data frame",
-    "text": "Parse collection results into a data frame\nBenchmarks are reported alongside specifications of the dataset, such as chunk shape and size.\n\nzarr_specs = pd.read_csv(f\"{git_url_path}/zarr_info.csv\")\nzarr_specs.index = zarr_specs['collection_name']\n\nfor collection_name in zarr_specs.index:\n    filename = f'results/{collection_name}_urls_stats.csv'\n    results_df = pd.read_csv(git_url(filename))\n    add_to_specs(collection_name, results_df)"
-  },
-  {
-    "objectID": "approaches/tiling/cmip6-zarr-tile-server-benchmarks.html",
-    "href": "approaches/tiling/cmip6-zarr-tile-server-benchmarks.html",
-    "title": "CMIP6 Zarr Tile Server Benchmarks",
-    "section": "",
-    "text": "Benchmarks were generated for multiple copies of the CMIP6 daily data to understand the performance for different data pre-processing options. These copies were differentiated by:\n\ndata file format (netCDF or Zarr), and,\ndifferent chunking configurations.\n\nThe test datasets produced and benchmarked are:\n\nkerchunk + netCDF: A kerchunk reference file for NetCDF files stored on S3.\n3 Zarr stores with different chunking configurations and pyramids.\n\nChunked to optimize for time series analysis:\n\nlatitude: 252, longitude: 252, time: 365.\nThis dataset has larger chunks, but more timesteps are loaded into each chunk.\n\nChunked to optimize for visualization at a single time step.\n\nlatitude: 600, longitude: 1440, time: 1.\nThis dataset has small chunks, but will likely not work well for time series generation.\n\nChunked to optimize for both time series and visualization:\n\nlatitude: 600, longitude: 1440, time: 29.\nThis dataset has larger chunks, but more timesteps are loaded into each chunk.\n\n\nZarr store with no coordinate chunking. At this time there is a known issue with pangeo-forge data generation where coordinates are chunked. This makes a significant impact on performance."
-  },
-  {
-    "objectID": "approaches/tiling/cmip6-zarr-tile-server-benchmarks.html#dataset-preprocessing",
-    "href": "approaches/tiling/cmip6-zarr-tile-server-benchmarks.html#dataset-preprocessing",
-    "title": "CMIP6 Zarr Tile Server Benchmarks",
-    "section": "",
-    "text": "Benchmarks were generated for multiple copies of the CMIP6 daily data to understand the performance for different data pre-processing options. These copies were differentiated by:\n\ndata file format (netCDF or Zarr), and,\ndifferent chunking configurations.\n\nThe test datasets produced and benchmarked are:\n\nkerchunk + netCDF: A kerchunk reference file for NetCDF files stored on S3.\n3 Zarr stores with different chunking configurations and pyramids.\n\nChunked to optimize for time series analysis:\n\nlatitude: 252, longitude: 252, time: 365.\nThis dataset has larger chunks, but more timesteps are loaded into each chunk.\n\nChunked to optimize for visualization at a single time step.\n\nlatitude: 600, longitude: 1440, time: 1.\nThis dataset has small chunks, but will likely not work well for time series generation.\n\nChunked to optimize for both time series and visualization:\n\nlatitude: 600, longitude: 1440, time: 29.\nThis dataset has larger chunks, but more timesteps are loaded into each chunk.\n\n\nZarr store with no coordinate chunking. At this time there is a known issue with pangeo-forge data generation where coordinates are chunked. This makes a significant impact on performance."
-  },
-  {
-    "objectID": "approaches/tiling/cmip6-zarr-tile-server-benchmarks.html#code-profiling-methodology",
-    "href": "approaches/tiling/cmip6-zarr-tile-server-benchmarks.html#code-profiling-methodology",
-    "title": "CMIP6 Zarr Tile Server Benchmarks",
-    "section": "Code Profiling Methodology",
-    "text": "Code Profiling Methodology\nThe time to generate a tile at zoom 0 to 11 was tested for each data store 10 times. The mean of these times is reported. Tests were run on the VEDA JupyterHub and the details can be reviewed in the profile.ipynb notebook of the tile-benchmarking repo.\nThe libraries used to generate image tiles are xarray for reading the Zarr metadata and rio_tiler’s XarrayReader for reading data from the NetCDFs or Zarr files on S3.\nrio_tiler.XarrayReader is used in titiler-xarray and replicated in the tile-benchmarking repo to generate tiles. Maintaining a copy enabled full control to add timers to blocks of code and logs to understand where time was being spent. Specifically:\n\nimport s3fs; s3fs.core.setup_logging(\"DEBUG\") was used to debug calls to S3. This was used to understand that the most time is spent opening the dataset, which was impacted by open all the coordinate chunks.\nTiming code blocks also demonstrated that the most time, other than opening the dataset, was spent in reprojecting the data. Time to reproject the data is positively correlated with the chunk size, since the minimum amount of data that can be read from S3 is the size of the data chunk.\ncprofile was also used, however the information it provided wasn’t useful to the current investigation."
-  },
-  {
-    "objectID": "approaches/tiling/results-summary.html",
-    "href": "approaches/tiling/results-summary.html",
-    "title": "Results Summary",
-    "section": "",
-    "text": "Results Summary\nCOMING SOON."
-  },
-  {
     "objectID": "transition-from-rmarkdown.html",
     "href": "transition-from-rmarkdown.html",
     "title": "Transition from RMarkdown",
@@ -110,6 +26,76 @@
     "title": "Transition from RMarkdown",
     "section": "Troubleshooting",
     "text": "Troubleshooting\n\nGitHub Action fails, says you need RMarkdown but you don’t have R code!\nAnd you changed all .Rmds to .qmds!\nYou likely have a few setup code chunks from RMarkdown, that look like this:\n{r setup, include=FALSE}\nknitr::opts_chunk$set(echo = FALSE)\nYou can find them by opening each of your files and having a look, or use GitHub’s search for the keyword knitr"
+  },
+  {
+    "objectID": "approaches/dynamic-client/future-areas.html",
+    "href": "approaches/dynamic-client/future-areas.html",
+    "title": "Future Areas",
+    "section": "",
+    "text": "COMING SOON."
+  },
+  {
+    "objectID": "approaches/dynamic-client/benchmarking-methodology.html",
+    "href": "approaches/dynamic-client/benchmarking-methodology.html",
+    "title": "Benchmarking Methodology",
+    "section": "",
+    "text": "The end-to-end benchmarks capture the user experience for various interactions. The suite of benchmarks included in this cookbook are designed to inform how the choice of Zarr versions and chunking schemes influence the user experience.\n\n\nWe used the publicly available NASA Earth Exchange Global Daily Downscaled Projections (NEX-GDDP-CMIP6) AWS public dataset for this project. For this demonstration, we used two years of the the daily maximum near-surface air temperature (tasmax) variable from the ACCESS-CM2 climate model.\nWe first leveraged the pangeo-forge-recipes Python package to transform the NetCDF files hosted on S3 to Zarr stores, with the full notebook available in the benchmark-maps repository.\nNext, we used ndpyramid to generate pyramids for the Zarr store. The notebook for generating pyramids is available in the benchmark-maps repository. We created pyramids containing four zoom levels using the pyramid_reproject function in ndpyramid. We includes 128 pixels per tile in each spatial dimension. For this demonstration, we targeted 1MB, 5MB, 10MB, and 25MB chunk sizes. The chunk size along the time dimension was defined as the largest number of time slices that would produce an uncompressed chunk that did not exceed the target size. The data were encoded as float32 while the time coordinate was encoded as int32 using level 1 gzip compression.\nWe used the experimental zarrita library to convert the pyramids to Zarr V3 data for performance testing. The data leveraged the same encoding as the Zarr V2 pyramids, with the addition of a sharding codec. The shard size was set to the entire data size and the chunk size within each shard was equivalent to the V2 chunking scheme.\n\n\n\nCarbonPlan’s benchmark-maps repository leverages Playwright for the end-to-end performance benchmarks. By default, the benchmarks are run on https://prototype-maps.vercel.app/ although the url is configurable. The dynamic client prototype library shows this domain after selecting a dataset and Zarr version.\nThe benchmarking script takes the following steps:\n\nLaunch chromium browser\nCreate a new page\nStart chromium tracing\nNavigate to web mapping application\nSelect Dataset in the dropdown\nWait 5 seconds for the page the render\nZoom in a defined number of times, waiting 5 seconds after each action\nWrite out metadata about each run and the trace record\n\n\n\n\nThe benchmark-maps repository can be used to run the benchmarking suite. The first step is to clone the repository:\ngit clone https://github.com/carbonplan/benchmark-maps.git\nThe next step is to create an environment for running the benchmarks. We recommend mamba for managing the environment. You will also need to install the required dependencies for playwright:\nmamba env create --file binder/environment.yml\nmamba activate benchmark-maps\nplaywright install\nOnce the environment is set up, you can run the benchmarks by running the following command:\npython main.py --dataset 1MB-chunks --zarr-version v2 --action zoom_in --zoom-level 4\nIn addition, main.sh in the benchmark-maps repository is a script for running multiple iterations of the benchmarks on multiple datasets and Zarr versions.\n\n\n\nEach benchmark yields a metadata file and trace record. The carbonplan_benchmarks Python package provides utilities for analyzing and visualizing these outputs."
+  },
+  {
+    "objectID": "approaches/dynamic-client/benchmarking-methodology.html#end-to-end-benchmarks",
+    "href": "approaches/dynamic-client/benchmarking-methodology.html#end-to-end-benchmarks",
+    "title": "Benchmarking Methodology",
+    "section": "",
+    "text": "The end-to-end benchmarks capture the user experience for various interactions. The suite of benchmarks included in this cookbook are designed to inform how the choice of Zarr versions and chunking schemes influence the user experience.\n\n\nWe used the publicly available NASA Earth Exchange Global Daily Downscaled Projections (NEX-GDDP-CMIP6) AWS public dataset for this project. For this demonstration, we used two years of the the daily maximum near-surface air temperature (tasmax) variable from the ACCESS-CM2 climate model.\nWe first leveraged the pangeo-forge-recipes Python package to transform the NetCDF files hosted on S3 to Zarr stores, with the full notebook available in the benchmark-maps repository.\nNext, we used ndpyramid to generate pyramids for the Zarr store. The notebook for generating pyramids is available in the benchmark-maps repository. We created pyramids containing four zoom levels using the pyramid_reproject function in ndpyramid. We includes 128 pixels per tile in each spatial dimension. For this demonstration, we targeted 1MB, 5MB, 10MB, and 25MB chunk sizes. The chunk size along the time dimension was defined as the largest number of time slices that would produce an uncompressed chunk that did not exceed the target size. The data were encoded as float32 while the time coordinate was encoded as int32 using level 1 gzip compression.\nWe used the experimental zarrita library to convert the pyramids to Zarr V3 data for performance testing. The data leveraged the same encoding as the Zarr V2 pyramids, with the addition of a sharding codec. The shard size was set to the entire data size and the chunk size within each shard was equivalent to the V2 chunking scheme.\n\n\n\nCarbonPlan’s benchmark-maps repository leverages Playwright for the end-to-end performance benchmarks. By default, the benchmarks are run on https://prototype-maps.vercel.app/ although the url is configurable. The dynamic client prototype library shows this domain after selecting a dataset and Zarr version.\nThe benchmarking script takes the following steps:\n\nLaunch chromium browser\nCreate a new page\nStart chromium tracing\nNavigate to web mapping application\nSelect Dataset in the dropdown\nWait 5 seconds for the page the render\nZoom in a defined number of times, waiting 5 seconds after each action\nWrite out metadata about each run and the trace record\n\n\n\n\nThe benchmark-maps repository can be used to run the benchmarking suite. The first step is to clone the repository:\ngit clone https://github.com/carbonplan/benchmark-maps.git\nThe next step is to create an environment for running the benchmarks. We recommend mamba for managing the environment. You will also need to install the required dependencies for playwright:\nmamba env create --file binder/environment.yml\nmamba activate benchmark-maps\nplaywright install\nOnce the environment is set up, you can run the benchmarks by running the following command:\npython main.py --dataset 1MB-chunks --zarr-version v2 --action zoom_in --zoom-level 4\nIn addition, main.sh in the benchmark-maps repository is a script for running multiple iterations of the benchmarks on multiple datasets and Zarr versions.\n\n\n\nEach benchmark yields a metadata file and trace record. The carbonplan_benchmarks Python package provides utilities for analyzing and visualizing these outputs."
+  },
+  {
+    "objectID": "approaches/tiling/results-summary.html",
+    "href": "approaches/tiling/results-summary.html",
+    "title": "Results Summary",
+    "section": "",
+    "text": "Results Summary\nCOMING SOON."
+  },
+  {
+    "objectID": "approaches/tiling/cmip6-zarr-tile-server-benchmarks.html",
+    "href": "approaches/tiling/cmip6-zarr-tile-server-benchmarks.html",
+    "title": "CMIP6 Zarr Tile Server Benchmarks",
+    "section": "",
+    "text": "Benchmarks were generated for multiple copies of the CMIP6 daily data to understand the performance for different data pre-processing options. These copies were differentiated by:\n\ndata file format (netCDF or Zarr), and,\ndifferent chunking configurations.\n\nThe test datasets produced and benchmarked are:\n\nkerchunk + netCDF: A kerchunk reference file for NetCDF files stored on S3.\n3 Zarr stores with different chunking configurations and pyramids.\n\nChunked to optimize for time series analysis:\n\nlatitude: 252, longitude: 252, time: 365.\nThis dataset has larger chunks, but more timesteps are loaded into each chunk.\n\nChunked to optimize for visualization at a single time step.\n\nlatitude: 600, longitude: 1440, time: 1.\nThis dataset has small chunks, but will likely not work well for time series generation.\n\nChunked to optimize for both time series and visualization:\n\nlatitude: 600, longitude: 1440, time: 29.\nThis dataset has larger chunks, but more timesteps are loaded into each chunk.\n\n\nZarr store with no coordinate chunking. At this time there is a known issue with pangeo-forge data generation where coordinates are chunked. This makes a significant impact on performance."
+  },
+  {
+    "objectID": "approaches/tiling/cmip6-zarr-tile-server-benchmarks.html#dataset-preprocessing",
+    "href": "approaches/tiling/cmip6-zarr-tile-server-benchmarks.html#dataset-preprocessing",
+    "title": "CMIP6 Zarr Tile Server Benchmarks",
+    "section": "",
+    "text": "Benchmarks were generated for multiple copies of the CMIP6 daily data to understand the performance for different data pre-processing options. These copies were differentiated by:\n\ndata file format (netCDF or Zarr), and,\ndifferent chunking configurations.\n\nThe test datasets produced and benchmarked are:\n\nkerchunk + netCDF: A kerchunk reference file for NetCDF files stored on S3.\n3 Zarr stores with different chunking configurations and pyramids.\n\nChunked to optimize for time series analysis:\n\nlatitude: 252, longitude: 252, time: 365.\nThis dataset has larger chunks, but more timesteps are loaded into each chunk.\n\nChunked to optimize for visualization at a single time step.\n\nlatitude: 600, longitude: 1440, time: 1.\nThis dataset has small chunks, but will likely not work well for time series generation.\n\nChunked to optimize for both time series and visualization:\n\nlatitude: 600, longitude: 1440, time: 29.\nThis dataset has larger chunks, but more timesteps are loaded into each chunk.\n\n\nZarr store with no coordinate chunking. At this time there is a known issue with pangeo-forge data generation where coordinates are chunked. This makes a significant impact on performance."
+  },
+  {
+    "objectID": "approaches/tiling/cmip6-zarr-tile-server-benchmarks.html#code-profiling-methodology",
+    "href": "approaches/tiling/cmip6-zarr-tile-server-benchmarks.html#code-profiling-methodology",
+    "title": "CMIP6 Zarr Tile Server Benchmarks",
+    "section": "Code Profiling Methodology",
+    "text": "Code Profiling Methodology\nThe time to generate a tile at zoom 0 to 11 was tested for each data store 10 times. The mean of these times is reported. Tests were run on the VEDA JupyterHub and the details can be reviewed in the profile.ipynb notebook of the tile-benchmarking repo.\nThe libraries used to generate image tiles are xarray for reading the Zarr metadata and rio_tiler’s XarrayReader for reading data from the NetCDFs or Zarr files on S3.\nrio_tiler.XarrayReader is used in titiler-xarray and replicated in the tile-benchmarking repo to generate tiles. Maintaining a copy enabled full control to add timers to blocks of code and logs to understand where time was being spent. Specifically:\n\nimport s3fs; s3fs.core.setup_logging(\"DEBUG\") was used to debug calls to S3. This was used to understand that the most time is spent opening the dataset, which was impacted by open all the coordinate chunks.\nTiming code blocks also demonstrated that the most time, other than opening the dataset, was spent in reprojecting the data. Time to reproject the data is positively correlated with the chunk size, since the minimum amount of data that can be read from S3 is the size of the data chunk.\ncprofile was also used, however the information it provided wasn’t useful to the current investigation."
+  },
+  {
+    "objectID": "approaches/tiling/recommendations.html",
+    "href": "approaches/tiling/recommendations.html",
+    "title": "Recommendations",
+    "section": "",
+    "text": "Recommendations\nCOMING SOON."
+  },
+  {
+    "objectID": "approaches/tiling/cmip6-cog-tile-server-benchmarks.html",
+    "href": "approaches/tiling/cmip6-cog-tile-server-benchmarks.html",
+    "title": "CMIP6 COG Tile Server Benchmarks",
+    "section": "",
+    "text": "As noted in Benchmarking Methodolgy, the time to tile includes the time to query a pgSTAC database and then use the query ID returned to read and create image tiles from COGs on S3. The libraries used were pgSTAC for reading STAC metadata and rasterio (via rio_tiler) for reading COGs on S3.\nIn this notebook we load results from https://github.com/developmentseed/tile-benchmarking/blob/main/profiling/profile.ipynb to demonstrate:\n\nThe importance of GDAL variables in performance.\nVariation across tiles is not significant.\nTiling with pgSTAC + COGs is fast when compared with the rio_tiler.XarrayReader method.\n\n\nimport pandas as pd\nimport hvplot\npd.options.plotting.backend = 'holoviews'\n\ngit_url_path = \"https://raw.githubusercontent.com/developmentseed/tile-benchmarking/feat/fake-data/profiling/results\"\npd.read_csv(f\"{git_url_path}/pgstac_cog_gdal_results.csv\")\n\n\n\n\n\n\n\n\ngdal_vars_set?\ntile times\nmean total time\n\n\n\n\n0\nwith_gdal_vars\n[63.41, 54.53, 54.46]\n57.466667\n\n\n1\nwithout_gdal_vars\n[14687.78, 30817.34, 17722.72]\n21075.946667\n\n\n\n\n\n\n\nWe don’t need many iterations since the variation is so great. You can see that setting GDAL environment variables makes things at least 100x faster.\nThese GDAL variables are documented here https://developmentseed.org/titiler/advanced/performance_tuning/, but that advice is copied into comments below for ease of reference.\nBy setting the GDAL environment variables we limit the number of total requests to S3.\nSpecifically, these environment variables ensure that:\n\nAll of the metadata may be read in 1 request. This is not necessarily true, but more likely since we increase the initial number of GDAL ingested bytes.\nThere are no extra LIST requests which GDAL uses to discover sidecar files. COGs don’t have sidecar files.\nConsecutive range requests are merged into 1 request.\nMultiple range requests use the same TCP connection.\n\n\nTime to create different tiles\nNote the speed of tiling is always around 50ms and the difference across tiles is small.\n\ndf = pd.read_csv(f\"{git_url_path}/pgstac_cog_tile_results.csv\")\ndf.plot.scatter(x='xyz tile', y='mean total time', label = 'Mean Time to Tile (ms) by Zoom Level')"
+  },
+  {
+    "objectID": "approaches/tiling.html",
+    "href": "approaches/tiling.html",
+    "title": "Tiling",
+    "section": "",
+    "text": "An xarray tile server provides image tiles via the XYZ Protocol and OGC Tiles API specifications.\nThe tile server approach relies on the rio_tiler.XarrayReader library which includes the tile function. This module supports tiling of anything that is xarray-readable, so a tile server using this library can render tiles from Zarr stores as well as netCDF4/HDF5 and other formats. An example API infrastructure can be found in titiler-xarray. Please note this library is still in development and is not intended for production use at this time."
   },
   {
     "objectID": "index.html",
@@ -140,11 +126,32 @@
     "text": "Cookbook Goals\nThis cookbook will describe these two approaches. We will discuss the tradeoffs, pre-processing options and provide performance benchmarks for a variety of data configurations. We hope readers will be able to reuse lessons learned and recommendations to deliver their Zarr data to users in web browser and contribute to the wider adoption of this format for large scale environmental data understanding."
   },
   {
-    "objectID": "approaches/tiling/recommendations.html",
-    "href": "approaches/tiling/recommendations.html",
-    "title": "Recommendations",
+    "objectID": "approaches/dynamic-client.html",
+    "href": "approaches/dynamic-client.html",
+    "title": "Dynamic Client",
     "section": "",
-    "text": "Recommendations\nCOMING SOON."
+    "text": "Traditional approaches to rendering raster datasets in the browser involve the creation of tiles in a pixelated image format like PNG or JPEG. These tiles can be pre-generated or created by a tiling server on demand, as described in the tiling approach chapter. While the image tiles are fast to load and easy to render, tiling offers limited flexibility for dynamically customizing visualizations based on user input. In contrast, dynamic client leverages Zarr to render the data directly using WebGL rather than through an intermediate layer. The Zarr format is ideal for direct rendering in the browser because the chunks of a Zarr dataset serve a similar purpose to the tiles of a web map. In addition, data can be chunked across non-spatial dimensions like time, which removes the requirement of generating individual tiles per time step. Lastly, Zarr is a cloud-optimized data format Zarr that allows for fast, parallel reading and writing from object storage.\nThe dynamic client approach leverages pyramids created with the ndpyramid package in order to performantly render data at multiple zoom levels. The approach loads Zarr data using the zarr-js JavaScript library and renders the fetched chunks via WebGL using the regl library. The open-source library called @carbonplan/maps provides a small set of React components for loading and rendering Zarr data using this approach and supports rendering traditional vector layers side-by-side using mapbox-gl-js.\nCarbonPlan has used this approach to quickly develop visualizations for climate science (some example visualizations).\n\n\nHistorically, building these visualizations has required creating a second, visualization-specific copy of the data. The primary factor being the gap between the low limit of request sizes that can be reasonably fetched by the browser (&lt;10 MB) and the conventional Zarr chunk sizes (~100 MB) used for analysis. With the introduction of the sharding extension to the Zarr V3 spec, both access patterns can now be accommodated by a single dataset.\n\n\n\nPyramids are used to improve rendering performance for most web mapping approaches. Pyramids contain successively lower resolution versions of the same dataset, which are commonly referred to as zoom levels or overviews. When viewing the entire dataset, the coarsest zoom level can be quickly fetched and rendered. Finer zoom levels are smoothly fetched and rendered as the user zooms in.\nThe dynamic client approach currently relies on pyramids in the Zarr stores, although we will explore relaxing this requirement in the future. ndpyramid is a small Python package providing utilities for generating N-dimensional Zarr pyramids using Xarray. Ndpyramid currently generates pyramids through either reprojection or coarsening. The prior requirement of web mercator pyramids has been removed from the dynamic client approach in the interest of directly visualizing analysis-ready datasets. The data can be reprojected in the client itself instead."
+  },
+  {
+    "objectID": "approaches/dynamic-client.html#background",
+    "href": "approaches/dynamic-client.html#background",
+    "title": "Dynamic Client",
+    "section": "",
+    "text": "Traditional approaches to rendering raster datasets in the browser involve the creation of tiles in a pixelated image format like PNG or JPEG. These tiles can be pre-generated or created by a tiling server on demand, as described in the tiling approach chapter. While the image tiles are fast to load and easy to render, tiling offers limited flexibility for dynamically customizing visualizations based on user input. In contrast, dynamic client leverages Zarr to render the data directly using WebGL rather than through an intermediate layer. The Zarr format is ideal for direct rendering in the browser because the chunks of a Zarr dataset serve a similar purpose to the tiles of a web map. In addition, data can be chunked across non-spatial dimensions like time, which removes the requirement of generating individual tiles per time step. Lastly, Zarr is a cloud-optimized data format Zarr that allows for fast, parallel reading and writing from object storage.\nThe dynamic client approach leverages pyramids created with the ndpyramid package in order to performantly render data at multiple zoom levels. The approach loads Zarr data using the zarr-js JavaScript library and renders the fetched chunks via WebGL using the regl library. The open-source library called @carbonplan/maps provides a small set of React components for loading and rendering Zarr data using this approach and supports rendering traditional vector layers side-by-side using mapbox-gl-js.\nCarbonPlan has used this approach to quickly develop visualizations for climate science (some example visualizations).\n\n\nHistorically, building these visualizations has required creating a second, visualization-specific copy of the data. The primary factor being the gap between the low limit of request sizes that can be reasonably fetched by the browser (&lt;10 MB) and the conventional Zarr chunk sizes (~100 MB) used for analysis. With the introduction of the sharding extension to the Zarr V3 spec, both access patterns can now be accommodated by a single dataset.\n\n\n\nPyramids are used to improve rendering performance for most web mapping approaches. Pyramids contain successively lower resolution versions of the same dataset, which are commonly referred to as zoom levels or overviews. When viewing the entire dataset, the coarsest zoom level can be quickly fetched and rendered. Finer zoom levels are smoothly fetched and rendered as the user zooms in.\nThe dynamic client approach currently relies on pyramids in the Zarr stores, although we will explore relaxing this requirement in the future. ndpyramid is a small Python package providing utilities for generating N-dimensional Zarr pyramids using Xarray. Ndpyramid currently generates pyramids through either reprojection or coarsening. The prior requirement of web mercator pyramids has been removed from the dynamic client approach in the interest of directly visualizing analysis-ready datasets. The data can be reprojected in the client itself instead."
+  },
+  {
+    "objectID": "approaches/dynamic-client.html#references",
+    "href": "approaches/dynamic-client.html#references",
+    "title": "Dynamic Client",
+    "section": "References",
+    "text": "References\nFreeman, J., K. Martin, and J. Hamman, 2021: A new toolkit for data-driven maps, https://carbonplan.org/blog/maps-library-release"
+  },
+  {
+    "objectID": "approaches/index.html",
+    "href": "approaches/index.html",
+    "title": "Approaches",
+    "section": "",
+    "text": "For browser-based visualization of Zarr, there are 2 approaches covered in this cookbook:\n\nTiling\nDynamic client\n\nThe tile server provides an API which is interoperable with multiple interfaces, but requires maintaining a tile server. also the response delivered to the client is an image format, not the raw data itself. The dynamic client approach has access to the underlying data and thus maximum flexibility in rendering and analysis for the user."
   },
   {
     "objectID": "approaches/tiling/benchmarking-methodology.html",
@@ -168,6 +175,27 @@
     "text": "End-to-End Benchmarks\nEnd-to-end tests provide benchmarks of response times for various tiles and datasets to titiler-xarray.\nDetails and code to generate the benchmarks and store the results on S3 is documented in tile-benchmarking/e2e/e2e.ipynb.\n\nEnd-to-End Benchmarks: Datasets\nA variety of datasets was selected for end-to-end testing and hopefully the framework makes it easy to modify and test new datasets and use cases come up. See the e2e-results.ipynb for specific datasets.\n\n\nEnd-to-End Benchmarks: Approach\nCode from https://github.com/bdon/TileSiege was used to generate a set of tile URLs for the selected test datasets. The testing tool https://locust.io/ was used to run tests. Results are stored uploated as CSV files in S3. These results are read and plotted in e2e-results.ipynb."
   },
   {
+    "objectID": "approaches/tiling/tile-server-e2e-benchmarks.html",
+    "href": "approaches/tiling/tile-server-e2e-benchmarks.html",
+    "title": "Tile Server End to End Benchmakrs",
+    "section": "",
+    "text": "This notebook parses results from end-to-end testing as documented in tile-benchmarking/e2e/e2e.ipynb."
+  },
+  {
+    "objectID": "approaches/tiling/tile-server-e2e-benchmarks.html#setup",
+    "href": "approaches/tiling/tile-server-e2e-benchmarks.html#setup",
+    "title": "Tile Server End to End Benchmakrs",
+    "section": "Setup",
+    "text": "Setup\nImport libraries, define results location and define plotting functions.\n\nimport pandas as pd\nimport numpy as np\nimport matplotlib.pyplot as plt\n                        \ngit_url_path = \"https://raw.githubusercontent.com/developmentseed/tile-benchmarking/main/e2e\"\n\ndef generate_zooms_plot(df, dataset):\n    zooms = [int(path.split('/')[2]) for path in df['Name'][:-1]]\n    # Create a new figure\n    plt.figure()\n\n    # Create a scatter plot\n    plt.scatter(zooms, df['Median Response Time'][:-1])\n\n    # Add title and labels\n    plt.title(dataset)\n    plt.xlabel('Zoom')\n    plt.ylabel('Time (ms)')\n\n    # Display the plot\n    plt.show() \n    \ndef git_url(filename):\n    return f'{git_url_path}/{filename}'\n\ndef add_to_specs(collection_name: str, df: pd.DataFrame):\n    zarr_specs.loc[collection_name, 'mean median response time'] = np.mean(df['Median Response Time'])\n    zarr_specs.loc[collection_name, 'median median response time'] = np.median(df['Median Response Time'])"
+  },
+  {
+    "objectID": "approaches/tiling/tile-server-e2e-benchmarks.html#parse-collection-results-into-a-data-frame",
+    "href": "approaches/tiling/tile-server-e2e-benchmarks.html#parse-collection-results-into-a-data-frame",
+    "title": "Tile Server End to End Benchmakrs",
+    "section": "Parse collection results into a data frame",
+    "text": "Parse collection results into a data frame\nBenchmarks are reported alongside specifications of the dataset, such as chunk shape and size.\n\nzarr_specs = pd.read_csv(f\"{git_url_path}/zarr_info.csv\")\nzarr_specs.index = zarr_specs['collection_name']\n\nfor collection_name in zarr_specs.index:\n    filename = f'results/{collection_name}_urls_stats.csv'\n    results_df = pd.read_csv(git_url(filename))\n    add_to_specs(collection_name, results_df)"
+  },
+  {
     "objectID": "approaches/tiling/future-areas.html",
     "href": "approaches/tiling/future-areas.html",
     "title": "Future Areas",
@@ -175,16 +203,30 @@
     "text": "Future Areas\nCOMING SOON."
   },
   {
-    "objectID": "approaches/tiling/cmip6-cog-tile-server-benchmarks.html",
-    "href": "approaches/tiling/cmip6-cog-tile-server-benchmarks.html",
-    "title": "CMIP6 COG Tile Server Benchmarks",
+    "objectID": "approaches/dynamic-client/prototype-deployment.html",
+    "href": "approaches/dynamic-client/prototype-deployment.html",
+    "title": "Prototype deployment",
     "section": "",
-    "text": "As noted in Benchmarking Methodolgy, the time to tile includes the time to query a pgSTAC database and then use the query ID returned to read and create image tiles from COGs on S3. The libraries used were pgSTAC for reading STAC metadata and rasterio (via rio_tiler) for reading COGs on S3.\nIn this notebook we load results from https://github.com/developmentseed/tile-benchmarking/blob/main/profiling/profile.ipynb to demonstrate:\n\nThe importance of GDAL variables in performance.\nVariation across tiles is not significant.\nTiling with pgSTAC + COGs is fast when compared with the rio_tiler.XarrayReader method.\n\n\nimport pandas as pd\nimport hvplot\npd.options.plotting.backend = 'holoviews'\n\ngit_url_path = \"https://raw.githubusercontent.com/developmentseed/tile-benchmarking/feat/fake-data/profiling/results\"\npd.read_csv(f\"{git_url_path}/pgstac_cog_gdal_results.csv\")\n\n\n\n\n\n\n\n\ngdal_vars_set?\ntile times\nmean total time\n\n\n\n\n0\nwith_gdal_vars\n[63.41, 54.53, 54.46]\n57.466667\n\n\n1\nwithout_gdal_vars\n[14687.78, 30817.34, 17722.72]\n21075.946667\n\n\n\n\n\n\n\nWe don’t need many iterations since the variation is so great. You can see that setting GDAL environment variables makes things at least 100x faster.\nThese GDAL variables are documented here https://developmentseed.org/titiler/advanced/performance_tuning/, but that advice is copied into comments below for ease of reference.\nBy setting the GDAL environment variables we limit the number of total requests to S3.\nSpecifically, these environment variables ensure that:\n\nAll of the metadata may be read in 1 request. This is not necessarily true, but more likely since we increase the initial number of GDAL ingested bytes.\nThere are no extra LIST requests which GDAL uses to discover sidecar files. COGs don’t have sidecar files.\nConsecutive range requests are merged into 1 request.\nMultiple range requests use the same TCP connection.\n\n\nTime to create different tiles\nNote the speed of tiling is always around 50ms and the difference across tiles is small.\n\ndf = pd.read_csv(f\"{git_url_path}/pgstac_cog_tile_results.csv\")\ndf.plot.scatter(x='xyz tile', y='mean total time', label = 'Mean Time to Tile (ms) by Zoom Level')"
+    "text": "We started the prototype-maps project to support visualizing Zarr data using multiple approaches in a consolidated application. The project is currently deployed at https://prototype-maps.vercel.app/. Only the dynamic client approach is currently live, although the tiling approach will be added shortly. The current version of the dynamic client page includes the option to select from several different datasets. Datasets are available in either Zarr V2 or Zarr V3 format, with different projections (equirectangular or mercator), chunking schemes (~1MB/chunk, ~5MB/chunk, ~10MB/chunk, or ~25MB/chunk), and sharding schemes (none, ~50MB/shard, ~100MB/shard). The time slider allows scrolling through the two years of daily data included in this demonstration."
   },
   {
-    "objectID": "approaches/dynamic-client/future-areas.html",
-    "href": "approaches/dynamic-client/future-areas.html",
-    "title": "Future Areas",
+    "objectID": "approaches/dynamic-client/prototype-deployment.html#prototype-maps",
+    "href": "approaches/dynamic-client/prototype-deployment.html#prototype-maps",
+    "title": "Prototype deployment",
+    "section": "",
+    "text": "We started the prototype-maps project to support visualizing Zarr data using multiple approaches in a consolidated application. The project is currently deployed at https://prototype-maps.vercel.app/. Only the dynamic client approach is currently live, although the tiling approach will be added shortly. The current version of the dynamic client page includes the option to select from several different datasets. Datasets are available in either Zarr V2 or Zarr V3 format, with different projections (equirectangular or mercator), chunking schemes (~1MB/chunk, ~5MB/chunk, ~10MB/chunk, or ~25MB/chunk), and sharding schemes (none, ~50MB/shard, ~100MB/shard). The time slider allows scrolling through the two years of daily data included in this demonstration."
+  },
+  {
+    "objectID": "approaches/dynamic-client/prototype-deployment.html#prototype-maps-technology-stack",
+    "href": "approaches/dynamic-client/prototype-deployment.html#prototype-maps-technology-stack",
+    "title": "Prototype deployment",
+    "section": "prototype-maps: Technology stack",
+    "text": "prototype-maps: Technology stack\nThe prototype deployment was built using @carbonplan/maps with different configurations of projection and Zarr version, for which support was added in 3.1.0. Upstream, the @carbonplan/maps library depends on zarr-js@3.3.0, for support reading Zarr in v3 and sharded formats as well as mapbox-gl@1.13.1 for the mapping context in which the Zarr data are rendered."
+  },
+  {
+    "objectID": "approaches/dynamic-client/recommendations.html",
+    "href": "approaches/dynamic-client/recommendations.html",
+    "title": "Recommendations",
     "section": "",
     "text": "COMING SOON."
   },
@@ -208,33 +250,5 @@
     "title": "End-to-End Benchmarking",
     "section": "Visualize results",
     "text": "Visualize results\n\nsummary[['approach','zarr_version','chunk_size','zoom','duration','fps','filtered_requests','request_duration','request_percent']]\n\n\n\n\n\n\n\n\napproach\nzarr_version\nchunk_size\nzoom\nduration\nfps\nfiltered_requests\nrequest_duration\nrequest_percent\n\n\n\n\n0\ndirect-client\nv2\n1\n0.0\n1044.629\n54.564826\n3\n891.465\n85.337953\n\n\n0\ndirect-client\nv2\n1\n0.0\n965.975\n38.303269\n3\n825.523\n85.460079\n\n\n0\ndirect-client\nv2\n1\n0.0\n892.225\n43.710947\n3\n761.602\n85.359859\n\n\n0\ndirect-client\nv2\n1\n0.0\n956.304\n36.599240\n3\n819.009\n85.643164\n\n\n0\ndirect-client\nv2\n1\n0.0\n876.892\n42.194478\n3\n756.874\n86.313252\n\n\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n\n\n0\ndirect-client\nv3\n25\n0.0\n2824.118\n27.265150\n13\n2559.694\n90.636935\n\n\n0\ndirect-client\nv3\n25\n0.0\n6430.100\n7.931447\n13\n6177.064\n96.064820\n\n\n0\ndirect-client\nv3\n25\n0.0\n2626.289\n20.180567\n13\n2367.954\n90.163497\n\n\n0\ndirect-client\nv3\n25\n0.0\n2610.521\n17.621004\n13\n2366.830\n90.665043\n\n\n0\ndirect-client\nv3\n25\n0.0\n2486.874\n17.692895\n13\n2219.068\n89.231220\n\n\n\n\n400 rows × 9 columns\n\n\n\n\ncmap=['#E1BE6A', '#40B0A6']\nplt_opts={'width': 600, 'height': 400}\n\n\nsummary.hvplot.box(\n    y=\"duration\",\n    by=[\"chunk_size\", 'zarr_version'],\n    c=\"zarr_version\",\n    cmap=cmap,\n    ylabel=\"Action duration (ms)\",\n    xlabel=\"Chunk size (MB)\",\n    legend=False\n).opts(**plt_opts)\n\n\n\n\n\n  \n\n\n\n\n\nsummary.hvplot.box(\n    y=\"request_duration\",\n    by=[\"chunk_size\", 'zarr_version'],\n    c=\"zarr_version\",\n    cmap=cmap,\n    ylabel=\"Time spent on requests (ms)\",\n    xlabel=\"Chunk size (MB)\",\n    legend=False\n).opts(**plt_opts)\n\n\n\n\n\n  \n\n\n\n\n\nsummary.hvplot.box(\n    y=\"filtered_requests\",\n    by=[\"chunk_size\", 'zarr_version'],\n    c=\"zarr_version\",\n    cmap=cmap,\n    ylabel=\"Number of dataset requests\",\n    xlabel=\"Chunk size (MB)\",\n    legend=False\n).opts(**plt_opts)\n\n\n\n\n\n  \n\n\n\n\n\nsummary.hvplot.box(\n    y=\"total_requests\",\n    by=[\"chunk_size\", 'zarr_version'],\n    c=\"zarr_version\",\n    cmap=cmap,\n    ylabel=\"Total number of requests\",\n    xlabel=\"Chunk size (MB)\",\n    legend=False\n).opts(**plt_opts)\n\n\n\n\n\n  \n\n\n\n\n\nsummary.hvplot.box(\n    y=\"non_request_duration\",\n    by=[\"chunk_size\", 'zarr_version'],\n    c=\"zarr_version\",\n    cmap=['#E1BE6A', '#40B0A6'],\n    ylabel=\"Time not spent on requests (ms)\",\n    xlabel=\"Chunk size (MB)\",\n    legend=False\n).opts(**plt_opts)\n\n\n\n\n\n  \n\n\n\n\n\nsummary.hvplot.box(\n    y=\"request_percent\",\n    by=[\"chunk_size\", 'zarr_version'],\n    c=\"zarr_version\",\n    cmap=['#E1BE6A', '#40B0A6'],\n    ylabel=\"Percent of time spend on requests\",\n    xlabel=\"Chunk size (MB)\",\n    legend=False\n).opts(**plt_opts)\n\n\n\n\n\n  \n\n\n\n\n\nsummary.hvplot.box(\n    y=\"fps\",by=[\"chunk_size\", 'zarr_version'], c=\"zarr_version\", cmap=cmap, ylabel=\"Frames per second (FPS)\", xlabel=\"Chunk size (MB)\", legend=False\n).opts(**plt_opts)"
-  },
-  {
-    "objectID": "approaches/dynamic-client.html",
-    "href": "approaches/dynamic-client.html",
-    "title": "Dynamic Client",
-    "section": "",
-    "text": "Traditional approaches to rendering raster datasets in the browser involve the creation of tiles in a pixelated image format like PNG or JPEG. These tiles can be pre-generated or created by a tiling server on demand, as described in the tiling approach chapter. While the image tiles are fast to load and easy to render, tiling offers limited flexibility for dynamically customizing visualizations based on user input. In contrast, dynamic client leverages Zarr to render the data directly using WebGL rather than through an intermediate layer. The Zarr format is ideal for direct rendering in the browser because the chunks of a Zarr dataset serve a similar purpose to the tiles of a web map. In addition, data can be chunked across non-spatial dimensions like time, which removes the requirement of generating individual tiles per time step. Lastly, Zarr is a cloud-optimized data format Zarr that allows for fast, parallel reading and writing from object storage.\nThe dynamic client approach leverages pyramids created with the ndpyramid package in order to performantly render data at multiple zoom levels. The approach loads Zarr data using the zarr-js JavaScript library and renders the fetched chunks via WebGL using the regl library. The open-source library called @carbonplan/maps provides a small set of React components for loading and rendering Zarr data using this approach and supports rendering traditional vector layers side-by-side using mapbox-gl-js.\nCarbonPlan has used this approach to quickly develop visualizations for climate science (some example visualizations).\n\n\nHistorically, building these visualizations has required creating a second, visualization-specific copy of the data. The primary factor being the gap between the low limit of request sizes that can be reasonably fetched by the browser (&lt;10 MB) and the conventional Zarr chunk sizes (~100 MB) used for analysis. With the introduction of the sharding extension to the Zarr V3 spec, both access patterns can now be accommodated by a single dataset.\n\n\n\nPyramids are used to improve rendering performance for most web mapping approaches. Pyramids contain successively lower resolution versions of the same dataset, which are commonly referred to as zoom levels or overviews. When viewing the entire dataset, the coarsest zoom level can be quickly fetched and rendered. Finer zoom levels are smoothly fetched and rendered as the user zooms in.\nThe dynamic client approach currently relies on pyramids in the Zarr stores, although we will explore relaxing this requirement in the future. ndpyramid is a small Python package providing utilities for generating N-dimensional Zarr pyramids using Xarray. Ndpyramid currently generates pyramids through either reprojection or coarsening. The prior requirement of web mercator pyramids has been removed from the dynamic client approach in the interest of directly visualizing analysis-ready datasets. The data can be reprojected in the client itself instead."
-  },
-  {
-    "objectID": "approaches/dynamic-client.html#background",
-    "href": "approaches/dynamic-client.html#background",
-    "title": "Dynamic Client",
-    "section": "",
-    "text": "Traditional approaches to rendering raster datasets in the browser involve the creation of tiles in a pixelated image format like PNG or JPEG. These tiles can be pre-generated or created by a tiling server on demand, as described in the tiling approach chapter. While the image tiles are fast to load and easy to render, tiling offers limited flexibility for dynamically customizing visualizations based on user input. In contrast, dynamic client leverages Zarr to render the data directly using WebGL rather than through an intermediate layer. The Zarr format is ideal for direct rendering in the browser because the chunks of a Zarr dataset serve a similar purpose to the tiles of a web map. In addition, data can be chunked across non-spatial dimensions like time, which removes the requirement of generating individual tiles per time step. Lastly, Zarr is a cloud-optimized data format Zarr that allows for fast, parallel reading and writing from object storage.\nThe dynamic client approach leverages pyramids created with the ndpyramid package in order to performantly render data at multiple zoom levels. The approach loads Zarr data using the zarr-js JavaScript library and renders the fetched chunks via WebGL using the regl library. The open-source library called @carbonplan/maps provides a small set of React components for loading and rendering Zarr data using this approach and supports rendering traditional vector layers side-by-side using mapbox-gl-js.\nCarbonPlan has used this approach to quickly develop visualizations for climate science (some example visualizations).\n\n\nHistorically, building these visualizations has required creating a second, visualization-specific copy of the data. The primary factor being the gap between the low limit of request sizes that can be reasonably fetched by the browser (&lt;10 MB) and the conventional Zarr chunk sizes (~100 MB) used for analysis. With the introduction of the sharding extension to the Zarr V3 spec, both access patterns can now be accommodated by a single dataset.\n\n\n\nPyramids are used to improve rendering performance for most web mapping approaches. Pyramids contain successively lower resolution versions of the same dataset, which are commonly referred to as zoom levels or overviews. When viewing the entire dataset, the coarsest zoom level can be quickly fetched and rendered. Finer zoom levels are smoothly fetched and rendered as the user zooms in.\nThe dynamic client approach currently relies on pyramids in the Zarr stores, although we will explore relaxing this requirement in the future. ndpyramid is a small Python package providing utilities for generating N-dimensional Zarr pyramids using Xarray. Ndpyramid currently generates pyramids through either reprojection or coarsening. The prior requirement of web mercator pyramids has been removed from the dynamic client approach in the interest of directly visualizing analysis-ready datasets. The data can be reprojected in the client itself instead."
-  },
-  {
-    "objectID": "approaches/dynamic-client.html#prototype-library",
-    "href": "approaches/dynamic-client.html#prototype-library",
-    "title": "Dynamic Client",
-    "section": "Prototype library",
-    "text": "Prototype library\nWe started the prototype-maps project to support visualizing Zarr data using multiple approaches in a consolidated application. The project is currently deployed at https://prototype-maps.vercel.app/. Only the dynamic client approach is currently live, although the tiling approach will be added shortly. The current version of the dynamic client page includes the option to select from several different datasets. Datasets are available for either Zarr V2 or Zarr V3 with chunking schemes of ~1MB/chunk, ~5MB/chunk, ~10MB/chunk, or ~25MB/chunk. The time slider allows scrolling through the two years of daily data included in this demonstration."
-  },
-  {
-    "objectID": "approaches/dynamic-client.html#references",
-    "href": "approaches/dynamic-client.html#references",
-    "title": "Dynamic Client",
-    "section": "References",
-    "text": "References\nFreeman, J., K. Martin, and J. Hamman, 2021: A new toolkit for data-driven maps, https://carbonplan.org/blog/maps-library-release"
   }
 ]
