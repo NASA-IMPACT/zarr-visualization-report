@@ -20,4 +20,4 @@ We started the [prototype-maps](https://github.com/carbonplan/prototype-maps) pr
 
 ## `prototype-maps`: Technology stack
 
-The prototype deployment was built using [@carbonplan/maps](https://github.com/carbonplan/maps) with different configurations of `projection` and Zarr `version`, for which support was added in `3.1.0`.
+The prototype deployment was built using [@carbonplan/maps](https://github.com/carbonplan/maps) with different configurations of `projection` and Zarr `version`, for which support was added in `3.1.0`. Upstream, the `@carbonplan/maps` library depends on `zarr-js@3.3.0`, for support reading Zarr in v3 and sharded formats as well as `mapbox-gl@1.13.1` for the mapping context in which the Zarr data are rendered.
