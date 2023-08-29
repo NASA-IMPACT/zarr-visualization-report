@@ -4,7 +4,7 @@ title: Prototype deployment
 
 ## `prototype-maps`
 
-We started the [prototype-maps](https://github.com/carbonplan/prototype-maps) project to support visualizing Zarr data using multiple approaches in a consolidated application. The project is currently deployed at [https://prototype-maps.vercel.app/](https://prototype-maps.vercel.app/). Only the dynamic client approach is currently live, although the tiling approach will be [added shortly](https://github.com/carbonplan/prototype-maps/pull/7). The current version of the dynamic client page includes the option to select from several different datasets. Datasets are available for either Zarr V2 or Zarr V3 with chunking schemes of  ~1MB/chunk, ~5MB/chunk, ~10MB/chunk, or ~25MB/chunk. The time slider allows scrolling through the two years of daily data included in this demonstration.
+We started the [prototype-maps](https://github.com/carbonplan/prototype-maps) project to support visualizing Zarr data using multiple approaches in a consolidated application. The project is currently deployed at [https://prototype-maps.vercel.app/](https://prototype-maps.vercel.app/). Only the dynamic client approach is currently live, although the tiling approach will be [added shortly](https://github.com/carbonplan/prototype-maps/pull/7). The current version of the dynamic client page includes the option to select from several different datasets. Datasets are available in either Zarr V2 or Zarr V3 format, with different projections (equirectangular or mercator), chunking schemes (~1MB/chunk, ~5MB/chunk, ~10MB/chunk, or ~25MB/chunk), and sharding schemes (none, ~50MB/shard, ~100MB/shard). The time slider allows scrolling through the two years of daily data included in this demonstration.
  
 ```{=html}
 <iframe
