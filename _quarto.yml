@@ -42,6 +42,7 @@ website:
             - approaches/tiling/future-areas.md
           - section: approaches/dynamic-client.qmd
             contents:
+            - approaches/dynamic-client/prototype-deployment.qmd
             - approaches/dynamic-client/benchmarking-methodology.qmd
             - approaches/dynamic-client/e2e-results.ipynb
             - approaches/dynamic-client/recommendations.qmd
