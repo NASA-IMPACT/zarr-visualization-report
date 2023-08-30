@@ -45,6 +45,7 @@ website:
             - approaches/dynamic-client/benchmarking-methodology.qmd
             - approaches/dynamic-client/e2e-results.ipynb
             - approaches/dynamic-client/e2e-results-zarr-version.ipynb
+            - approaches/dynamic-client/e2e-results-zarr-version-shards.ipynb
             - approaches/dynamic-client/e2e-results-projection.ipynb
             - approaches/dynamic-client/e2e-results-shard-size.ipynb
             - approaches/dynamic-client/e2e-results-pixels-per-tile.ipynb
