@@ -45,7 +45,14 @@ website:
             - approaches/dynamic-client/prototype-deployment.qmd
             - approaches/dynamic-client/benchmarking-methodology.qmd
             - approaches/dynamic-client/e2e-results.ipynb
+            - approaches/dynamic-client/e2e-results-zarr-version.ipynb
+            - approaches/dynamic-client/e2e-results-zarr-version-shards.ipynb
+            - approaches/dynamic-client/e2e-results-projection.ipynb
+            - approaches/dynamic-client/e2e-results-shard-size.ipynb
+            - approaches/dynamic-client/e2e-results-pixels-per-tile.ipynb
+            - approaches/dynamic-client/e2e-results-aws-region.ipynb
             - approaches/dynamic-client/recommendations.qmd
+            - approaches/dynamic-client/costs.qmd
             - approaches/dynamic-client/future-areas.qmd         
 
 
