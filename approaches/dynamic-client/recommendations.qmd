@@ -2,4 +2,22 @@
 title: Recommendations
 ---
 
-COMING SOON.
+Here we provide recommendations for producing pyramids for performant Zarr visualization on the web. These recommendations are based on the [end-to-end benchmarking results](e2e-results.ipynb) for the [dynamic client](../dynamic-client.qmd) approach. These benchmark consider the use-case of rendering data on a map. However, we also discuss how time series visualization could factor into these decisions. As we eventually aim to remove the pyramid requirement for the dynamic client approach, it is worth mentioning that many of these recommendations should still apply when rendering raw data on a web map. However, it would be much more important to also consider the performance implications for scientific computational workflows in that case.
+
+## Zarr Version
+
+The end-to-end benchmarking results showed that [V2 and V3 data are comparable in performance](e2e-results-zarr-version.ipynb). Therefore, we recommend adopting the Zarr V3 specification if your preferred Zarr implementation includes the approved version of the [Zarr V3 spec](https://zarr-specs.readthedocs.io/en/latest/v3/core/v3.0.html). At the time of writing, the [Zarrita Python library](https://github.com/scalableminds/zarrita) has implemented the approved Zarr V3 spec but is not recommended for production use. The [Zarr Python library](https://github.com/zarr-developers/zarr-python) is undergoing a [refactor](https://github.com/zarr-developers/zarr-python/discussions/1480) to bring the library up-to-date with the V3 spec.
+
+## Number of pixels per tile (spatial chunking)
+
+The number of pixels per tile (i.e., spatial chunking) must be a multiple of 16 and is generally 128, 256, or 512. The end-to-end benchmarks tested 128 and 256 pixels per tile and showed that the number of pixels per tile [does not impact rendering performance at a given chunk size](e2e-results-pixels-per-tile.ipynb). However, including more pixels per tile would reduce the proportion of other dimensions (e.g., time) that can be included in a chunk of a given size. Therefore, it would be worth considering fewer pixels per tile (e.g., 128) if visualizing time series is an important use case. By contrast, if only spatial rendering is important and more detail at coarser zoom levels is desired, you may consider increasing the number of pixels per tile to 256. If corresponding to "de facto" standards is particularly important, 256 is [commonly used](https://wiki.openstreetmap.org/wiki/Zoom_levels) as the spatial width for tiles. Increasing the number of pixels per tile should not increase total storage costs, as the number of zoom levels before reaching full resolution would be correspondingly smaller.
+
+## Chunk size (non-spatial chunking)
+
+The chunk size was the [strongest driver](e2e-results-zarr-version.ipynb) for the total time required to render datasets. For optimal rendering performance, we recommended targeting chunk sizes <1MB for the uncompressed data.
+
+## Zarr V3 sharding extension
+
+The end-to-end benchmarks showed that the time to render was [slower for sharded V3 datasets relative to V2 datasets](e2e-results-zarr-version-shards.ipynb) for zoom levels greater than 0. However, a primary benefit of the sharding extension is that it allows the same dataset to be accessed via large shards for analysis and smaller chunks for visualization. Further, a single file can store many chunks which benefits applications that rely on file-based operations. Given these benefits, we recommend leveraging the sharding specification after its [review and acceptance](https://github.com/zarr-developers/zarr-specs/issues/254) as a [Zarr Enhancement Proposal](https://zarr.dev/zeps/active/ZEP0000.html#how-does-a-zep-become-accepted) (ZEP) and your preferred Zarr implementation includes the approved sharding extension. The voting process for this ZEP expected to end on October 31, 2023. We found the the [shard size does not impact the time to render](e2e-results-shard-size.ipynb) and therefore recommend a follow-up study on optimal shard structures for computational workflows.
+
+We expect that the performance difference between sharded and non-sharded datasets could be minimized by future optimizations in the loading library, such as through the concatenation of range requests for adjacent chunks at higher zoom levels.
