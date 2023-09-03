@@ -255,7 +255,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../approaches/dynamic-client/costs.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Costs</span></a>
+ <span class="menu-text">Dynamic Client: Costs</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -296,7 +296,16 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>COMING SOON.</p>
+<p>The benchmarking results and recommendations detailed in this cookbook motivates several possible avenues of exploration:</p>
+<ol type="1">
+<li>Performance improvements for ndpyramid to reduce post-processing costs.</li>
+<li>Integration between ndpyramid and pangeo-forge-recipes to support generating pyramids during dataset creation.</li>
+<li>Extending the dynamic client approach to visualize datasets without pyramids.</li>
+<li>Formalizing the representation of pyramids and spatial overviews through a Zarr Enhancement Proposal (ZEP) on multiscales.</li>
+<li>Extending the dynamic client approach to visualize COGs using Kerchunk.</li>
+<li>Generalizing the dynamic client approach as a plug-in for general solutions like Mapbox or deck.gl.</li>
+<li>Supporting and benchmarking additional compression algorithms, data types, and bitrounding.</li>
+</ol>
 
 
 
@@ -652,7 +661,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../../approaches/dynamic-client/costs.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Costs</span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Dynamic Client: Costs</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

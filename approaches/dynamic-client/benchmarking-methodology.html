@@ -290,7 +290,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../approaches/dynamic-client/costs.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Costs</span></a>
+ <span class="menu-text">Dynamic Client: Costs</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -377,12 +377,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> activate benchmark-maps</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">playwright</span> install</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Once the environment is set up, you can run the benchmarks by running the following command:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> main.py <span class="at">--dataset</span> 1MB-chunks <span class="at">--zarr-version</span> v2 <span class="at">--action</span> zoom_in <span class="at">--zoom-level</span> 4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">carbonplan_benchmarks</span> <span class="at">--dataset</span> pyramids-v2-3857-True-128-1-0-0-f4-0-0-0-gzipL1-100 <span class="at">--action</span> zoom_in <span class="at">--zoom-level</span> 4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>In addition, <code>main.sh</code> in the <a href="https://github.com/carbonplan/benchmark-maps">benchmark-maps</a> repository is a script for running multiple iterations of the benchmarks on multiple datasets and Zarr versions.</p>
 </section>
 <section id="end-to-end-benchmarks-processing" class="level3">
 <h3 class="anchored" data-anchor-id="end-to-end-benchmarks-processing">End-to-End Benchmarks: Processing</h3>
-<p>Each benchmark yields a metadata file and trace record. The <code>carbonplan_benchmarks</code> Python package provides utilities for analyzing and visualizing these outputs.</p>
+<p>Each benchmark yields a metadata file and trace record. The <code>carbonplan_benchmarks</code> Python package provides utilities for analyzing and visualizing these outputs. For each interation (e.g., loading the page, zooming in), we extracted information about the requests (e.g., duration, URL, encoded data length), frames (e.g., duration, status), and calculated the amount of time before rendering was complete. Note that these metrics do not consider the fact that the time to render the first part of the data on the page strongly influences the user experience and would be much faster than the time to render the entire page.</p>
 
 
 </section>

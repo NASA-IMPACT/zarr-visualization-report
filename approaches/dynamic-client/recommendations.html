@@ -256,7 +256,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../approaches/dynamic-client/costs.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Costs</span></a>
+ <span class="menu-text">Dynamic Client: Costs</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -275,7 +275,16 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#zarr-version" id="toc-zarr-version" class="nav-link active" data-scroll-target="#zarr-version">Zarr Version</a></li>
+  <li><a href="#number-of-pixels-per-tile-spatial-chunking" id="toc-number-of-pixels-per-tile-spatial-chunking" class="nav-link" data-scroll-target="#number-of-pixels-per-tile-spatial-chunking">Number of pixels per tile (spatial chunking)</a></li>
+  <li><a href="#chunk-size-non-spatial-chunking" id="toc-chunk-size-non-spatial-chunking" class="nav-link" data-scroll-target="#chunk-size-non-spatial-chunking">Chunk size (non-spatial chunking)</a></li>
+  <li><a href="#zarr-v3-sharding-extension" id="toc-zarr-v3-sharding-extension" class="nav-link" data-scroll-target="#zarr-v3-sharding-extension">Zarr V3 sharding extension</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/nasa-impact/zarr-visualization-cookbook/edit/main/approaches/dynamic-client/recommendations.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/nasa-impact/zarr-visualization-cookbook/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -297,9 +306,26 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>COMING SOON.</p>
+<p>Here we provide recommendations for producing pyramids for performant Zarr visualization on the web. These recommendations are based on the <a href="../../approaches/dynamic-client/e2e-results.html">end-to-end benchmarking results</a> for the <a href="../../approaches/dynamic-client.html">dynamic client</a> approach. These benchmark consider the use-case of rendering data on a map. However, we also discuss how time series visualization could factor into these decisions. As we eventually aim to remove the pyramid requirement for the dynamic client approach, it is worth mentioning that many of these recommendations should still apply when rendering raw data on a web map. However, it would be much more important to also consider the performance implications for scientific computational workflows in that case.</p>
+<section id="zarr-version" class="level2">
+<h2 class="anchored" data-anchor-id="zarr-version">Zarr Version</h2>
+<p>The end-to-end benchmarking results showed that <a href="../../approaches/dynamic-client/e2e-results-zarr-version.html">V2 and V3 data are comparable in performance</a>. Therefore, we recommend adopting the Zarr V3 specification if your preferred Zarr implementation includes the approved version of the <a href="https://zarr-specs.readthedocs.io/en/latest/v3/core/v3.0.html">Zarr V3 spec</a>. At the time of writing, the <a href="https://github.com/scalableminds/zarrita">Zarrita Python library</a> has implemented the approved Zarr V3 spec but is not recommended for production use. The <a href="https://github.com/zarr-developers/zarr-python">Zarr Python library</a> is undergoing a <a href="https://github.com/zarr-developers/zarr-python/discussions/1480">refactor</a> to bring the library up-to-date with the V3 spec.</p>
+</section>
+<section id="number-of-pixels-per-tile-spatial-chunking" class="level2">
+<h2 class="anchored" data-anchor-id="number-of-pixels-per-tile-spatial-chunking">Number of pixels per tile (spatial chunking)</h2>
+<p>The number of pixels per tile (i.e., spatial chunking) must be a multiple of 16 and is generally 128, 256, or 512. The end-to-end benchmarks tested 128 and 256 pixels per tile and showed that the number of pixels per tile <a href="../../approaches/dynamic-client/e2e-results-pixels-per-tile.html">does not impact rendering performance at a given chunk size</a>. However, including more pixels per tile would reduce the proportion of other dimensions (e.g., time) that can be included in a chunk of a given size. Therefore, it would be worth considering fewer pixels per tile (e.g., 128) if visualizing time series is an important use case. By contrast, if only spatial rendering is important and more detail at coarser zoom levels is desired, you may consider increasing the number of pixels per tile to 256. If corresponding to “de facto” standards is particularly important, 256 is <a href="https://wiki.openstreetmap.org/wiki/Zoom_levels">commonly used</a> as the spatial width for tiles. Increasing the number of pixels per tile should not increase total storage costs, as the number of zoom levels before reaching full resolution would be correspondingly smaller.</p>
+</section>
+<section id="chunk-size-non-spatial-chunking" class="level2">
+<h2 class="anchored" data-anchor-id="chunk-size-non-spatial-chunking">Chunk size (non-spatial chunking)</h2>
+<p>The chunk size was the <a href="../../approaches/dynamic-client/e2e-results-zarr-version.html">strongest driver</a> for the total time required to render datasets. For optimal rendering performance, we recommended targeting chunk sizes &lt;1MB for the uncompressed data.</p>
+</section>
+<section id="zarr-v3-sharding-extension" class="level2">
+<h2 class="anchored" data-anchor-id="zarr-v3-sharding-extension">Zarr V3 sharding extension</h2>
+<p>The end-to-end benchmarks showed that the time to render was <a href="../../approaches/dynamic-client/e2e-results-zarr-version-shards.html">slower for sharded V3 datasets relative to V2 datasets</a> for zoom levels greater than 0. However, a primary benefit of the sharding extension is that it allows the same dataset to be accessed via large shards for analysis and smaller chunks for visualization. Further, a single file can store many chunks which benefits applications that rely on file-based operations. Given these benefits, we recommend leveraging the sharding specification after its <a href="https://github.com/zarr-developers/zarr-specs/issues/254">review and acceptance</a> as a <a href="https://zarr.dev/zeps/active/ZEP0000.html#how-does-a-zep-become-accepted">Zarr Enhancement Proposal</a> (ZEP) and your preferred Zarr implementation includes the approved sharding extension. The voting process for this ZEP expected to end on October 31, 2023. We found the the <a href="../../approaches/dynamic-client/e2e-results-shard-size.html">shard size does not impact the time to render</a> and therefore recommend a follow-up study on optimal shard structures for computational workflows.</p>
+<p>We expect that the performance difference between sharded and non-sharded datasets could be minimized by future optimizations in the loading library, such as through the concatenation of range requests for adjacent chunks at higher zoom levels.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -658,7 +684,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
   <div class="nav-page nav-page-next">
       <a href="../../approaches/dynamic-client/costs.html" class="pagination-link">
-        <span class="nav-page-text">Costs</span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text">Dynamic Client: Costs</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -668,7 +694,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     <div class="nav-footer-left">© CC-By NASA, 2023</div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/nasa-impact/zarr-visualization-cookbook/edit/main/approaches/dynamic-client/recommendations.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/nasa-impact/zarr-visualization-cookbook/issues/new" class="toc-action">Report an issue</a></p></div></div></div>
+    </div>
     <div class="nav-footer-right">This page is built with ❤️ and <a href="https://quarto.org/">Quarto</a>.</div>
   </div>
 </footer>
