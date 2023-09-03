@@ -52,7 +52,7 @@ website:
             - approaches/dynamic-client/e2e-results-pixels-per-tile.ipynb
             - approaches/dynamic-client/e2e-results-aws-region.ipynb
             - approaches/dynamic-client/recommendations.qmd
-            - approaches/dynamic-client/costs.qmd
+            - approaches/dynamic-client/costs.ipynb
             - approaches/dynamic-client/future-areas.qmd         
 
 
