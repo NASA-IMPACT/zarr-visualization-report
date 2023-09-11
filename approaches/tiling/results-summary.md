@@ -1,3 +1,0 @@
-# Results Summary
-
-COMING SOON.
