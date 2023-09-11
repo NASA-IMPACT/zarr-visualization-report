@@ -98,46 +98,81 @@
     "text": "Future Areas\nCOMING SOON."
   },
   {
-    "objectID": "approaches/tiling/tile-server-e2e-benchmarks.html",
-    "href": "approaches/tiling/tile-server-e2e-benchmarks.html",
-    "title": "Tile Server End to End Benchmakrs",
-    "section": "",
-    "text": "This notebook parses results from end-to-end testing as documented in tile-benchmarking/e2e/e2e.ipynb."
-  },
-  {
-    "objectID": "approaches/tiling/tile-server-e2e-benchmarks.html#setup",
-    "href": "approaches/tiling/tile-server-e2e-benchmarks.html#setup",
-    "title": "Tile Server End to End Benchmakrs",
-    "section": "Setup",
-    "text": "Setup\nImport libraries, define results location and define plotting functions.\n\nimport pandas as pd\nimport numpy as np\nimport matplotlib.pyplot as plt\n                        \ngit_url_path = \"https://raw.githubusercontent.com/developmentseed/tile-benchmarking/main/e2e\"\n\ndef generate_zooms_plot(df, dataset):\n    zooms = [int(path.split('/')[2]) for path in df['Name'][:-1]]\n    # Create a new figure\n    plt.figure()\n\n    # Create a scatter plot\n    plt.scatter(zooms, df['Median Response Time'][:-1])\n\n    # Add title and labels\n    plt.title(dataset)\n    plt.xlabel('Zoom')\n    plt.ylabel('Time (ms)')\n\n    # Display the plot\n    plt.show() \n    \ndef git_url(filename):\n    return f'{git_url_path}/{filename}'\n\ndef add_to_specs(collection_name: str, df: pd.DataFrame):\n    zarr_specs.loc[collection_name, 'mean median response time'] = np.mean(df['Median Response Time'])\n    zarr_specs.loc[collection_name, 'median median response time'] = np.median(df['Median Response Time'])"
-  },
-  {
-    "objectID": "approaches/tiling/tile-server-e2e-benchmarks.html#parse-collection-results-into-a-data-frame",
-    "href": "approaches/tiling/tile-server-e2e-benchmarks.html#parse-collection-results-into-a-data-frame",
-    "title": "Tile Server End to End Benchmakrs",
-    "section": "Parse collection results into a data frame",
-    "text": "Parse collection results into a data frame\nBenchmarks are reported alongside specifications of the dataset, such as chunk shape and size.\n\nzarr_specs = pd.read_csv(f\"{git_url_path}/zarr_info.csv\")\nzarr_specs.index = zarr_specs['collection_name']\n\nfor collection_name in zarr_specs.index:\n    filename = f'results/{collection_name}_urls_stats.csv'\n    results_df = pd.read_csv(git_url(filename))\n    add_to_specs(collection_name, results_df)"
-  },
-  {
     "objectID": "approaches/tiling/benchmarking-methodology.html",
     "href": "approaches/tiling/benchmarking-methodology.html",
     "title": "Benchmarking Methodology",
     "section": "",
-    "text": "Benchmarks are provided for a deployed API (end-to-end tests, described below) as well as for the underlying code."
+    "text": "Benchmarks are provided for a deployed API (end-to-end tests, described below) as well as for the underlying code.\nAll code for generating the data and running the benchmarks can be found in https://github.com/developmentseed/tile-benchmarking."
   },
   {
     "objectID": "approaches/tiling/benchmarking-methodology.html#code-benchmarks",
     "href": "approaches/tiling/benchmarking-methodology.html#code-benchmarks",
     "title": "Benchmarking Methodology",
     "section": "Code Benchmarks",
-    "text": "Code Benchmarks\nWhile end-to-end benchmarks establish tiling performance as experienced by an end user, the introduction of the network of the requesting client and responding server introduce variables which are difficult to control. The authors replicated and tested the tiling code to diagnose slowness due to data and code, without the introduction of a network.\n\nCode Benchmarks: Datasets\nReproducibility is important to the integrity of this project and its results. We used a publicly available dataset and attempt to make the steps as fully documented and reproducible as possible. For code profiling, we focused the NASA Earth Exchange Global Daily Downscaled Projections (NEX-GDDP-CMIP6) AWS public dataset for this project.\nThere are 2 datasets listed on AWS from this project. One (1) is an archive of NetCDF files from about 35 different climate models, each supplying historical and predicted values for up to 9 environment variables, daily, from 1950 to 2100. To minimize preprocessing, test datasets were generated for the first 2 years of historical data, for 1 model and for 1 variable. These variables or dataset could easily be modified or swapped, but we expect the relative performance using different datasets to be the same.\nIn addition to the NetCDF data, there is an archives of COGs generated from that NetCDF data to support visualization via dynamic tiling using COGs. COGs are only available for 2 models, so for intercomparison of the tiling approach between COGs and Zarr, one of those models (GISS-E2-1-G) is used to generate Zarr stores.\nTODO: At this time, a different model is used for the direct client benchmarks (ACCESS-CM2), but we plan to demonstrate how there is no meaningful difference in the performance of tiling across these models.\nCode profiling for the tiling approach were run on the VEDA JupyterHub. The VEDA documentation details how to request access: https://nasa-impact.github.io/veda-docs/services/jupyterhub.html. We chose not to make the database or S3 bucket nasa-eodc-data-store fully public, you must be logged into the VEDA JupyterHub to run those benchmarks or reproduce the test datasets, which should be possible via code in tile-benchmarking.\n\n\nCode Benchmarks: Approach\nWe include performance results of code for tiling both COGs and Zarr to help data providers decide which format better suits their overall needs. To make these results comparable, we assume the following process for creating image tiles:\n\nAssume you are starting with a known collection and query parameters\nRead metadata\n\nFor COGs, the query is registered with pgSTAC for the collection id and query parameters, such as variable and datetime.\nFor Zarr, the metadata is “lazily loaded” for the variable and temporal extent from the known collection store.\n\nGenerate tiles\n\nFor COGs, the mosaic ID returned from the registered query is used to read chunks from COGs on S3.\nFor Zarr, the metadata is used by xarray to read chunks from NetCDFs or Zarrs on S3 and the XarrayReader of rio_tiler is used to generate tiles.\n\n\nTo make as close to an “apples to apples” comparison as possible, we have stored COG metadata using pgSTAC for data in the nex-gddp-cmip6-cog bucket in AWS Relational Database Service (RDS) and Zarr metadata and data files in S3.\nTo profile the code for rendering tiles with both XarrayReader and titiler-pgstac, code was copied from those projects as needed to inject timers, print logs from the s3fs library and used the cprofile library.\n\n\nReview Results\n\nCOG Tile Server Benchmarks\nZarr Tile Server Benchmarks"
+    "text": "Code Benchmarks\nWhile the end-to-end benchmarks described below establish tiling performance as experienced by an end user, the introduction of the network introduce variables which are difficult to control, specifically the many varieties and locations of a client and server.\nThe focus of the code benchmarks is to understand how to optimize data and code for the best tiling performance. The authors replicated the tiling code to diagnose slowness due to data storage formatting and code libraries, without the introduction of a network.\n\nCode Benchmarks: Datasets\nReproducibility is important to the integrity of this project and its results. We used a publicly available dataset and attempt to make the steps as fully documented and reproducible as possible. For code profiling, we focused the NASA Earth Exchange Global Daily Downscaled Projections (NEX-GDDP-CMIP6) AWS public dataset for this project.\nThere are 2 datasets listed on AWS from this project. One (1) is an archive of NetCDF files from about 35 different climate models, each supplying historical and predicted values for up to 9 environment variables, daily, from 1950 to 2100. To minimize preprocessing, test datasets were generated for the first 2 years of historical data, for 1 model and for 1 variable. These variables or dataset could easily be modified or swapped, but we expect the relative performance using different datasets to be the same.\nIn addition to the NetCDF data, there is an archive of COGs generated from the corresponding NetCDFs to support visualization via dynamic tiling using COGs. COGs are only available for 2 models, so for intercomparison of the tiling approach between COGs and Zarr, one of those models (GISS-E2-1-G) is used to generate Zarr stores.\nBenchmarks were generated for multiple copies of the CMIP6 daily data and some synthetic data to understand the performance for different data pre-processing options. These copies were differentiated by:\n\ndata file format (COG, NetCDF and Zarr)\ndifferent chunking configurations\npyramids\n\nNote: At this time, a different model is used for the dynamic client benchmarks (ACCESS-CM2), but we believe the test results and corresponding recommendations would not change for different CMIP6 models.\nBenchmarks were run on the VEDA JupyterHub. The VEDA documentation details how to request access: https://nasa-impact.github.io/veda-docs/services/jupyterhub.html. We chose not to make the database or S3 bucket nasa-eodc-data-store fully public. You must be logged into the VEDA JupyterHub to run those benchmarks or reproduce the test datasets.\n\n\nCode Benchmarks: Approach\nWe include performance results of code for tiling both COGs and Zarr to help data providers decide which format better suits their overall needs. To make these results comparable, we assume the following process for creating image tiles:\n\nAssume you are starting with a known collection and query parameters\nRead metadata\n\nFor COGs, the query is registered with the pgSTAC database for the collection id and query parameters, such as variable and datetime.\nFor Zarr, the metadata is “lazily loaded” for the variable and temporal extent from the known collection store.\n\nGenerate tiles\n\nFor COGs, the mosaic ID returned from the registered query is used to read chunks from COGs on S3.\nFor Zarr, the metadata is used by xarray to read chunks from NetCDFs or Zarrs on S3 and the XarrayReader of rio_tiler is used to generate tiles.\n\n\nTo make as close to an “apples to apples” comparison as possible, we have stored COG metadata using pgSTAC for data in the nex-gddp-cmip6-cog bucket in AWS Relational Database Service (RDS) and Zarr metadata and data files in S3.\nTo profile the code for rendering tiles with both XarrayReader and titiler-pgstac, code was copied from those projects as needed to inject timers.\nThe time to generate a tile at various zoom levels was tested for each data store multiple times and box plots are used to report results for consistency with the dynamic client reporting."
   },
   {
     "objectID": "approaches/tiling/benchmarking-methodology.html#end-to-end-benchmarks",
     "href": "approaches/tiling/benchmarking-methodology.html#end-to-end-benchmarks",
     "title": "Benchmarking Methodology",
     "section": "End-to-End Benchmarks",
-    "text": "End-to-End Benchmarks\nEnd-to-end tests provide benchmarks of response times for various tiles and datasets to titiler-xarray.\nDetails and code to generate the benchmarks and store the results on S3 is documented in tile-benchmarking/e2e/e2e.ipynb.\n\nEnd-to-End Benchmarks: Datasets\nA variety of datasets was selected for end-to-end testing and hopefully the framework makes it easy to modify and test new datasets and use cases come up. See the e2e-results.ipynb for specific datasets.\n\n\nEnd-to-End Benchmarks: Approach\nCode from https://github.com/bdon/TileSiege was used to generate a set of tile URLs for the selected test datasets. The testing tool https://locust.io/ was used to run tests. Results are stored uploated as CSV files in S3. These results are read and plotted in e2e-results.ipynb."
+    "text": "End-to-End Benchmarks\nEnd-to-end tests provide benchmarks of response times for various tiles and datasets to titiler-xarray.\nDetails and code to generate the benchmarks and store the results on S3 is documented in tile-server-e2e-benchmarks.ipynb.\n\nEnd-to-End Benchmarks: Datasets\nA variety of datasets was selected for end-to-end testing and hopefully the framework makes it easy to modify and test new datasets and use cases come up. See the tile-server-e2e-benchmarks.ipynb for specific datasets.\n\n\nEnd-to-End Benchmarks: Approach\nCode from https://github.com/bdon/TileSiege was used to generate a set of tile URLs for the selected test datasets. The testing tool https://locust.io/ was used to run tests. Results are stored uploated as CSV files in S3. These results are read and plotted in tile-server-e2e-benchmarks.ipynb."
+  },
+  {
+    "objectID": "approaches/tiling/01-cmip6-cog-tile-server-benchmarks.html",
+    "href": "approaches/tiling/01-cmip6-cog-tile-server-benchmarks.html",
+    "title": "Benchmarks 1: Tiling COGs with and without GDAL Environment Variables",
+    "section": "",
+    "text": "titiler-pgstac creates image tiles using rio-tiler which uses rasterio. Rasterio uses GDAL “under the hood”. Certain GDAL environment variables impact tiling performance when working with rasterio to read data from Cloud-Optimized GeoTIFFs\nAs noted in Benchmarking Methodolgy, the time to tile includes the time to query a pgSTAC database and then use the query ID returned to read and create image tiles from COGs on S3. The libraries used were pgSTAC for reading STAC metadata and rasterio (via rio_tiler) for reading COGs on S3."
+  },
+  {
+    "objectID": "approaches/tiling/01-cmip6-cog-tile-server-benchmarks.html#explanation",
+    "href": "approaches/tiling/01-cmip6-cog-tile-server-benchmarks.html#explanation",
+    "title": "Benchmarks 1: Tiling COGs with and without GDAL Environment Variables",
+    "section": "",
+    "text": "titiler-pgstac creates image tiles using rio-tiler which uses rasterio. Rasterio uses GDAL “under the hood”. Certain GDAL environment variables impact tiling performance when working with rasterio to read data from Cloud-Optimized GeoTIFFs\nAs noted in Benchmarking Methodolgy, the time to tile includes the time to query a pgSTAC database and then use the query ID returned to read and create image tiles from COGs on S3. The libraries used were pgSTAC for reading STAC metadata and rasterio (via rio_tiler) for reading COGs on S3."
+  },
+  {
+    "objectID": "approaches/tiling/01-cmip6-cog-tile-server-benchmarks.html#dataset-generation",
+    "href": "approaches/tiling/01-cmip6-cog-tile-server-benchmarks.html#dataset-generation",
+    "title": "Benchmarks 1: Tiling COGs with and without GDAL Environment Variables",
+    "section": "Dataset Generation",
+    "text": "Dataset Generation\nAll dataset generation code is in the tiling-benchmark repo’s cmip6-pgstac directory. The STAC collection is defined in CMIP6_daily_GISS-E2-1-G_tas_collection.json. The STAC item records for the CMIP6 COGs are generated in the 01-generate-datasets/cmip6-pgstac/generate_cmip6_items.ipynb notebook. They are seeded via seed-db.sh."
+  },
+  {
+    "objectID": "approaches/tiling/01-cmip6-cog-tile-server-benchmarks.html#tests",
+    "href": "approaches/tiling/01-cmip6-cog-tile-server-benchmarks.html#tests",
+    "title": "Benchmarks 1: Tiling COGs with and without GDAL Environment Variables",
+    "section": "Tests",
+    "text": "Tests\nTests were run via the tile-benchmarking/02-run-tests/01-cog-gdal-tests.ipynb notebook.\n\nimport pandas as pd\nimport hvplot.pandas\nimport holoviews as hv\npd.options.plotting.backend = 'holoviews'\nimport warnings\nwarnings.filterwarnings('ignore')\n\n\n\n\n\n\n\n\n\n\n\n\ngit_url_path = \"https://raw.githubusercontent.com/developmentseed/tile-benchmarking/main/02-run-tests/results-csvs/\"\ndf = pd.read_csv(f\"{git_url_path}/01-cog-gdal-results.csv\")\ndf['set_gdal_vars'] = df['set_gdal_vars'].astype(str)\n\n\nzooms = range(6)\ncmap = [\"#E1BE6A\", \"#40B0A6\"]\nplt_opts = {\"width\": 300, \"height\": 250}\n\nplts = []\n\nfor zoom_level in zooms:\n    df_level = df[df[\"zoom\"] == zoom_level]\n    plts.append(\n        df.hvplot.box(\n            y=\"time\",\n            by=[\"set_gdal_vars\"],\n            c=\"set_gdal_vars\",\n            cmap=cmap,\n            ylabel=\"Time to render (ms)\",\n            xlabel=\"GDAL Environment Variables Set/Unset\",\n            legend=False,\n            title=f\"Zoom level {zoom_level}\",\n        ).opts(**plt_opts)\n    )\nhv.Layout(plts).cols(2)"
+  },
+  {
+    "objectID": "approaches/tiling/01-cmip6-cog-tile-server-benchmarks.html#interpretation-of-the-results",
+    "href": "approaches/tiling/01-cmip6-cog-tile-server-benchmarks.html#interpretation-of-the-results",
+    "title": "Benchmarks 1: Tiling COGs with and without GDAL Environment Variables",
+    "section": "Interpretation of the Results",
+    "text": "Interpretation of the Results\n\nSetting these GDAL environment variables significantly impacts performance, with 100x speed up in performance.\nNot shown above, but variation across tiles is not significant.\nVariation across zoom levels is not significant.\n\nThese GDAL variables are documented here: https://developmentseed.org/titiler/advanced/performance_tuning/.\nBy setting the GDAL environment variables we limit the number of total requests to S3. Specifically, these environment variables ensure that:\n\nAll of the metadata may be read in 1 request. This is not necessarily true, but more likely since we increase the initial number of GDAL ingested bytes.\nThere are no extra LIST requests which GDAL uses to discover sidecar files. COGs don’t have sidecar files.\nConsecutive range requests are merged into 1 request.\nMultiple range requests use the same TCP connection."
+  },
+  {
+    "objectID": "approaches/tiling/results-and-recommendations.html",
+    "href": "approaches/tiling/results-and-recommendations.html",
+    "title": "Results + Recommendations",
+    "section": "",
+    "text": "Data Format: At this time, COG + pgSTAC tiling performs better than tiling Zarr or kerchunk references, at all zoom levels.\nKerchunk Reference Files: The performance of tiling using a kerchunk reference can be as good or better than a zarr store. It is important to consider this is when the NetCDF files’ chunks are the same as the zarr store version.\n\n\n\n\n\nEnsure no zarr coordinate chunking: Ensure coordinate data is not being chunked. If coordinates are being chunked, it will result in more files being opened during xarray.open_dataset and cause significant performance degradation.\nSmaller chunk sizes perform better: Chunk size significantly impacts performance.\nFewer spatial chunks perform better: A greater number of chunks, spatially, will impact performance especially at low zoom levels as more chunks are loaded for greater spatial coverage.\nPyramids improve performance for high resolution datasets: High resolution datasets will suffer having either large chunks or many chunks, or both. To provide a good experience, zarr data can be aggregated into multiscale datasets, otherwise known as pyramids."
+  },
+  {
+    "objectID": "approaches/tiling/results-and-recommendations.html#data-format",
+    "href": "approaches/tiling/results-and-recommendations.html#data-format",
+    "title": "Results + Recommendations",
+    "section": "",
+    "text": "Data Format: At this time, COG + pgSTAC tiling performs better than tiling Zarr or kerchunk references, at all zoom levels.\nKerchunk Reference Files: The performance of tiling using a kerchunk reference can be as good or better than a zarr store. It is important to consider this is when the NetCDF files’ chunks are the same as the zarr store version."
+  },
+  {
+    "objectID": "approaches/tiling/results-and-recommendations.html#zarr-specific-recommendations",
+    "href": "approaches/tiling/results-and-recommendations.html#zarr-specific-recommendations",
+    "title": "Results + Recommendations",
+    "section": "",
+    "text": "Ensure no zarr coordinate chunking: Ensure coordinate data is not being chunked. If coordinates are being chunked, it will result in more files being opened during xarray.open_dataset and cause significant performance degradation.\nSmaller chunk sizes perform better: Chunk size significantly impacts performance.\nFewer spatial chunks perform better: A greater number of chunks, spatially, will impact performance especially at low zoom levels as more chunks are loaded for greater spatial coverage.\nPyramids improve performance for high resolution datasets: High resolution datasets will suffer having either large chunks or many chunks, or both. To provide a good experience, zarr data can be aggregated into multiscale datasets, otherwise known as pyramids."
   },
   {
     "objectID": "approaches/index.html",
@@ -203,46 +238,165 @@
     "text": "An xarray tile server provides image tiles via the XYZ Protocol and OGC Tiles API specifications.\nThe tile server approach relies on the rio_tiler.XarrayReader library which includes the tile function. This module supports tiling of anything that is xarray-readable, so a tile server using this library can render tiles from Zarr stores as well as netCDF4/HDF5 and other formats. An example API infrastructure can be found in titiler-xarray. Please note this library is still in development and is not intended for production use at this time."
   },
   {
-    "objectID": "approaches/tiling/cmip6-cog-tile-server-benchmarks.html",
-    "href": "approaches/tiling/cmip6-cog-tile-server-benchmarks.html",
-    "title": "CMIP6 COG Tile Server Benchmarks",
+    "objectID": "approaches/tiling/05-cmip6-pyramids.html",
+    "href": "approaches/tiling/05-cmip6-pyramids.html",
+    "title": "Benchmarks 5: Zarr Pyramids",
     "section": "",
-    "text": "As noted in Benchmarking Methodolgy, the time to tile includes the time to query a pgSTAC database and then use the query ID returned to read and create image tiles from COGs on S3. The libraries used were pgSTAC for reading STAC metadata and rasterio (via rio_tiler) for reading COGs on S3.\nIn this notebook we load results from https://github.com/developmentseed/tile-benchmarking/blob/main/profiling/profile.ipynb to demonstrate:\n\nThe importance of GDAL variables in performance.\nVariation across tiles is not significant.\nTiling with pgSTAC + COGs is fast when compared with the rio_tiler.XarrayReader method.\n\n\nimport pandas as pd\nimport hvplot\npd.options.plotting.backend = 'holoviews'\n\ngit_url_path = \"https://raw.githubusercontent.com/developmentseed/tile-benchmarking/feat/fake-data/profiling/results\"\npd.read_csv(f\"{git_url_path}/pgstac_cog_gdal_results.csv\")\n\n\n\n\n\n\n\n\ngdal_vars_set?\ntile times\nmean total time\n\n\n\n\n0\nwith_gdal_vars\n[63.41, 54.53, 54.46]\n57.466667\n\n\n1\nwithout_gdal_vars\n[14687.78, 30817.34, 17722.72]\n21075.946667\n\n\n\n\n\n\n\nWe don’t need many iterations since the variation is so great. You can see that setting GDAL environment variables makes things at least 100x faster.\nThese GDAL variables are documented here https://developmentseed.org/titiler/advanced/performance_tuning/, but that advice is copied into comments below for ease of reference.\nBy setting the GDAL environment variables we limit the number of total requests to S3.\nSpecifically, these environment variables ensure that:\n\nAll of the metadata may be read in 1 request. This is not necessarily true, but more likely since we increase the initial number of GDAL ingested bytes.\nThere are no extra LIST requests which GDAL uses to discover sidecar files. COGs don’t have sidecar files.\nConsecutive range requests are merged into 1 request.\nMultiple range requests use the same TCP connection.\n\n\nTime to create different tiles\nNote the speed of tiling is always around 50ms and the difference across tiles is small.\n\ndf = pd.read_csv(f\"{git_url_path}/pgstac_cog_tile_results.csv\")\ndf.plot.scatter(x='xyz tile', y='mean total time', label = 'Mean Time to Tile (ms) by Zoom Level')"
+    "text": "In the previous notebooks, we saw how chunk size and number can impact performance. Pyramids, or multiscale datasets, aggregate data at various levels to create reduced resolution datasets which perform better at low zoom levels. These datasets are not representing the “raw data” but it is assumed these aggregated datasets are intended for visual representation of the data and not numerical analysis."
   },
   {
-    "objectID": "approaches/tiling/recommendations.html",
-    "href": "approaches/tiling/recommendations.html",
-    "title": "Recommendations",
+    "objectID": "approaches/tiling/05-cmip6-pyramids.html#explanation",
+    "href": "approaches/tiling/05-cmip6-pyramids.html#explanation",
+    "title": "Benchmarks 5: Zarr Pyramids",
     "section": "",
-    "text": "Recommendations\nCOMING SOON."
+    "text": "In the previous notebooks, we saw how chunk size and number can impact performance. Pyramids, or multiscale datasets, aggregate data at various levels to create reduced resolution datasets which perform better at low zoom levels. These datasets are not representing the “raw data” but it is assumed these aggregated datasets are intended for visual representation of the data and not numerical analysis."
   },
   {
-    "objectID": "approaches/tiling/cmip6-zarr-tile-server-benchmarks.html",
-    "href": "approaches/tiling/cmip6-zarr-tile-server-benchmarks.html",
-    "title": "CMIP6 Zarr Tile Server Benchmarks",
-    "section": "",
-    "text": "Benchmarks were generated for multiple copies of the CMIP6 daily data to understand the performance for different data pre-processing options. These copies were differentiated by:\n\ndata file format (netCDF or Zarr), and,\ndifferent chunking configurations.\n\nThe test datasets produced and benchmarked are:\n\nkerchunk + netCDF: A kerchunk reference file for NetCDF files stored on S3.\n3 Zarr stores with different chunking configurations and pyramids.\n\nChunked to optimize for time series analysis:\n\nlatitude: 252, longitude: 252, time: 365.\nThis dataset has larger chunks, but more timesteps are loaded into each chunk.\n\nChunked to optimize for visualization at a single time step.\n\nlatitude: 600, longitude: 1440, time: 1.\nThis dataset has small chunks, but will likely not work well for time series generation.\n\nChunked to optimize for both time series and visualization:\n\nlatitude: 600, longitude: 1440, time: 29.\nThis dataset has larger chunks, but more timesteps are loaded into each chunk.\n\n\nZarr store with no coordinate chunking. At this time there is a known issue with pangeo-forge data generation where coordinates are chunked. This makes a significant impact on performance."
+    "objectID": "approaches/tiling/05-cmip6-pyramids.html#dataset-generation",
+    "href": "approaches/tiling/05-cmip6-pyramids.html#dataset-generation",
+    "title": "Benchmarks 5: Zarr Pyramids",
+    "section": "Dataset Generation",
+    "text": "Dataset Generation\nThe code to produce the zarr pyramids is in the tile-benchmarking repo: 02-run-tests/05-cmip6-pyramid.ipynb."
   },
   {
-    "objectID": "approaches/tiling/cmip6-zarr-tile-server-benchmarks.html#dataset-preprocessing",
-    "href": "approaches/tiling/cmip6-zarr-tile-server-benchmarks.html#dataset-preprocessing",
-    "title": "CMIP6 Zarr Tile Server Benchmarks",
-    "section": "",
-    "text": "Benchmarks were generated for multiple copies of the CMIP6 daily data to understand the performance for different data pre-processing options. These copies were differentiated by:\n\ndata file format (netCDF or Zarr), and,\ndifferent chunking configurations.\n\nThe test datasets produced and benchmarked are:\n\nkerchunk + netCDF: A kerchunk reference file for NetCDF files stored on S3.\n3 Zarr stores with different chunking configurations and pyramids.\n\nChunked to optimize for time series analysis:\n\nlatitude: 252, longitude: 252, time: 365.\nThis dataset has larger chunks, but more timesteps are loaded into each chunk.\n\nChunked to optimize for visualization at a single time step.\n\nlatitude: 600, longitude: 1440, time: 1.\nThis dataset has small chunks, but will likely not work well for time series generation.\n\nChunked to optimize for both time series and visualization:\n\nlatitude: 600, longitude: 1440, time: 29.\nThis dataset has larger chunks, but more timesteps are loaded into each chunk.\n\n\nZarr store with no coordinate chunking. At this time there is a known issue with pangeo-forge data generation where coordinates are chunked. This makes a significant impact on performance."
+    "objectID": "approaches/tiling/05-cmip6-pyramids.html#tests",
+    "href": "approaches/tiling/05-cmip6-pyramids.html#tests",
+    "title": "Benchmarks 5: Zarr Pyramids",
+    "section": "Tests",
+    "text": "Tests\nTests were run via the tile-benchmarking/02-run-tests/04-number-of-spatial-chunks.ipynb notebook.\n\nimport pandas as pd\nimport hvplot.pandas\nimport holoviews as hv\npd.options.plotting.backend = 'holoviews'\nimport warnings\nwarnings.filterwarnings('ignore')\n\n\n\n\n\n\n\n\n\n\n\n\ngit_url_path = \"https://raw.githubusercontent.com/developmentseed/tile-benchmarking/main/02-run-tests/results-csvs/\"\ndf = pd.read_csv(f\"{git_url_path}/05-cmip6-pyramid-results.csv\")\n\n\nzooms = range(4)\n\nplt_opts = {\"width\": 400, \"height\": 300}\n\nplts = []\n\nfor zoom_level in zooms:\n    df_level = df[df[\"zoom\"] == zoom_level]\n    plts.append(\n        df_level.hvplot.box(\n            y=\"time\",\n            by=[\"data_format\"],\n            c=\"data_format\",\n            cmap='Plasma_r',\n            ylabel=\"Time to render (ms)\",\n            xlabel=\"Data Format\",\n            legend=False,\n            title=f\"Zoom level {zoom_level}\",\n        ).opts(**plt_opts)\n    )\nhv.Layout(plts).cols(2)"
   },
   {
-    "objectID": "approaches/tiling/cmip6-zarr-tile-server-benchmarks.html#code-profiling-methodology",
-    "href": "approaches/tiling/cmip6-zarr-tile-server-benchmarks.html#code-profiling-methodology",
-    "title": "CMIP6 Zarr Tile Server Benchmarks",
-    "section": "Code Profiling Methodology",
-    "text": "Code Profiling Methodology\nThe time to generate a tile at zoom 0 to 11 was tested for each data store 10 times. The mean of these times is reported. Tests were run on the VEDA JupyterHub and the details can be reviewed in the profile.ipynb notebook of the tile-benchmarking repo.\nThe libraries used to generate image tiles are xarray for reading the Zarr metadata and rio_tiler’s XarrayReader for reading data from the NetCDFs or Zarr files on S3.\nrio_tiler.XarrayReader is used in titiler-xarray and replicated in the tile-benchmarking repo to generate tiles. Maintaining a copy enabled full control to add timers to blocks of code and logs to understand where time was being spent. Specifically:\n\nimport s3fs; s3fs.core.setup_logging(\"DEBUG\") was used to debug calls to S3. This was used to understand that the most time is spent opening the dataset, which was impacted by open all the coordinate chunks.\nTiming code blocks also demonstrated that the most time, other than opening the dataset, was spent in reprojecting the data. Time to reproject the data is positively correlated with the chunk size, since the minimum amount of data that can be read from S3 is the size of the data chunk.\ncprofile was also used, however the information it provided wasn’t useful to the current investigation."
+    "objectID": "approaches/tiling/05-cmip6-pyramids.html#interpretation-of-the-results",
+    "href": "approaches/tiling/05-cmip6-pyramids.html#interpretation-of-the-results",
+    "title": "Benchmarks 5: Zarr Pyramids",
+    "section": "Interpretation of the Results",
+    "text": "Interpretation of the Results\nAt low zoom levels, pyramids improved performance. It is notable that this dataset is not very high resolution and that a more significant performance improvement may be seen for pyramids for higher resolution datasets. For the CMIP6 dataset, it only makes sense to use a pyramid for zoom levels 0 and 1."
   },
   {
-    "objectID": "approaches/tiling/results-summary.html",
-    "href": "approaches/tiling/results-summary.html",
-    "title": "Results Summary",
+    "objectID": "approaches/tiling/04-number-of-spatial-chunks.html",
+    "href": "approaches/tiling/04-number-of-spatial-chunks.html",
+    "title": "Benchmarks 4: Spatial Chunk Variation",
     "section": "",
-    "text": "Results Summary\nCOMING SOON."
+    "text": "In the previous notebook, we saw how chunk size impacts performance. However, using a small chunk size will result in more chunks. In this notebook, we explore how the number of chunks spatially can impact performance, especially at low zoom levels."
+  },
+  {
+    "objectID": "approaches/tiling/04-number-of-spatial-chunks.html#explanation",
+    "href": "approaches/tiling/04-number-of-spatial-chunks.html#explanation",
+    "title": "Benchmarks 4: Spatial Chunk Variation",
+    "section": "",
+    "text": "In the previous notebook, we saw how chunk size impacts performance. However, using a small chunk size will result in more chunks. In this notebook, we explore how the number of chunks spatially can impact performance, especially at low zoom levels."
+  },
+  {
+    "objectID": "approaches/tiling/04-number-of-spatial-chunks.html#dataset-generation",
+    "href": "approaches/tiling/04-number-of-spatial-chunks.html#dataset-generation",
+    "title": "Benchmarks 4: Spatial Chunk Variation",
+    "section": "Dataset Generation",
+    "text": "Dataset Generation\nWe compared the performance of tiling artificially generated Zarr data with constant chunk size and increased the spatial resolution, so a varied number of chunks is required for spatial coverage.\nThe code to produce the zarr stores are in the tile-benchmarking repo: 01-generate-datasets/generate-fake-data-with-chunks.ipynb."
+  },
+  {
+    "objectID": "approaches/tiling/04-number-of-spatial-chunks.html#tests",
+    "href": "approaches/tiling/04-number-of-spatial-chunks.html#tests",
+    "title": "Benchmarks 4: Spatial Chunk Variation",
+    "section": "Tests",
+    "text": "Tests\nTests were run via the tile-benchmarking/02-run-tests/04-number-of-spatial-chunks.ipynb notebook.\n\nimport pandas as pd\nimport hvplot.pandas\nimport holoviews as hv\npd.options.plotting.backend = 'holoviews'\nimport warnings\nwarnings.filterwarnings('ignore')\n\n\n\n\n\n\n\n\n\n\n\n\ngit_url_path = \"https://raw.githubusercontent.com/developmentseed/tile-benchmarking/main/02-run-tests/results-csvs/\"\ndf = pd.read_csv(f\"{git_url_path}/04-number-of-spatial-chunks-results.csv\")\n\n\nzooms = range(6)\n\nplt_opts = {\"width\": 400, \"height\": 300}\n\nplts = []\n\nfor zoom_level in zooms:\n    df_level = df[df[\"zoom\"] == zoom_level]\n    plts.append(\n        df_level.hvplot.box(\n            y=\"time\",\n            by=[\"number_of_spatial_chunks\"],\n            c=\"number_of_spatial_chunks\",\n            cmap='Plasma_r',\n            ylabel=\"Time to render (ms)\",\n            xlabel=\"Number of spatial chunks\",\n            legend=False,\n            title=f\"Zoom level {zoom_level}\",\n        ).opts(**plt_opts)\n    )\nhv.Layout(plts).cols(2)"
+  },
+  {
+    "objectID": "approaches/tiling/04-number-of-spatial-chunks.html#interpretation-of-the-results",
+    "href": "approaches/tiling/04-number-of-spatial-chunks.html#interpretation-of-the-results",
+    "title": "Benchmarks 4: Spatial Chunk Variation",
+    "section": "Interpretation of the Results",
+    "text": "Interpretation of the Results\nHaving a greater number of spatial chunks degrades performance at low zoom levels as seen above most notably for zooms 0 and 1. At high zoom levels, since fewer chunks need to be loaded, there is no difference in performance.\nWe can solve the problem of slow performance at low zoom levels with pyramids, or multiscale, datasets, as demonstrated in Benchmarks: Pyramids."
+  },
+  {
+    "objectID": "approaches/tiling/02-cog-zarr-kerchunk.html",
+    "href": "approaches/tiling/02-cog-zarr-kerchunk.html",
+    "title": "Benchmarks 2: Tile Generation Benchmarks across Data Formats",
+    "section": "",
+    "text": "This page shared results from benchmarking the performance of tiling CMIP6 data stored as COG, NetCDF and Zarr.\nThe intention is to understand the performance tradeoff between these data formats. These results should not be considered conclusive as additional library and caching improvements may be made in the future.\nIn order to tile the NetCDF, we use a kerchunk reference file. You are able to use the ZarrReader with NetCDF files without a kerchunk reference file, however you cannot read more than file at once which makes it incomparable with the pgSTAC+COG and Zarr methods."
+  },
+  {
+    "objectID": "approaches/tiling/02-cog-zarr-kerchunk.html#explanation",
+    "href": "approaches/tiling/02-cog-zarr-kerchunk.html#explanation",
+    "title": "Benchmarks 2: Tile Generation Benchmarks across Data Formats",
+    "section": "",
+    "text": "This page shared results from benchmarking the performance of tiling CMIP6 data stored as COG, NetCDF and Zarr.\nThe intention is to understand the performance tradeoff between these data formats. These results should not be considered conclusive as additional library and caching improvements may be made in the future.\nIn order to tile the NetCDF, we use a kerchunk reference file. You are able to use the ZarrReader with NetCDF files without a kerchunk reference file, however you cannot read more than file at once which makes it incomparable with the pgSTAC+COG and Zarr methods."
+  },
+  {
+    "objectID": "approaches/tiling/02-cog-zarr-kerchunk.html#dataset-generation",
+    "href": "approaches/tiling/02-cog-zarr-kerchunk.html#dataset-generation",
+    "title": "Benchmarks 2: Tile Generation Benchmarks across Data Formats",
+    "section": "Dataset Generation",
+    "text": "Dataset Generation\nThe test datasets produced and benchmarked are:\n\nCloud-Optimized GeoTiffs (COGs): Tiles are produced using the publicly available CMIP6 COGs in the s3://nex-gddp-cmip6-cog/ bucket. The metadata generation is documented in 01-cmip6-cog-tile-server-benchmarks.ipynb.\nkerchunk + netCDF: Tiles are produced using a kerchunk reference file generated for the NetCDF files stored in the s3://nex-gddp-cmip6 bucket. The code to produce the kerchunk reference is in the tile-benchmarking repo: 01-generate-datasets/generate-cmip6-kerchunk.ipynb.\nZarr: Tiles are produced using a zarr store with the same chunking configuration and the underlying NetCDFs. The code to produce the zarr store is in the tile-benchmarking repo: 01-generate-datasets/generate-cmip6-zarr.ipynb."
+  },
+  {
+    "objectID": "approaches/tiling/02-cog-zarr-kerchunk.html#tests",
+    "href": "approaches/tiling/02-cog-zarr-kerchunk.html#tests",
+    "title": "Benchmarks 2: Tile Generation Benchmarks across Data Formats",
+    "section": "Tests",
+    "text": "Tests\nTests were run via the tile-benchmarking/02-run-tests/02-cog-kerchunk-zarr.ipynb notebook.\n\nimport pandas as pd\nimport hvplot.pandas\nimport holoviews as hv\npd.options.plotting.backend = 'holoviews'\nimport warnings\nwarnings.filterwarnings('ignore')\n\n\n\n\n\n\n\n\n\n\n\n\ngit_url_path = \"https://raw.githubusercontent.com/developmentseed/tile-benchmarking/main/02-run-tests/results-csvs/\"\ndf = pd.read_csv(f\"{git_url_path}/02-cog-kerchunk-zarr-results.csv\")\n\n\nzooms = range(6)\ncmap = [\"#E1BE6A\", \"#40B0A6\", \"#0C7BDC\"]\nplt_opts = {\"width\": 300, \"height\": 250}\n\nplts = []\n\nfor zoom_level in zooms:\n    df_level = df[df[\"zoom\"] == zoom_level]\n    plts.append(\n        df_level.hvplot.box(\n            y=\"time\",\n            by=[\"data_format\"],\n            c=\"data_format\",\n            cmap=cmap,\n            ylabel=\"Time to render (ms)\",\n            xlabel=\"Data Format\",\n            legend=False,\n            title=f\"Zoom level {zoom_level}\",\n        ).opts(**plt_opts)\n    )\n\nhv.Layout(plts).cols(2)"
+  },
+  {
+    "objectID": "approaches/tiling/02-cog-zarr-kerchunk.html#interpretation-of-the-results",
+    "href": "approaches/tiling/02-cog-zarr-kerchunk.html#interpretation-of-the-results",
+    "title": "Benchmarks 2: Tile Generation Benchmarks across Data Formats",
+    "section": "Interpretation of the Results",
+    "text": "Interpretation of the Results\n\nTiling COGs performs better than tiling Zarr or the kerchunk reference, at all zoom levels.\nThe performance of the kerchunk reference is better than the Zarr store. It is important to consider this is because the NetCDF files’ chunks are the same. Even though 365 time steps (days) are stored in each NetCDF file, it is chunked by day."
+  },
+  {
+    "objectID": "approaches/tiling/tile-server-e2e-benchmarks.html",
+    "href": "approaches/tiling/tile-server-e2e-benchmarks.html",
+    "title": "Tile Server End to End Benchmakrs",
+    "section": "",
+    "text": "This notebook parses results from end-to-end testing as documented in tile-benchmarking: 03-e2e/e2e.ipynb."
+  },
+  {
+    "objectID": "approaches/tiling/tile-server-e2e-benchmarks.html#setup",
+    "href": "approaches/tiling/tile-server-e2e-benchmarks.html#setup",
+    "title": "Tile Server End to End Benchmakrs",
+    "section": "Setup",
+    "text": "Setup\nImport libraries, define results location and define plotting functions.\n\nimport pandas as pd\nimport numpy as np\nimport matplotlib.pyplot as plt\n                        \ngit_url_path = \"https://raw.githubusercontent.com/developmentseed/tile-benchmarking/main/e2e\"\n\ndef generate_zooms_plot(df, dataset):\n    zooms = [int(path.split('/')[2]) for path in df['Name'][:-1]]\n    # Create a new figure\n    plt.figure()\n\n    # Create a scatter plot\n    plt.scatter(zooms, df['Median Response Time'][:-1])\n\n    # Add title and labels\n    plt.title(dataset)\n    plt.xlabel('Zoom')\n    plt.ylabel('Time (ms)')\n\n    # Display the plot\n    plt.show() \n    \ndef git_url(filename):\n    return f'{git_url_path}/{filename}'\n\ndef add_to_specs(collection_name: str, df: pd.DataFrame):\n    zarr_specs.loc[collection_name, 'mean median response time'] = np.mean(df['Median Response Time'])\n    zarr_specs.loc[collection_name, 'median median response time'] = np.median(df['Median Response Time'])"
+  },
+  {
+    "objectID": "approaches/tiling/tile-server-e2e-benchmarks.html#parse-collection-results-into-a-data-frame",
+    "href": "approaches/tiling/tile-server-e2e-benchmarks.html#parse-collection-results-into-a-data-frame",
+    "title": "Tile Server End to End Benchmakrs",
+    "section": "Parse collection results into a data frame",
+    "text": "Parse collection results into a data frame\nBenchmarks are reported alongside specifications of the dataset, such as chunk shape and size.\n\nzarr_specs = pd.read_csv(f\"{git_url_path}/zarr_info.csv\")\nzarr_specs.index = zarr_specs['collection_name']\n\nfor collection_name in zarr_specs.index:\n    filename = f'results/{collection_name}_urls_stats.csv'\n    results_df = pd.read_csv(git_url(filename))\n    add_to_specs(collection_name, results_df)"
+  },
+  {
+    "objectID": "approaches/tiling/03-zarr-chunk-sizes.html",
+    "href": "approaches/tiling/03-zarr-chunk-sizes.html",
+    "title": "Benchmarks 3: Chunk Size Variation",
+    "section": "",
+    "text": "We compared the performance of tiling artificially generated Zarr data to different chunk sizes. The CMIP6 data provides an excellent real world dataset, but is relatively low resolution. In order to study the impact of higher resolution data, we artificially generated Zarr datastores to explore the relationship between tile generation time and chunk size."
+  },
+  {
+    "objectID": "approaches/tiling/03-zarr-chunk-sizes.html#explanation",
+    "href": "approaches/tiling/03-zarr-chunk-sizes.html#explanation",
+    "title": "Benchmarks 3: Chunk Size Variation",
+    "section": "",
+    "text": "We compared the performance of tiling artificially generated Zarr data to different chunk sizes. The CMIP6 data provides an excellent real world dataset, but is relatively low resolution. In order to study the impact of higher resolution data, we artificially generated Zarr datastores to explore the relationship between tile generation time and chunk size."
+  },
+  {
+    "objectID": "approaches/tiling/03-zarr-chunk-sizes.html#dataset-generation",
+    "href": "approaches/tiling/03-zarr-chunk-sizes.html#dataset-generation",
+    "title": "Benchmarks 3: Chunk Size Variation",
+    "section": "Dataset Generation",
+    "text": "Dataset Generation\nWe generated multiple data stores of increasingly fine spatial resolution so the total size of each chunk, with no spatial chunks, is multiplied by a factor of 2, to allow for increased chunk size.\nThe code to produce the zarr stores are in the tile-benchmarking repo: 01-generate-datasets/generate-fake-data-with-chunks.ipynb."
+  },
+  {
+    "objectID": "approaches/tiling/03-zarr-chunk-sizes.html#tests",
+    "href": "approaches/tiling/03-zarr-chunk-sizes.html#tests",
+    "title": "Benchmarks 3: Chunk Size Variation",
+    "section": "Tests",
+    "text": "Tests\nTests were run via the tile-benchmarking/02-run-tests/03-chunk-size.ipynb notebook.\n\nimport pandas as pd\nimport hvplot.pandas\nimport holoviews as hv\npd.options.plotting.backend = 'holoviews'\nimport warnings\nwarnings.filterwarnings('ignore')\n\n\n\n\n\n\n\n\n\n\n\n\ngit_url_path = \"https://raw.githubusercontent.com/developmentseed/tile-benchmarking/main/02-run-tests/results-csvs/\"\ndf = pd.read_csv(f\"{git_url_path}/03-chunk-size-results.csv\")\n\n\nzooms = range(6)\nplt_opts = {\"width\": 400, \"height\": 300}\n\nplts = []\n\nfor zoom_level in zooms:\n    df_level = df[df[\"zoom\"] == zoom_level]\n    plts.append(\n        df_level.hvplot.box(\n            y=\"time\",\n            by=[\"chunk_size_mb\"],\n            c=\"chunk_size_mb\",\n            cmap='Plasma_r',\n            ylabel=\"Time to render (ms)\",\n            xlabel=\"Chunk size (MB)\",\n            legend=False,\n            title=f\"Zoom level {zoom_level}\",\n        ).opts(**plt_opts)\n    )\nhv.Layout(plts).cols(2)"
+  },
+  {
+    "objectID": "approaches/tiling/03-zarr-chunk-sizes.html#interpretation-of-the-results",
+    "href": "approaches/tiling/03-zarr-chunk-sizes.html#interpretation-of-the-results",
+    "title": "Benchmarks 3: Chunk Size Variation",
+    "section": "Interpretation of the Results",
+    "text": "Interpretation of the Results\nIt’s clear smaller chunk sizes support faster tile rendering, regardless of zoom level. However, the tradeoff will be in the number of chunks. Smaller chunk sizes means more spatial chunks will be required to render the data which can impact performance at low zoom levels. We will take a look at this in the next notebook Benchmarks: Exploring Spatial Chunk Variation Impacts on Tile Generation."
   },
   {
     "objectID": "approaches/dynamic-client/benchmarking-methodology.html",

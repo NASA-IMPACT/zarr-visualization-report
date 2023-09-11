@@ -63,8 +63,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../approaches/tiling/recommendations.html" rel="next">
-<link href="../../approaches/tiling/cmip6-zarr-tile-server-benchmarks.html" rel="prev">
+<link href="../../approaches/tiling/future-areas.html" rel="next">
+<link href="../../approaches/tiling/05-cmip6-pyramids.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -113,7 +113,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../approaches/index.html">Approaches</a></li><li class="breadcrumb-item"><a href="../../approaches/tiling.html">Tiling</a></li><li class="breadcrumb-item"><a href="../../approaches/tiling/cmip6-cog-tile-server-benchmarks.html">Results in Detail</a></li><li class="breadcrumb-item"><a href="../../approaches/tiling/tile-server-e2e-benchmarks.html">Tile Server End to End Benchmakrs</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../approaches/index.html">Approaches</a></li><li class="breadcrumb-item"><a href="../../approaches/tiling.html">Tiling</a></li><li class="breadcrumb-item"><a href="../../approaches/tiling/tile-server-e2e-benchmarks.html">Tile Server End to End Benchmakrs</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -174,43 +174,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../approaches/tiling/results-summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Results Summary</span></a>
-  </div>
-</li>
-          <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
- <span class="menu-text">Results in Detail</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth3 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../approaches/tiling/cmip6-cog-tile-server-benchmarks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">CMIP6 COG Tile Server Benchmarks</span></a>
+  <a href="../../approaches/tiling/results-and-recommendations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Results + Recommendations</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../approaches/tiling/cmip6-zarr-tile-server-benchmarks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">CMIP6 Zarr Tile Server Benchmarks</span></a>
+  <a href="../../approaches/tiling/01-cmip6-cog-tile-server-benchmarks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Benchmarks 1: Tiling COGs with and without GDAL Environment Variables</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../approaches/tiling/02-cog-zarr-kerchunk.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Benchmarks 2: Tile Generation Benchmarks across Data Formats</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../approaches/tiling/03-zarr-chunk-sizes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Benchmarks 3: Chunk Size Variation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../approaches/tiling/04-number-of-spatial-chunks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Benchmarks 4: Spatial Chunk Variation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../approaches/tiling/05-cmip6-pyramids.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Benchmarks 5: Zarr Pyramids</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../approaches/tiling/tile-server-e2e-benchmarks.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Tile Server End to End Benchmakrs</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../approaches/tiling/recommendations.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Recommendations</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -225,11 +226,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="sidebar-item-container"> 
             <a href="../../approaches/dynamic-client.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Dynamic Client</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../approaches/dynamic-client/prototype-deployment.html" class="sidebar-item-text sidebar-link">
@@ -343,7 +344,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<p>This notebook parses results from end-to-end testing as documented in <a href="https://github.com/developmentseed/tile-benchmarking/blob/main/e2e/e2e.ipynb">tile-benchmarking/e2e/e2e.ipynb</a>.</p>
+<p>This notebook parses results from end-to-end testing as documented in <a href="https://github.com/developmentseed/tile-benchmarking/blob/main/03-e2e/e2e.ipynb">tile-benchmarking: 03-e2e/e2e.ipynb</a>.</p>
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
 <p>Import libraries, define results location and define plotting functions.</p>
@@ -1175,13 +1176,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../approaches/tiling/cmip6-zarr-tile-server-benchmarks.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">CMIP6 Zarr Tile Server Benchmarks</span>
+      <a href="../../approaches/tiling/05-cmip6-pyramids.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Benchmarks 5: Zarr Pyramids</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../approaches/tiling/recommendations.html" class="pagination-link">
-        <span class="nav-page-text">Recommendations</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../approaches/tiling/future-areas.html" class="pagination-link">
+        <span class="nav-page-text">Future Areas</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Zarr Visualization Cookbook – results-summary</title>
+<title>Zarr Visualization Cookbook – results-and-recommendations</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -29,7 +29,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../approaches/tiling/cmip6-cog-tile-server-benchmarks.html" rel="next">
+<link href="../../approaches/tiling/01-cmip6-cog-tile-server-benchmarks.html" rel="next">
 <link href="../../approaches/tiling/benchmarking-methodology.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -76,7 +76,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../approaches/index.html">Approaches</a></li><li class="breadcrumb-item"><a href="../../approaches/tiling.html">Tiling</a></li><li class="breadcrumb-item"><a href="../../approaches/tiling/results-summary.html">Results Summary</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../approaches/index.html">Approaches</a></li><li class="breadcrumb-item"><a href="../../approaches/tiling.html">Tiling</a></li><li class="breadcrumb-item"><a href="../../approaches/tiling/results-and-recommendations.html">Results + Recommendations</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -137,43 +137,44 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../approaches/tiling/results-summary.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Results Summary</span></a>
-  </div>
-</li>
-          <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false">
- <span class="menu-text">Results in Detail</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth3 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../approaches/tiling/cmip6-cog-tile-server-benchmarks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">CMIP6 COG Tile Server Benchmarks</span></a>
+  <a href="../../approaches/tiling/results-and-recommendations.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Results + Recommendations</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../approaches/tiling/cmip6-zarr-tile-server-benchmarks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">CMIP6 Zarr Tile Server Benchmarks</span></a>
+  <a href="../../approaches/tiling/01-cmip6-cog-tile-server-benchmarks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Benchmarks 1: Tiling COGs with and without GDAL Environment Variables</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../approaches/tiling/02-cog-zarr-kerchunk.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Benchmarks 2: Tile Generation Benchmarks across Data Formats</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../approaches/tiling/03-zarr-chunk-sizes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Benchmarks 3: Chunk Size Variation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../approaches/tiling/04-number-of-spatial-chunks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Benchmarks 4: Spatial Chunk Variation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../approaches/tiling/05-cmip6-pyramids.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Benchmarks 5: Zarr Pyramids</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../approaches/tiling/tile-server-e2e-benchmarks.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Tile Server End to End Benchmakrs</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../approaches/tiling/recommendations.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Recommendations</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -188,11 +189,11 @@ ul.task-list li input[type="checkbox"] {
       <div class="sidebar-item-container"> 
             <a href="../../approaches/dynamic-client.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Dynamic Client</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../approaches/dynamic-client/prototype-deployment.html" class="sidebar-item-text sidebar-link">
@@ -279,20 +280,39 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#results-summary" id="toc-results-summary" class="nav-link active" data-scroll-target="#results-summary">Results Summary</a></li>
+  <li><a href="#results-recommendations" id="toc-results-recommendations" class="nav-link active" data-scroll-target="#results-recommendations">Results + Recommendations</a>
+  <ul class="collapse">
+  <li><a href="#data-format" id="toc-data-format" class="nav-link" data-scroll-target="#data-format">Data Format</a></li>
+  <li><a href="#zarr-specific-recommendations" id="toc-zarr-specific-recommendations" class="nav-link" data-scroll-target="#zarr-specific-recommendations">Zarr-specific Recommendations</a></li>
+  </ul></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/nasa-impact/zarr-visualization-cookbook/edit/main/approaches/tiling/results-summary.md" class="toc-action">Edit this page</a></p><p><a href="https://github.com/nasa-impact/zarr-visualization-cookbook/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/nasa-impact/zarr-visualization-cookbook/edit/main/approaches/tiling/results-and-recommendations.md" class="toc-action">Edit this page</a></p><p><a href="https://github.com/nasa-impact/zarr-visualization-cookbook/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
 
-<section id="results-summary" class="level1">
-<h1>Results Summary</h1>
-<p>COMING SOON.</p>
+<section id="results-recommendations" class="level1">
+<h1>Results + Recommendations</h1>
+<section id="data-format" class="level2">
+<h2 class="anchored" data-anchor-id="data-format">Data Format</h2>
+<ul>
+<li><strong>Data Format:</strong> At this time, COG + pgSTAC tiling performs better than tiling Zarr or kerchunk references, at all zoom levels.</li>
+<li><strong>Kerchunk Reference Files:</strong> The performance of tiling using a kerchunk reference can be as good or better than a zarr store. It is important to consider this is when the NetCDF files’ chunks are the same as the zarr store version.</li>
+</ul>
+</section>
+<section id="zarr-specific-recommendations" class="level2">
+<h2 class="anchored" data-anchor-id="zarr-specific-recommendations">Zarr-specific Recommendations</h2>
+<ul>
+<li><strong>Ensure no zarr coordinate chunking:</strong> Ensure coordinate data is not being chunked. If coordinates are being chunked, it will result in more files being opened during xarray.open_dataset and cause significant performance degradation.</li>
+<li><strong>Smaller chunk sizes perform better:</strong> Chunk size significantly impacts performance.</li>
+<li><strong>Fewer spatial chunks perform better:</strong> A greater number of chunks, spatially, will impact performance especially at low zoom levels as more chunks are loaded for greater spatial coverage.</li>
+<li><strong>Pyramids improve performance for high resolution datasets:</strong> High resolution datasets will suffer having either large chunks or many chunks, or both. To provide a good experience, zarr data can be aggregated into multiscale datasets, otherwise known as pyramids.</li>
+</ul>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -651,8 +671,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../approaches/tiling/cmip6-cog-tile-server-benchmarks.html" class="pagination-link">
-        <span class="nav-page-text">CMIP6 COG Tile Server Benchmarks</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../approaches/tiling/01-cmip6-cog-tile-server-benchmarks.html" class="pagination-link">
+        <span class="nav-page-text">Benchmarks 1: Tiling COGs with and without GDAL Environment Variables</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

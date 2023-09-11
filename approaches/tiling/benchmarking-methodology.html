@@ -29,7 +29,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../approaches/tiling/results-summary.html" rel="next">
+<link href="../../approaches/tiling/results-and-recommendations.html" rel="next">
 <link href="../../approaches/tiling.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -137,43 +137,44 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../approaches/tiling/results-summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Results Summary</span></a>
-  </div>
-</li>
-          <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false">
- <span class="menu-text">Results in Detail</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth3 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../approaches/tiling/cmip6-cog-tile-server-benchmarks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">CMIP6 COG Tile Server Benchmarks</span></a>
+  <a href="../../approaches/tiling/results-and-recommendations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Results + Recommendations</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../approaches/tiling/cmip6-zarr-tile-server-benchmarks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">CMIP6 Zarr Tile Server Benchmarks</span></a>
+  <a href="../../approaches/tiling/01-cmip6-cog-tile-server-benchmarks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Benchmarks 1: Tiling COGs with and without GDAL Environment Variables</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../approaches/tiling/02-cog-zarr-kerchunk.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Benchmarks 2: Tile Generation Benchmarks across Data Formats</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../approaches/tiling/03-zarr-chunk-sizes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Benchmarks 3: Chunk Size Variation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../approaches/tiling/04-number-of-spatial-chunks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Benchmarks 4: Spatial Chunk Variation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../approaches/tiling/05-cmip6-pyramids.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Benchmarks 5: Zarr Pyramids</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../approaches/tiling/tile-server-e2e-benchmarks.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Tile Server End to End Benchmakrs</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../approaches/tiling/recommendations.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Recommendations</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -188,11 +189,11 @@ ul.task-list li input[type="checkbox"] {
       <div class="sidebar-item-container"> 
             <a href="../../approaches/dynamic-client.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Dynamic Client</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../approaches/dynamic-client/prototype-deployment.html" class="sidebar-item-text sidebar-link">
@@ -283,7 +284,6 @@ ul.task-list li input[type="checkbox"] {
   <ul class="collapse">
   <li><a href="#code-benchmarks-datasets" id="toc-code-benchmarks-datasets" class="nav-link" data-scroll-target="#code-benchmarks-datasets">Code Benchmarks: Datasets</a></li>
   <li><a href="#code-benchmarks-approach" id="toc-code-benchmarks-approach" class="nav-link" data-scroll-target="#code-benchmarks-approach">Code Benchmarks: Approach</a></li>
-  <li><a href="#review-results" id="toc-review-results" class="nav-link" data-scroll-target="#review-results">Review Results</a></li>
   </ul></li>
   <li><a href="#end-to-end-benchmarks" id="toc-end-to-end-benchmarks" class="nav-link" data-scroll-target="#end-to-end-benchmarks">End-to-End Benchmarks</a>
   <ul class="collapse">
@@ -314,16 +314,24 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 <p>Benchmarks are provided for a deployed API (<strong>end-to-end tests</strong>, described below) as well as for the underlying code.</p>
+<p>All code for generating the data and running the benchmarks can be found in <a href="https://github.com/developmentseed/tile-benchmarking">https://github.com/developmentseed/tile-benchmarking</a>.</p>
 <section id="code-benchmarks" class="level2">
 <h2 class="anchored" data-anchor-id="code-benchmarks">Code Benchmarks</h2>
-<p>While end-to-end benchmarks establish tiling performance as experienced by an end user, the introduction of the network of the requesting client and responding server introduce variables which are difficult to control. The authors replicated and tested the tiling code to diagnose slowness due to data and code, without the introduction of a network.</p>
+<p>While the end-to-end benchmarks described below establish tiling performance as experienced by an end user, the introduction of the network introduce variables which are difficult to control, specifically the many varieties and locations of a client and server.</p>
+<p>The focus of the code benchmarks is to understand how to optimize data and code for the best tiling performance. The authors replicated the tiling code to diagnose slowness due to data storage formatting and code libraries, without the introduction of a network.</p>
 <section id="code-benchmarks-datasets" class="level3">
 <h3 class="anchored" data-anchor-id="code-benchmarks-datasets">Code Benchmarks: Datasets</h3>
 <p>Reproducibility is important to the integrity of this project and its results. We used a publicly available dataset and attempt to make the steps as fully documented and reproducible as possible. For code profiling, we focused the <a href="https://aws.amazon.com/marketplace/pp/prodview-k6adk576fiwmm#overview">NASA Earth Exchange Global Daily Downscaled Projections (NEX-GDDP-CMIP6)</a> AWS public dataset for this project.</p>
 <p>There are 2 datasets listed on AWS from this project. One (1) is an archive of NetCDF files from about 35 different climate models, each supplying historical and predicted values for up to 9 environment variables, daily, from 1950 to 2100. To minimize preprocessing, test datasets were generated for the first 2 years of historical data, for 1 model and for 1 variable. These variables or dataset could easily be modified or swapped, but we expect the relative performance using different datasets to be the same.</p>
-<p>In addition to the NetCDF data, there is an archives of COGs generated from that NetCDF data to support visualization via dynamic tiling using COGs. COGs are only available for 2 models, so for intercomparison of the tiling approach between COGs and Zarr, one of those models (<code>GISS-E2-1-G</code>) is used to generate Zarr stores.</p>
-<p>TODO: At this time, a different model is used for the direct client benchmarks (<code>ACCESS-CM2</code>), but we plan to demonstrate how there is no meaningful difference in the performance of tiling across these models.</p>
-<p>Code profiling for the tiling approach were run on the <a href="https://nasa-veda.2i2c.cloud/">VEDA JupyterHub</a>. The VEDA documentation details how to request access: https://nasa-impact.github.io/veda-docs/services/jupyterhub.html. We chose not to make the database or S3 bucket <code>nasa-eodc-data-store</code> fully public, you must be logged into the VEDA JupyterHub to run those benchmarks or reproduce the test datasets, which should be possible via code in tile-benchmarking.</p>
+<p>In addition to the NetCDF data, there is an archive of COGs generated from the corresponding NetCDFs to support visualization via dynamic tiling using COGs. <strong>COGs are only available for 2 models, so for intercomparison of the tiling approach between COGs and Zarr, one of those models (<code>GISS-E2-1-G</code>) is used to generate Zarr stores.</strong></p>
+<p>Benchmarks were generated for multiple copies of the CMIP6 daily data and some synthetic data to understand the performance for different data pre-processing options. These copies were differentiated by:</p>
+<ul>
+<li>data file format (COG, NetCDF and Zarr)</li>
+<li>different chunking configurations</li>
+<li>pyramids</li>
+</ul>
+<p><em>Note: At this time, a different model is used for the dynamic client benchmarks (<code>ACCESS-CM2</code>), but we believe the test results and corresponding recommendations would not change for different CMIP6 models.</em></p>
+<p>Benchmarks were run on the <a href="https://nasa-veda.2i2c.cloud/">VEDA JupyterHub</a>. The VEDA documentation details how to request access: https://nasa-impact.github.io/veda-docs/services/jupyterhub.html. We chose not to make the database or S3 bucket <code>nasa-eodc-data-store</code> fully public. You must be logged into the VEDA JupyterHub to run those benchmarks or reproduce the test datasets.</p>
 </section>
 <section id="code-benchmarks-approach" class="level3">
 <h3 class="anchored" data-anchor-id="code-benchmarks-approach">Code Benchmarks: Approach</h3>
@@ -332,7 +340,7 @@ ul.task-list li input[type="checkbox"] {
 <li>Assume you are starting with a known collection and query parameters</li>
 <li>Read metadata
 <ol type="a">
-<li>For COGs, the query is registered with pgSTAC for the collection id and query parameters, such as variable and datetime.</li>
+<li>For COGs, the query is registered with the <code>pgSTAC</code> database for the collection id and query parameters, such as variable and datetime.</li>
 <li>For Zarr, the metadata is “lazily loaded” for the variable and temporal extent from the known collection store.</li>
 </ol></li>
 <li>Generate tiles
@@ -342,27 +350,21 @@ ul.task-list li input[type="checkbox"] {
 </ol></li>
 </ol>
 <p>To make as close to an “apples to apples” comparison as possible, we have stored COG metadata using <a href="https://github.com/stac-utils/pgstac">pgSTAC</a> for data in the <a href="https://nex-gddp-cmip6-cog.s3.us-west-2.amazonaws.com/index.html">nex-gddp-cmip6-cog bucket</a> in AWS Relational Database Service (RDS) and Zarr metadata and data files in S3.</p>
-<p>To profile the code for rendering tiles with both XarrayReader and titiler-pgstac, code was copied from those projects as needed to inject timers, print logs from the <code>s3fs</code> library and used the <code>cprofile</code> library.</p>
-</section>
-<section id="review-results" class="level3">
-<h3 class="anchored" data-anchor-id="review-results">Review Results</h3>
-<ol type="1">
-<li><a href="../../approaches/tiling/cmip6-cog-tile-server-benchmarks.html">COG Tile Server Benchmarks</a></li>
-<li><a href="../../approaches/tiling/cmip6-zarr-tile-server-benchmarks.html">Zarr Tile Server Benchmarks</a></li>
-</ol>
+<p>To profile the code for rendering tiles with both XarrayReader and titiler-pgstac, code was copied from those projects as needed to inject timers.</p>
+<p>The time to generate a tile at various zoom levels was tested for each data store multiple times and box plots are used to report results for consistency with the dynamic client reporting.</p>
 </section>
 </section>
 <section id="end-to-end-benchmarks" class="level2">
 <h2 class="anchored" data-anchor-id="end-to-end-benchmarks">End-to-End Benchmarks</h2>
 <p>End-to-end tests provide benchmarks of response times for various tiles and datasets to titiler-xarray.</p>
-<p>Details and code to generate the benchmarks and store the results on S3 is documented in <a href="https://github.com/developmentseed/tile-benchmarking/blob/main/e2e/e2e.ipynb">tile-benchmarking/e2e/e2e.ipynb</a>.</p>
+<p>Details and code to generate the benchmarks and store the results on S3 is documented in <a href="../../approaches/tiling/tile-server-e2e-benchmarks.html">tile-server-e2e-benchmarks.ipynb</a>.</p>
 <section id="end-to-end-benchmarks-datasets" class="level3">
 <h3 class="anchored" data-anchor-id="end-to-end-benchmarks-datasets">End-to-End Benchmarks: Datasets</h3>
-<p>A variety of datasets was selected for end-to-end testing and hopefully the framework makes it easy to modify and test new datasets and use cases come up. See the <a href="./e2e-results.ipynb">e2e-results.ipynb</a> for specific datasets.</p>
+<p>A variety of datasets was selected for end-to-end testing and hopefully the framework makes it easy to modify and test new datasets and use cases come up. See the <a href="../../approaches/tiling/tile-server-e2e-benchmarks.html">tile-server-e2e-benchmarks.ipynb</a> for specific datasets.</p>
 </section>
 <section id="end-to-end-benchmarks-approach" class="level3">
 <h3 class="anchored" data-anchor-id="end-to-end-benchmarks-approach">End-to-End Benchmarks: Approach</h3>
-<p>Code from https://github.com/bdon/TileSiege was used to generate a set of tile URLs for the selected test datasets. The testing tool https://locust.io/ was used to run tests. Results are stored uploated as CSV files in S3. These results are read and plotted in <a href="./e2e-results.ipynb">e2e-results.ipynb</a>.</p>
+<p>Code from https://github.com/bdon/TileSiege was used to generate a set of tile URLs for the selected test datasets. The testing tool https://locust.io/ was used to run tests. Results are stored uploated as CSV files in S3. These results are read and plotted in <a href="../../approaches/tiling/tile-server-e2e-benchmarks.html">tile-server-e2e-benchmarks.ipynb</a>.</p>
 
 
 </section>
@@ -724,8 +726,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../approaches/tiling/results-summary.html" class="pagination-link">
-        <span class="nav-page-text">Results Summary</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../approaches/tiling/results-and-recommendations.html" class="pagination-link">
+        <span class="nav-page-text">Results + Recommendations</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
