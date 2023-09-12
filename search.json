@@ -345,21 +345,21 @@
   {
     "objectID": "approaches/tiling/tile-server-e2e-benchmarks.html",
     "href": "approaches/tiling/tile-server-e2e-benchmarks.html",
-    "title": "Tile Server End to End Benchmakrs",
+    "title": "Tile Server End to End Benchmarks",
     "section": "",
     "text": "This notebook parses results from end-to-end testing as documented in tile-benchmarking: 03-e2e/e2e.ipynb."
   },
   {
     "objectID": "approaches/tiling/tile-server-e2e-benchmarks.html#setup",
     "href": "approaches/tiling/tile-server-e2e-benchmarks.html#setup",
-    "title": "Tile Server End to End Benchmakrs",
+    "title": "Tile Server End to End Benchmarks",
     "section": "Setup",
     "text": "Setup\nImport libraries, define results location and define plotting functions.\n\nimport pandas as pd\nimport numpy as np\nimport matplotlib.pyplot as plt\n                        \ngit_url_path = \"https://raw.githubusercontent.com/developmentseed/tile-benchmarking/main/e2e\"\n\ndef generate_zooms_plot(df, dataset):\n    zooms = [int(path.split('/')[2]) for path in df['Name'][:-1]]\n    # Create a new figure\n    plt.figure()\n\n    # Create a scatter plot\n    plt.scatter(zooms, df['Median Response Time'][:-1])\n\n    # Add title and labels\n    plt.title(dataset)\n    plt.xlabel('Zoom')\n    plt.ylabel('Time (ms)')\n\n    # Display the plot\n    plt.show() \n    \ndef git_url(filename):\n    return f'{git_url_path}/{filename}'\n\ndef add_to_specs(collection_name: str, df: pd.DataFrame):\n    zarr_specs.loc[collection_name, 'mean median response time'] = np.mean(df['Median Response Time'])\n    zarr_specs.loc[collection_name, 'median median response time'] = np.median(df['Median Response Time'])"
   },
   {
     "objectID": "approaches/tiling/tile-server-e2e-benchmarks.html#parse-collection-results-into-a-data-frame",
     "href": "approaches/tiling/tile-server-e2e-benchmarks.html#parse-collection-results-into-a-data-frame",
-    "title": "Tile Server End to End Benchmakrs",
+    "title": "Tile Server End to End Benchmarks",
     "section": "Parse collection results into a data frame",
     "text": "Parse collection results into a data frame\nBenchmarks are reported alongside specifications of the dataset, such as chunk shape and size.\n\nzarr_specs = pd.read_csv(f\"{git_url_path}/zarr_info.csv\")\nzarr_specs.index = zarr_specs['collection_name']\n\nfor collection_name in zarr_specs.index:\n    filename = f'results/{collection_name}_urls_stats.csv'\n    results_df = pd.read_csv(git_url(filename))\n    add_to_specs(collection_name, results_df)"
   },

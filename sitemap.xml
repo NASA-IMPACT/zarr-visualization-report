@@ -2,106 +2,106 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/transition-from-rmarkdown.html</loc>
-    <lastmod>2023-09-11T23:43:16.096Z</lastmod>
+    <lastmod>2023-09-12T18:28:28.165Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/approaches/dynamic-client/e2e-results.html</loc>
-    <lastmod>2023-09-11T23:43:14.900Z</lastmod>
+    <lastmod>2023-09-12T18:28:26.901Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/approaches/dynamic-client/e2e-results-zarr-version.html</loc>
-    <lastmod>2023-09-11T23:43:13.464Z</lastmod>
+    <lastmod>2023-09-12T18:28:25.397Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/approaches/dynamic-client/e2e-results-shard-size.html</loc>
-    <lastmod>2023-09-11T23:43:12.168Z</lastmod>
+    <lastmod>2023-09-12T18:28:24.013Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/approaches/dynamic-client/e2e-results-aws-region.html</loc>
-    <lastmod>2023-09-11T23:43:11.224Z</lastmod>
+    <lastmod>2023-09-12T18:28:23.029Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/approaches/dynamic-client/e2e-results-projection.html</loc>
-    <lastmod>2023-09-11T23:43:10.192Z</lastmod>
+    <lastmod>2023-09-12T18:28:21.913Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/approaches/dynamic-client/prototype-deployment.html</loc>
-    <lastmod>2023-09-11T23:43:08.880Z</lastmod>
+    <lastmod>2023-09-12T18:28:20.565Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/approaches/tiling/future-areas.html</loc>
-    <lastmod>2023-09-11T23:43:07.960Z</lastmod>
+    <lastmod>2023-09-12T18:28:19.613Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/approaches/tiling/benchmarking-methodology.html</loc>
-    <lastmod>2023-09-11T23:43:06.672Z</lastmod>
+    <lastmod>2023-09-12T18:28:18.213Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/approaches/tiling/01-cmip6-cog-tile-server-benchmarks.html</loc>
-    <lastmod>2023-09-11T23:43:05.608Z</lastmod>
+    <lastmod>2023-09-12T18:28:17.077Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/approaches/tiling/results-and-recommendations.html</loc>
-    <lastmod>2023-09-11T23:43:04.572Z</lastmod>
+    <lastmod>2023-09-12T18:28:16.021Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/approaches/index.html</loc>
-    <lastmod>2023-09-11T23:43:03.700Z</lastmod>
+    <lastmod>2023-09-12T18:28:15.097Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/approaches/dynamic-client.html</loc>
-    <lastmod>2023-09-11T23:43:02.936Z</lastmod>
+    <lastmod>2023-09-12T18:28:14.313Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/index.html</loc>
-    <lastmod>2023-09-11T23:43:00.680Z</lastmod>
+    <lastmod>2023-09-12T18:28:12.129Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/approaches/tiling.html</loc>
-    <lastmod>2023-09-11T23:43:03.324Z</lastmod>
+    <lastmod>2023-09-12T18:28:14.713Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/approaches/tiling/05-cmip6-pyramids.html</loc>
-    <lastmod>2023-09-11T23:43:04.164Z</lastmod>
+    <lastmod>2023-09-12T18:28:15.581Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/approaches/tiling/04-number-of-spatial-chunks.html</loc>
-    <lastmod>2023-09-11T23:43:05.076Z</lastmod>
+    <lastmod>2023-09-12T18:28:16.545Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/approaches/tiling/02-cog-zarr-kerchunk.html</loc>
-    <lastmod>2023-09-11T23:43:06.112Z</lastmod>
+    <lastmod>2023-09-12T18:28:17.609Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/approaches/tiling/tile-server-e2e-benchmarks.html</loc>
-    <lastmod>2023-09-11T23:43:07.596Z</lastmod>
+    <lastmod>2023-09-12T18:28:19.221Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/approaches/tiling/03-zarr-chunk-sizes.html</loc>
-    <lastmod>2023-09-11T23:43:08.472Z</lastmod>
+    <lastmod>2023-09-12T18:28:20.137Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/approaches/dynamic-client/benchmarking-methodology.html</loc>
-    <lastmod>2023-09-11T23:43:09.380Z</lastmod>
+    <lastmod>2023-09-12T18:28:21.089Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/approaches/dynamic-client/recommendations.html</loc>
-    <lastmod>2023-09-11T23:43:10.672Z</lastmod>
+    <lastmod>2023-09-12T18:28:22.417Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/approaches/dynamic-client/future-areas.html</loc>
-    <lastmod>2023-09-11T23:43:11.632Z</lastmod>
+    <lastmod>2023-09-12T18:28:23.453Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/approaches/dynamic-client/costs.html</loc>
-    <lastmod>2023-09-11T23:43:12.700Z</lastmod>
+    <lastmod>2023-09-12T18:28:24.569Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/approaches/dynamic-client/e2e-results-zarr-version-shards.html</loc>
-    <lastmod>2023-09-11T23:43:14.296Z</lastmod>
+    <lastmod>2023-09-12T18:28:26.269Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/NASA-IMPACT/zarr-visualization-cookbook/approaches/dynamic-client/e2e-results-pixels-per-tile.html</loc>
-    <lastmod>2023-09-11T23:43:15.444Z</lastmod>
+    <lastmod>2023-09-12T18:28:27.489Z</lastmod>
   </url>
 </urlset>
