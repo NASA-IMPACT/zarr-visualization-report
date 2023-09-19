@@ -306,7 +306,7 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="zarr-specific-recommendations">Zarr-specific Recommendations</h2>
 <ul>
 <li><strong>Ensure no zarr coordinate chunking:</strong> Ensure coordinate data is not being chunked. If coordinates are being chunked, it will result in more files being opened during xarray.open_dataset and cause significant performance degradation.</li>
-<li><strong>Smaller chunk sizes perform better:</strong> Chunk size significantly impacts performance.</li>
+<li><strong>Smaller chunk sizes perform better:</strong> Chunk size significantly impacts performance. A specific recommendation depends on the performance requirements of the application.</li>
 <li><strong>Fewer spatial chunks perform better:</strong> A greater number of chunks, spatially, will impact performance especially at low zoom levels as more chunks are loaded for greater spatial coverage.</li>
 <li><strong>Pyramids improve performance for high resolution datasets:</strong> High resolution datasets will suffer having either large chunks or many chunks, or both. To provide a good experience, zarr data can be aggregated into multiscale datasets, otherwise known as pyramids.</li>
 </ul>
