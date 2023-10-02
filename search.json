@@ -32,7 +32,7 @@
     "href": "approaches/tiling.html",
     "title": "Tiling",
     "section": "",
-    "text": "An xarray tile server provides image tiles via the XYZ Protocol and OGC Tiles API specifications.\nThe tile server approach relies on the rio_tiler.XarrayReader library which includes the tile function. This module supports tiling of anything that is xarray-readable, so a tile server using this library can render tiles from Zarr stores as well as netCDF4/HDF5 and other formats. An example API infrastructure can be found in titiler-xarray. Please note this library is still in development and is not intended for production use at this time."
+    "text": "An xarray tile server provides image tiles via the XYZ Protocol and OGC Tiles API specifications.\nThe tile server approach relies on the rio_tiler.XarrayReader library which includes the tile function. This module supports tiling of anything that is xarray-readable, so a tile server using this library can render tiles from Zarr stores as well as netCDF4/HDF5 and other formats. An example API infrastructure can be found in titiler-xarray. Please note this library is still in development and is not intended for production use at this time.\nUsers can preview their zarr data using the map form and preview tool at https://dev-titiler-xarray.delta-backend.com/map."
   },
   {
     "objectID": "approaches/dynamic-client.html",

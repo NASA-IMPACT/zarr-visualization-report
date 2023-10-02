@@ -300,6 +300,8 @@ ul.task-list li input[type="checkbox"] {
 
 <p>An xarray tile server provides image tiles via the <a href="https://en.wikipedia.org/wiki/Tiled_web_map">XYZ Protocol</a> and <a href="https://docs.ogc.org/is/20-057/20-057.html">OGC Tiles</a> API specifications.</p>
 <p>The tile server approach relies on the <a href="https://github.com/cogeotiff/rio-tiler/blob/main/rio_tiler/io/xarray.py"><code>rio_tiler.XarrayReader</code></a> library which includes the <code>tile</code> function. This module supports tiling of anything that is xarray-readable, so a tile server using this library can render tiles from Zarr stores as well as netCDF4/HDF5 and other formats. An example API infrastructure can be found in <a href="https://github.com/developmentseed/titiler-xarray">titiler-xarray</a>. Please note this library is still in development and is not intended for production use at this time.</p>
+<p>Users can preview their zarr data using the map form and preview tool at <a href="https://dev-titiler-xarray.delta-backend.com/map">https://dev-titiler-xarray.delta-backend.com/map</a>.</p>
+<p><img src="../images/zarr-preview.gif" class="img-fluid"></p>
 
 
 
