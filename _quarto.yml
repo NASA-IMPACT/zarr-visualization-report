@@ -54,7 +54,7 @@ website:
             - approaches/dynamic-client/recommendations.qmd
             - approaches/dynamic-client/costs.ipynb
             - approaches/dynamic-client/future-areas.qmd 
-          - section: approaches/tradeoffs.qmd
+          - href: approaches/tradeoffs.qmd
 
 
 
