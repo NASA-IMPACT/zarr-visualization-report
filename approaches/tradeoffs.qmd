@@ -1,7 +1,8 @@
 ---
 title: "Tradeoffs"
-subtitle: "Pros and Cons of the 2 Approaches"
 ---
+
+This page provides a very high-level summary of the pros and cons of the approaches detailed in this report.
 
 ## Dynamic Client - Pros
 
