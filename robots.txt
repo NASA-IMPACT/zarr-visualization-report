@@ -1,1 +1,1 @@
-Sitemap: https://github.com/NASA-IMPACT/zarr-visualization-cookbook/sitemap.xml
+Sitemap: https://github.com/NASA-IMPACT/zarr-visualization-report/sitemap.xml
