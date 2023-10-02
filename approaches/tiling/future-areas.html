@@ -293,13 +293,15 @@ ul.task-list li input[type="checkbox"] {
 <h1>Future Areas</h1>
 <p>At this time, we plan to develop the tile server approach in the following areas:</p>
 <ul>
-<li>Implement caching at the application level with zarr metadata caching</li>
-<li>Implement caching at the API level with CloudFront</li>
+<li>Implement caching at the application level with zarr metadata caching.</li>
+<li>Implement caching at the API level with CloudFront.</li>
 <li>Make consolidated metadata optional and benchmark the difference between consolidated and non-consolidated metadata.</li>
 </ul>
 <p>At this time, the following areas of research and development are of interest but unplanned:</p>
 <ul>
-<li>Implement guidance on exactly when</li>
+<li>Exacting guidelines on when to create pyramids. For example, if your dataset is <code>x</code> chunk shape/size, and you expect <code>y</code> performance, you should or should nnot create <code>z</code> levels of pyramid.</li>
+<li>Understand the impact of latency and caching for layers of AWS services. We expect there may be some caching in the S3 service but have not tested or verified this.</li>
+<li>There is latency introduced with the API Gateway and Lambda services. It may be helpful to estimate the latency for these layers and different expected dataset configurations.</li>
 </ul>
 
 

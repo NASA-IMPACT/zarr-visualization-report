@@ -459,7 +459,7 @@
     "href": "approaches/tiling/future-areas.html",
     "title": "Future Areas",
     "section": "",
-    "text": "Future Areas\nAt this time, we plan to develop the tile server approach in the following areas:\n\nImplement caching at the application level with zarr metadata caching\nImplement caching at the API level with CloudFront\nMake consolidated metadata optional and benchmark the difference between consolidated and non-consolidated metadata.\n\nAt this time, the following areas of research and development are of interest but unplanned:\n\nImplement guidance on exactly when"
+    "text": "Future Areas\nAt this time, we plan to develop the tile server approach in the following areas:\n\nImplement caching at the application level with zarr metadata caching.\nImplement caching at the API level with CloudFront.\nMake consolidated metadata optional and benchmark the difference between consolidated and non-consolidated metadata.\n\nAt this time, the following areas of research and development are of interest but unplanned:\n\nExacting guidelines on when to create pyramids. For example, if your dataset is x chunk shape/size, and you expect y performance, you should or should nnot create z levels of pyramid.\nUnderstand the impact of latency and caching for layers of AWS services. We expect there may be some caching in the S3 service but have not tested or verified this.\nThere is latency introduced with the API Gateway and Lambda services. It may be helpful to estimate the latency for these layers and different expected dataset configurations."
   },
   {
     "objectID": "approaches/index.html",
