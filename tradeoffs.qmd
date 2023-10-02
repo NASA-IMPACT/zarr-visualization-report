@@ -1,0 +1,24 @@
+---
+title: "Tradeoffs"
+subtitle: "Pros and Cons of the 2 Approaches"
+---
+
+## Dynamic Client - Pros
+
+* You don’t have to run a server
+* Numeric data available for time series, color mapping, spatial aggregation, etc.
+
+## Dynamic Client - Cons
+
+* Custom library
+* Pre-processing requirements
+
+## Tile server - Pros
+
+* Serves standard tiling APIs (xyz and tiles): The tiles can be served with various map platforms and take advantage of their features (ex. Mapbox v2 projection) 
+* Can be used with anything that is xarray-readable, including [kerchunk](https://fsspec.github.io/kerchunk/) reference files
+
+## Tile server - Cons
+
+* Serves image tiles, not data
+* New requests need to be made to visualize different variables
