@@ -3,8 +3,8 @@ project:
   
 website: 
   page-navigation: true
-  title: "Zarr Visualization Cookbook"
-  repo-url: https://github.com/nasa-impact/zarr-visualization-cookbook 
+  title: "Zarr Visualization Report"
+  repo-url: https://github.com/nasa-impact/zarr-visualization-report 
   repo-actions: [edit, issue]
   
   page-footer:
@@ -17,8 +17,8 @@ website:
     align: center
     tools: 
       - icon: github
-        href: https://github.com/NASA-IMPACT/zarr-visualization-cookbook
-        text: "Zarr Visualization Cookbook"
+        href: https://github.com/NASA-IMPACT/zarr-visualization-report
+        text: "Zarr Visualization Report"
        
 
     style: "docked"

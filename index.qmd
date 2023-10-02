@@ -1,5 +1,5 @@
 ---
-title: "Zarr Visualization Cookbook"
+title: "Zarr Visualization Report"
 subtitle: "Methods and benchmarks for visualizing Zarr"
 ---
 
