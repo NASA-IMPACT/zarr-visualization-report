@@ -341,7 +341,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<p>In addition to code benchmarks, it is desirable to have e2e benchmarks which demonstrate the performance of the tile server. Running end-to-end benchmarks is documented in https://github.com/developmentseed/tile-benchmarking/tree/main/03-e2e/README.md.</p>
+<p>In addition to code benchmarks, it is desirable to have e2e benchmarks which demonstrate the performance of the tile server. Running end-to-end benchmarks is documented in <a href="https://github.com/developmentseed/tile-benchmarking/tree/main/03-e2e/README.md">https://github.com/developmentseed/tile-benchmarking/tree/main/03-e2e/README.md</a>.</p>
 <p>Tested tiles ranged from zoom 0 to zoom 5. From testing we noticed that the most important factors in determining response time were the number of coordinate chunks and the chunk size. The time reported is the median response time and represents the median response time for multiple requests (usually 10) for the same tile (i.e.&nbsp;x, y, and z parameters).</p>
 <p><strong>Based on this, the recommendation would be to create chunks as small as possible (e.g.&nbsp;1 timestep per chunk for the full spatial extent if visualization is the main goal) and not to chunk coordinate data.</strong></p>
 <p>Below, we include an example of how to plot results from one execution of these benchmarks.</p>
