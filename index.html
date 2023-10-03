@@ -283,7 +283,7 @@ ul.task-list li input[type="checkbox"] {
   <ul class="collapse">
   <li><a href="#pre-generated-map-tiles---drawbacks" id="toc-pre-generated-map-tiles---drawbacks" class="nav-link" data-scroll-target="#pre-generated-map-tiles---drawbacks">Pre-generated Map Tiles - Drawbacks</a></li>
   <li><a href="#new-approaches" id="toc-new-approaches" class="nav-link" data-scroll-target="#new-approaches">New Approaches</a></li>
-  <li><a href="#cookbook-goals" id="toc-cookbook-goals" class="nav-link" data-scroll-target="#cookbook-goals">Cookbook Goals</a></li>
+  <li><a href="#goals" id="toc-goals" class="nav-link" data-scroll-target="#goals">Goals</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/nasa-impact/zarr-visualization-report/edit/main/index.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/nasa-impact/zarr-visualization-report/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
@@ -322,9 +322,9 @@ ul.task-list li input[type="checkbox"] {
 <p>More recent years have seen the success of the dynamic tiling approach which allows for on-demand map tile creation. This approach has traditionally relied on reading data from Cloud-Optimized GeoTIFFs (COGs). When the Zarr data format gained popularity for large-scale N-dimensional data analysis, users started to ask for browser-based visualization. The conventional Zarr chunk size stored for analysis (~100MB) was acknowledged to be too large to be fetched by a browser.</p>
 <p>Now there are two options for visualizing Zarr data: a tile server and dynamic client. rio_tiler’s XarrayReader supports tile rendering from anything that is xarray-readable. This means a tile server can render tiles from Zarr stores as well as netCDF4/HDF5 and other formats. However, a tile server still requires running a server while the second option, “dynamic client”, reads Zarr directly in the browser client and uses webGL to render map tiles.</p>
 </section>
-<section id="cookbook-goals" class="level2">
-<h2 class="anchored" data-anchor-id="cookbook-goals">Cookbook Goals</h2>
-<p>This cookbook will describe these two approaches. We will discuss the tradeoffs, pre-processing options and provide performance benchmarks for a variety of data configurations. We hope readers will be able to reuse lessons learned and recommendations to deliver their Zarr data to users in web browser and contribute to the wider adoption of this format for large scale environmental data understanding.</p>
+<section id="goals" class="level2">
+<h2 class="anchored" data-anchor-id="goals">Goals</h2>
+<p>This report will describe these two approaches. We will discuss the tradeoffs, pre-processing options and provide performance benchmarks for a variety of data configurations. We hope readers will be able to reuse lessons learned and recommendations to deliver their Zarr data to users in web browser and contribute to the wider adoption of this format for large scale environmental data understanding.</p>
 
 
 </section>

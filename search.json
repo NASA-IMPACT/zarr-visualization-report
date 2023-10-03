@@ -21,11 +21,11 @@
     "text": "New Approaches\nMore recent years have seen the success of the dynamic tiling approach which allows for on-demand map tile creation. This approach has traditionally relied on reading data from Cloud-Optimized GeoTIFFs (COGs). When the Zarr data format gained popularity for large-scale N-dimensional data analysis, users started to ask for browser-based visualization. The conventional Zarr chunk size stored for analysis (~100MB) was acknowledged to be too large to be fetched by a browser.\nNow there are two options for visualizing Zarr data: a tile server and dynamic client. rio_tiler’s XarrayReader supports tile rendering from anything that is xarray-readable. This means a tile server can render tiles from Zarr stores as well as netCDF4/HDF5 and other formats. However, a tile server still requires running a server while the second option, “dynamic client”, reads Zarr directly in the browser client and uses webGL to render map tiles."
   },
   {
-    "objectID": "index.html#cookbook-goals",
-    "href": "index.html#cookbook-goals",
+    "objectID": "index.html#goals",
+    "href": "index.html#goals",
     "title": "Zarr Visualization Report",
-    "section": "Cookbook Goals",
-    "text": "Cookbook Goals\nThis cookbook will describe these two approaches. We will discuss the tradeoffs, pre-processing options and provide performance benchmarks for a variety of data configurations. We hope readers will be able to reuse lessons learned and recommendations to deliver their Zarr data to users in web browser and contribute to the wider adoption of this format for large scale environmental data understanding."
+    "section": "Goals",
+    "text": "Goals\nThis report will describe these two approaches. We will discuss the tradeoffs, pre-processing options and provide performance benchmarks for a variety of data configurations. We hope readers will be able to reuse lessons learned and recommendations to deliver their Zarr data to users in web browser and contribute to the wider adoption of this format for large scale environmental data understanding."
   },
   {
     "objectID": "approaches/tiling.html",
