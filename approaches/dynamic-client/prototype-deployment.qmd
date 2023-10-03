@@ -13,7 +13,7 @@ We started the [prototype-maps](https://github.com/carbonplan/prototype-maps) pr
   title="Prototype Maps - Dynamic Client"
   width="1440"
   height="900"
-  src="http://prototype-maps.demo.carbonplan.org/"
+  src="https://prototype-maps.demo.carbonplan.org/"
 >
 </iframe>
 ```
