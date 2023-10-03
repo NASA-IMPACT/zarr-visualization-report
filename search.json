@@ -466,7 +466,7 @@
     "href": "approaches/index.html",
     "title": "Approaches",
     "section": "",
-    "text": "For browser-based visualization of Zarr, there are 2 approaches covered in this cookbook:\n\nTiling\nDynamic client\n\nThe tile server provides an API which is interoperable with multiple interfaces, but requires maintaining a tile server. also the response delivered to the client is an image format, not the raw data itself. The dynamic client approach has access to the underlying data and thus maximum flexibility in rendering and analysis for the user."
+    "text": "For browser-based visualization of Zarr, there are 2 approaches covered in this report:\n\nTiling\nDynamic client\n\nThe tiling approach is to run a tile server which provides an interoperable API with multiple interfaces. Also the response delivered to the client is an image, not the raw data itself. The dynamic client approach has access to the underlying data and thus maximum flexibility in rendering and analysis for the user."
   },
   {
     "objectID": "transition-from-rmarkdown.html",
