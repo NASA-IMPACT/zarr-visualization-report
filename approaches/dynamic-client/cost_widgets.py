@@ -48,13 +48,13 @@ def calculate_pyramid_cost(
 
 # Define widgets for panel app
 extra_dim_widget = pn.widgets.IntSlider(
-    name="Time dimension length", start=365, end=3650, step=365, value=730
+    name="Time dimension length", start=365, end=18250, step=9125, value=365
 )
 pixels_widget = pn.widgets.DiscreteSlider(
     name="Pixels per tile", options=[128, 256, 512], value=128
 )
 zoom_level_widget = pn.widgets.IntSlider(
-    name="Number of zoom levels", start=1, end=8, step=1, value=4
+    name="Number of zoom levels", start=1, end=4, step=1, value=2
 )
 compression_widget = pn.widgets.IntSlider(
     name="Data compression ratio", start=5, end=9, step=2, value=7
@@ -63,9 +63,9 @@ dtype_widget = pn.widgets.Select(
     name="Data type", options=["float16", "float32", "float64"], value="float32"
 )
 price_widget = pn.widgets.FloatSlider(
-    name="Storage pricing ($ per GB per month)",
+    name="Average storage pricing ($ per GB per month)",
     start=0.02,
-    end=0.03,
-    step=0.02,
-    value=0.005,
+    end=0.025,
+    step=0.005,
+    value=0.02,
 )
