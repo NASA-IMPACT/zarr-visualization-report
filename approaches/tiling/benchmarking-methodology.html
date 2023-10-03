@@ -313,12 +313,12 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>Benchmarks are provided for a deployed API (<strong>end-to-end tests</strong>, described below) as well as for the underlying code.</p>
-<p>All code for generating the data and running the benchmarks can be found in <a href="https://github.com/developmentseed/tile-benchmarking">https://github.com/developmentseed/tile-benchmarking</a>.</p>
+<p>Benchmarks are provided for a deployed API (<strong>end-to-end tests</strong>, described below) as well as for the application code.</p>
+<p>Scripts for generating the data and running the benchmarks can be found in <a href="https://github.com/developmentseed/tile-benchmarking">https://github.com/developmentseed/tile-benchmarking</a>.</p>
 <section id="code-benchmarks" class="level2">
 <h2 class="anchored" data-anchor-id="code-benchmarks">Code Benchmarks</h2>
 <p>While the end-to-end benchmarks described below establish tiling performance as experienced by an end user, the introduction of the network introduce variables which are difficult to control, specifically the many varieties and locations of a client and server.</p>
-<p>The focus of the code benchmarks is to understand how to optimize data and code for the best tiling performance. The authors replicated the tiling code to diagnose slowness due to data storage formatting and code libraries, without the introduction of a network.</p>
+<p>Application code benchmarks provide a clear understanding of performance for the code alone due to differences across datasets.</p>
 <section id="code-benchmarks-datasets" class="level3">
 <h3 class="anchored" data-anchor-id="code-benchmarks-datasets">Code Benchmarks: Datasets</h3>
 <p>Reproducibility is important to the integrity of this project and its results. We used a publicly available dataset and attempt to make the steps as fully documented and reproducible as possible. For code profiling, we focused the <a href="https://aws.amazon.com/marketplace/pp/prodview-k6adk576fiwmm#overview">NASA Earth Exchange Global Daily Downscaled Projections (NEX-GDDP-CMIP6)</a> AWS public dataset for this project.</p>
@@ -337,7 +337,7 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="code-benchmarks-approach">Code Benchmarks: Approach</h3>
 <p>We include performance results of code for tiling both COGs and Zarr to help data providers decide which format better suits their overall needs. To make these results comparable, we assume the following process for creating image tiles:</p>
 <ol type="1">
-<li>Assume you are starting with a known collection and query parameters</li>
+<li>Start with a known collection and query parameters</li>
 <li>Read metadata
 <ol type="a">
 <li>For COGs, the query is registered with the <code>pgSTAC</code> database for the collection id and query parameters, such as variable and datetime.</li>
@@ -350,7 +350,7 @@ ul.task-list li input[type="checkbox"] {
 </ol></li>
 </ol>
 <p>To make as close to an “apples to apples” comparison as possible, we have stored COG metadata using <a href="https://github.com/stac-utils/pgstac">pgSTAC</a> for data in the <a href="https://nex-gddp-cmip6-cog.s3.us-west-2.amazonaws.com/index.html">nex-gddp-cmip6-cog bucket</a> in AWS Relational Database Service (RDS) and Zarr metadata and data files in S3.</p>
-<p>To profile the code for rendering tiles with both XarrayReader and titiler-pgstac, code was copied from those projects as needed to inject timers.</p>
+<p>To profile the code for rendering tiles with either <a href="https://github.com/cogeotiff/rio-tiler/blob/5.0.0/rio_tiler/io/xarray.py"><code>rio_tiler.XarrayReader</code></a> or <a href="https://github.com/stac-utils/titiler-pgstac/blob/main/titiler/pgstac/mosaic.py"><code>titiler-pgstac.PGSTACBackend</code></a>, code was copied from those projects as needed to inject timers.</p>
 <p>The time to generate a tile at various zoom levels was tested for each data store multiple times and box plots are used to report results for consistency with the dynamic client reporting.</p>
 </section>
 </section>
@@ -360,7 +360,7 @@ ul.task-list li input[type="checkbox"] {
 <p>Details and code to generate the benchmarks and store the results on S3 is documented in <a href="../../approaches/tiling/tile-server-e2e-benchmarks.html">tile-server-e2e-benchmarks.ipynb</a>.</p>
 <section id="end-to-end-benchmarks-datasets" class="level3">
 <h3 class="anchored" data-anchor-id="end-to-end-benchmarks-datasets">End-to-End Benchmarks: Datasets</h3>
-<p>A variety of datasets was selected for end-to-end testing and hopefully the framework makes it easy to modify and test new datasets and use cases come up. See the <a href="../../approaches/tiling/tile-server-e2e-benchmarks.html">tile-server-e2e-benchmarks.ipynb</a> for specific datasets.</p>
+<p>A variety of datasets were selected for end-to-end testing and hopefully the framework makes it easy to modify and test new datasets and use cases come up. See the <a href="../../approaches/tiling/tile-server-e2e-benchmarks.html">tile-server-e2e-benchmarks.ipynb</a> for specific datasets.</p>
 </section>
 <section id="end-to-end-benchmarks-approach" class="level3">
 <h3 class="anchored" data-anchor-id="end-to-end-benchmarks-approach">End-to-End Benchmarks: Approach</h3>
