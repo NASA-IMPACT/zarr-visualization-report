@@ -19,7 +19,7 @@ More recent years have seen the success of the dynamic tiling approach which all
 
 Now there are two options for visualizing Zarr data: a tile server and dynamic client. rio_tiler’s XarrayReader supports tile rendering from anything that is xarray-readable. This means a tile server can render tiles from Zarr stores as well as netCDF4/HDF5 and other formats. However, a tile server still requires running a server while the second option, "dynamic client", reads Zarr directly in the browser client and uses webGL to render map tiles.
 
-## Cookbook Goals
+## Goals
 
-This cookbook will describe these two approaches. We will discuss the tradeoffs, pre-processing options and provide performance benchmarks for a variety of data configurations. We hope readers will be able to reuse lessons learned and recommendations to deliver their Zarr data to users in web browser and contribute to the wider adoption of this format for large scale environmental data understanding.
+This report will describe these two approaches. We will discuss the tradeoffs, pre-processing options and provide performance benchmarks for a variety of data configurations. We hope readers will be able to reuse lessons learned and recommendations to deliver their Zarr data to users in web browser and contribute to the wider adoption of this format for large scale environmental data understanding.
 
