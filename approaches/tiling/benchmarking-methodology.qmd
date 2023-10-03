@@ -2,15 +2,15 @@
 title: Benchmarking Methodology
 ---
 
-Benchmarks are provided for a deployed API (**end-to-end tests**, described below) as well as for the underlying code.
+Benchmarks are provided for a deployed API (**end-to-end tests**, described below) as well as for the application code.
 
-All code for generating the data and running the benchmarks can be found in [https://github.com/developmentseed/tile-benchmarking](https://github.com/developmentseed/tile-benchmarking).
+Scripts for generating the data and running the benchmarks can be found in [https://github.com/developmentseed/tile-benchmarking](https://github.com/developmentseed/tile-benchmarking).
 
 ## Code Benchmarks
 
 While the end-to-end benchmarks described below establish tiling performance as experienced by an end user, the introduction of the network introduce variables which are difficult to control, specifically the many varieties and locations of a client and server.
 
-The focus of the code benchmarks is to understand how to optimize data and code for the best tiling performance. The authors replicated the tiling code to diagnose slowness due to data storage formatting and code libraries, without the introduction of a network.
+Application code benchmarks provide a clear understanding of performance for the code alone due to differences across datasets.
 
 ### Code Benchmarks: Datasets
 
@@ -35,7 +35,7 @@ Benchmarks were run on the [VEDA JupyterHub](https://nasa-veda.2i2c.cloud/). The
 
 We include performance results of code for tiling both COGs and Zarr to help data providers decide which format better suits their overall needs. To make these results comparable, we assume the following process for creating image tiles:
 
-1. Assume you are starting with a known collection and query parameters
+1. Start with a known collection and query parameters
 2. Read metadata
     a. For COGs, the query is registered with the `pgSTAC` database for the collection id and query parameters, such as variable and datetime.
     b. For Zarr, the metadata is "lazily loaded" for the variable and temporal extent from the known collection store.
@@ -45,7 +45,7 @@ We include performance results of code for tiling both COGs and Zarr to help dat
 
 To make as close to an "apples to apples" comparison as possible, we have stored COG metadata using [pgSTAC](https://github.com/stac-utils/pgstac) for data in the [nex-gddp-cmip6-cog bucket](https://nex-gddp-cmip6-cog.s3.us-west-2.amazonaws.com/index.html) in AWS Relational Database Service (RDS) and Zarr metadata and data files in S3.
 
-To profile the code for rendering tiles with both XarrayReader and titiler-pgstac, code was copied from those projects as needed to inject timers.
+To profile the code for rendering tiles with either [`rio_tiler.XarrayReader`](https://github.com/cogeotiff/rio-tiler/blob/5.0.0/rio_tiler/io/xarray.py) or [`titiler-pgstac.PGSTACBackend`](https://github.com/stac-utils/titiler-pgstac/blob/main/titiler/pgstac/mosaic.py), code was copied from those projects as needed to inject timers.
 
 The time to generate a tile at various zoom levels was tested for each data store multiple times and box plots are used to report results for consistency with the dynamic client reporting.
 
@@ -57,7 +57,7 @@ Details and code to generate the benchmarks and store the results on S3 is docum
 
 ### End-to-End Benchmarks: Datasets
 
-A variety of datasets was selected for end-to-end testing and hopefully the framework makes it easy to modify and test new datasets and use cases come up. See the [tile-server-e2e-benchmarks.ipynb](./tile-server-e2e-benchmarks.ipynb) for specific datasets.
+A variety of datasets were selected for end-to-end testing and hopefully the framework makes it easy to modify and test new datasets and use cases come up. See the [tile-server-e2e-benchmarks.ipynb](./tile-server-e2e-benchmarks.ipynb) for specific datasets.
 
 ### End-to-End Benchmarks: Approach
 
