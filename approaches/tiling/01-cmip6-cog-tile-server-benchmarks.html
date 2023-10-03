@@ -346,6 +346,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="explanation" class="level2">
 <h2 class="anchored" data-anchor-id="explanation">Explanation</h2>
+<p>This notebook does not report any results for tiling Zarr datasets. It surfaces the significance of the underlying environment and configuration of low level libraries to the performance of a framework we are comparing with for tiling imagery.</p>
 <p><a href="https://github.com/stac-utils/titiler-pgstac/">titiler-pgstac</a> creates image tiles using <a href="https://github.com/cogeotiff/rio-tiler">rio-tiler</a> which uses <a href="https://github.com/rasterio/rasterio">rasterio</a>. Rasterio uses <a href="https://gdal.org/">GDAL</a> “under the hood”. Certain GDAL <a href="https://gdal.org/user/configoptions.html">environment variables</a> impact tiling performance when working with rasterio to read data from Cloud-Optimized GeoTIFFs</p>
 <p>As noted in <a href="../../approaches/tiling/benchmarking-methodology.html">Benchmarking Methodolgy</a>, the time to tile includes the time to query a pgSTAC database and then use the query ID returned to read and create image tiles from COGs on S3. The libraries used were <a href="https://github.com/stac-utils/titiler-pgstac"><code>pgSTAC</code></a> for reading STAC metadata and <a href="https://github.com/rasterio/rasterio">rasterio</a> (via <code>rio_tiler</code>) for reading COGs on S3.</p>
 </section>

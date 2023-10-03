@@ -109,14 +109,14 @@
     "href": "approaches/tiling/01-cmip6-cog-tile-server-benchmarks.html",
     "title": "Benchmarks 1: Tiling COGs with and without GDAL Environment Variables",
     "section": "",
-    "text": "titiler-pgstac creates image tiles using rio-tiler which uses rasterio. Rasterio uses GDAL “under the hood”. Certain GDAL environment variables impact tiling performance when working with rasterio to read data from Cloud-Optimized GeoTIFFs\nAs noted in Benchmarking Methodolgy, the time to tile includes the time to query a pgSTAC database and then use the query ID returned to read and create image tiles from COGs on S3. The libraries used were pgSTAC for reading STAC metadata and rasterio (via rio_tiler) for reading COGs on S3."
+    "text": "This notebook does not report any results for tiling Zarr datasets. It surfaces the significance of the underlying environment and configuration of low level libraries to the performance of a framework we are comparing with for tiling imagery.\ntitiler-pgstac creates image tiles using rio-tiler which uses rasterio. Rasterio uses GDAL “under the hood”. Certain GDAL environment variables impact tiling performance when working with rasterio to read data from Cloud-Optimized GeoTIFFs\nAs noted in Benchmarking Methodolgy, the time to tile includes the time to query a pgSTAC database and then use the query ID returned to read and create image tiles from COGs on S3. The libraries used were pgSTAC for reading STAC metadata and rasterio (via rio_tiler) for reading COGs on S3."
   },
   {
     "objectID": "approaches/tiling/01-cmip6-cog-tile-server-benchmarks.html#explanation",
     "href": "approaches/tiling/01-cmip6-cog-tile-server-benchmarks.html#explanation",
     "title": "Benchmarks 1: Tiling COGs with and without GDAL Environment Variables",
     "section": "",
-    "text": "titiler-pgstac creates image tiles using rio-tiler which uses rasterio. Rasterio uses GDAL “under the hood”. Certain GDAL environment variables impact tiling performance when working with rasterio to read data from Cloud-Optimized GeoTIFFs\nAs noted in Benchmarking Methodolgy, the time to tile includes the time to query a pgSTAC database and then use the query ID returned to read and create image tiles from COGs on S3. The libraries used were pgSTAC for reading STAC metadata and rasterio (via rio_tiler) for reading COGs on S3."
+    "text": "This notebook does not report any results for tiling Zarr datasets. It surfaces the significance of the underlying environment and configuration of low level libraries to the performance of a framework we are comparing with for tiling imagery.\ntitiler-pgstac creates image tiles using rio-tiler which uses rasterio. Rasterio uses GDAL “under the hood”. Certain GDAL environment variables impact tiling performance when working with rasterio to read data from Cloud-Optimized GeoTIFFs\nAs noted in Benchmarking Methodolgy, the time to tile includes the time to query a pgSTAC database and then use the query ID returned to read and create image tiles from COGs on S3. The libraries used were pgSTAC for reading STAC metadata and rasterio (via rio_tiler) for reading COGs on S3."
   },
   {
     "objectID": "approaches/tiling/01-cmip6-cog-tile-server-benchmarks.html#dataset-generation",
