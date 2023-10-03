@@ -5,9 +5,10 @@ title: Future Areas
 The benchmarking results and recommendations detailed in this cookbook motivates several possible avenues of exploration:
 
 1. Performance improvements for ndpyramid to reduce post-processing costs.
-2. Integration between ndpyramid and pangeo-forge-recipes to support generating pyramids during dataset creation.
-3. Extending the dynamic client approach to visualize datasets without pyramids.
-4. Formalizing the representation of pyramids and spatial overviews through a Zarr Enhancement Proposal (ZEP) on multiscales.
-5. Extending the dynamic client approach to visualize COGs using Kerchunk.
-6. Generalizing the dynamic client approach as a plug-in for general solutions like Mapbox or deck.gl.
-7. Supporting and benchmarking additional compression algorithms, data types, and bitrounding.
+2. Generalize ndpyramid to better support other mapping approaches.
+3. Integration between ndpyramid and pangeo-forge-recipes to support generating pyramids during dataset creation.
+4. Extending the dynamic client approach to visualize datasets without pyramids.
+5. Formalizing the representation of pyramids and spatial overviews through a Zarr Enhancement Proposal (ZEP) on multiscales.
+6. Extending the dynamic client approach to visualize COGs using Kerchunk.
+7. Generalizing the dynamic client approach as a plug-in for general solutions like Mapbox or deck.gl.
+8. Supporting and benchmarking additional compression algorithms, data types, and bitrounding.

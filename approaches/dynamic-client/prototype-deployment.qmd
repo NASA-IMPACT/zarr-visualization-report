@@ -4,7 +4,7 @@ title: Prototype Deployment
 
 ## `prototype-maps`
 
-We started the [prototype-maps](https://github.com/carbonplan/prototype-maps) project to support visualizing Zarr data using multiple approaches in a consolidated application. The project is currently deployed at [https://prototype-maps.vercel.app/](https://prototype-maps.vercel.app/). Only the dynamic client approach is currently live, although the tiling approach will be [added shortly](https://github.com/carbonplan/prototype-maps/pull/7). The current version of the dynamic client page includes the option to select from several different datasets. Datasets are available in either Zarr V2 or Zarr V3 format, with different projections (equirectangular or mercator), chunking schemes (~1MB/chunk, ~5MB/chunk, ~10MB/chunk, or ~25MB/chunk), and sharding schemes (none, ~50MB/shard, ~100MB/shard). The time slider allows scrolling through the two years of daily data included in this demonstration. Options for adjusting the color mapping and visualizing time series are included in drop-down windows, with the spatial selector allowing custom selection of the data window averaged for the time series.
+We started the [prototype-maps](https://github.com/carbonplan/prototype-maps) project to support visualizing Zarr data using multiple approaches and data configurations in a consolidated application. The project is currently deployed at [http://prototype-maps.demo.carbonplan.org/](http://prototype-maps.demo.carbonplan.org/). The current version of the dynamic client page includes the option to select from several different datasets. Datasets are available in either Zarr V2 or Zarr V3 format, with different projections (equirectangular or mercator), chunking schemes (~1MB/chunk, ~5MB/chunk, ~10MB/chunk, or ~25MB/chunk), and sharding schemes (none, ~50MB/shard, ~100MB/shard). The time slider allows scrolling through the two years of daily data included in this demonstration. Options for adjusting the color mapping and visualizing time series are included in drop-down windows, with the spatial selector allowing custom selection of the data window averaged for the time series.
 
 ```{=html}
 <iframe
@@ -13,7 +13,7 @@ We started the [prototype-maps](https://github.com/carbonplan/prototype-maps) pr
   title="Prototype Maps - Dynamic Client"
   width="1440"
   height="900"
-  src="https://prototype-maps.vercel.app/"
+  src="http://prototype-maps.demo.carbonplan.org/"
 >
 </iframe>
 ```
