@@ -38,7 +38,7 @@ website:
             - approaches/tiling/04-number-of-spatial-chunks.ipynb
             - approaches/tiling/05-cmip6-pyramids.ipynb
             - approaches/tiling/tile-server-e2e-benchmarks.ipynb
-            - approaches/tiling/recommendations.ipyng
+            - approaches/tiling/recommendations.ipynb
             - approaches/tiling/future-areas.md
           - section: approaches/dynamic-client.qmd
             contents:
