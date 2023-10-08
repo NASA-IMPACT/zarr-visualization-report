@@ -1,8 +1,6 @@
 name: Deploy PR previews
 
 on:
-  branches:
-    - feat/est-hi-res
   pull_request:
     types:
       - opened
