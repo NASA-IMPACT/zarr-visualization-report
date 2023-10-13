@@ -32,13 +32,13 @@ website:
           - section: approaches/tiling.qmd
             contents:
             - approaches/tiling/benchmarking-methodology.qmd
-            - approaches/tiling/results-and-recommendations.md
             - approaches/tiling/01-cmip6-cog-tile-server-benchmarks.ipynb
             - approaches/tiling/02-cog-zarr-kerchunk.ipynb
             - approaches/tiling/03-zarr-chunk-sizes.ipynb
             - approaches/tiling/04-number-of-spatial-chunks.ipynb
             - approaches/tiling/05-cmip6-pyramids.ipynb
             - approaches/tiling/tile-server-e2e-benchmarks.ipynb
+            - approaches/tiling/recommendations.ipynb
             - approaches/tiling/future-areas.md
           - section: approaches/dynamic-client.qmd
             contents:
