@@ -3,8 +3,9 @@
 At this time, we plan to develop the tile server approach in the following areas:
 
 * Implement caching at the application level with zarr metadata caching.
+* Add support for unconsolidated metadata.
+* Add support for HDF5
 * Implement caching at the API level with CloudFront.
-* Make consolidated metadata optional and benchmark the difference between consolidated and non-consolidated metadata.
 
 At this time, the following areas of research and development are of interest but are unplanned:
 
