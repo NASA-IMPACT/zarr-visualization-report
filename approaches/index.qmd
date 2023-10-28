@@ -2,7 +2,7 @@
 title: Approaches
 ---
 
-For browser-based visualization of Zarr, there are 2 approaches covered in this cookbook:
+For browser-based visualization of Zarr, there are 2 approaches covered in this report:
 
 1. [Tiling](./tiling.qmd)
 2. [Dynamic client](./dynamic-client.qmd)
