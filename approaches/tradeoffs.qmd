@@ -1,0 +1,25 @@
+---
+title: "Tradeoffs"
+---
+
+This page provides a very high-level summary of the pros and cons of the approaches detailed in this report.
+The tile server provides an API which is interoperable with multiple interfaces, but requires maintaining a tile server. also the response delivered to the client is an image format, not the raw data itself. The dynamic client approach has access to the underlying data and thus maximum flexibility in rendering and analysis for the user.
+
+## Dynamic Client - Pros
+
+* You don’t have to run a server.
+* Numeric data is available for time series, color mapping, spatial aggregation, etc.
+
+## Dynamic Client - Cons
+
+* A custom interface makes it challenging to integrate other data sources.
+* Has pre-processing requirements such as pyramid generation.
+
+## Tile server - Pros
+
+* The tile server serves standard tiling APIs (xyz and tiles) tiling APIs. These APIs integrate with various map platforms and can take advantage of their features (ex. Mapbox v2 projection).
+* Can be used with anything that is xarray-readable, including [kerchunk](https://fsspec.github.io/kerchunk/) reference files, NetCDF and HDF5.
+
+## Tile server - Cons
+
+* Serves image tiles, not data.

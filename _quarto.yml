@@ -53,7 +53,8 @@ website:
             - approaches/dynamic-client/e2e-results-aws-region.ipynb
             - approaches/dynamic-client/recommendations.qmd
             - approaches/dynamic-client/costs.ipynb
-            - approaches/dynamic-client/future-areas.qmd         
+            - approaches/dynamic-client/future-areas.qmd 
+          - href: approaches/tradeoffs.qmd
 
 
 
