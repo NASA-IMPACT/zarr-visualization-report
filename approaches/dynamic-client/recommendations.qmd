@@ -2,7 +2,7 @@
 title: Recommendations
 ---
 
-Here we provide recommendations for producing pyramids for performant Zarr visualization on the web. These recommendations are based on the [end-to-end benchmarking results](e2e-results.ipynb) for the [dynamic client](../dynamic-client.qmd) approach. These benchmark consider the use-case of rendering data on a map. However, we also discuss how time series visualization could factor into these decisions. As we eventually aim to remove the pyramid requirement for the dynamic client approach, it is worth mentioning that many of these recommendations should still apply when rendering raw data on a web map. However, it would be much more important to also consider the performance implications for scientific computational workflows in that case.
+Here we provide recommendations for producing pyramids for performant Zarr visualization on the web. These recommendations are based on the [end-to-end benchmarking results](e2e-results.ipynb) for the [dynamic client](../dynamic-client.qmd) approach. These benchmark consider the use-case of rendering data on a map. However, we also discuss how time series visualization could factor into these decisions. We eventually aim to make pyramid generation optional for the dynamic client approach, such that the raw data could be rendered on a web map with limited zooming and panning functionality. Many of these recommendations should still apply when rendering raw data on a web map, however, it would be much more important to also consider the performance implications for scientific computational workflows in that case.
 
 ## Zarr Version
 
