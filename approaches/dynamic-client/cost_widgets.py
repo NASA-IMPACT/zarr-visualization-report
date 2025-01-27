@@ -58,9 +58,9 @@ def calculate_pyramid_cost(
     data_dtype : np.dtype
         Numpy dtype, expected to contain an .itemsize property.
     data_compression_ratio : float
-        Expected ratio between compressed and uncompressed data
+        Expected ratio between compressed and uncompressed data.
     price_per_GB : float
-        Expected storage cost per GB
+        Expected storage cost per GB.
 
     Returns
     -------
