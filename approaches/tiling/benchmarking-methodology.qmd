@@ -16,14 +16,14 @@ Application code benchmarks provide a clear understanding of performance for the
 
 Reproducibility is important to the integrity of this project and its results. We used a publicly available dataset and attempt to make the steps as fully documented and reproducible as possible. For code profiling, we focused the [NASA Earth Exchange Global Daily Downscaled Projections (NEX-GDDP-CMIP6)](https://aws.amazon.com/marketplace/pp/prodview-k6adk576fiwmm#overview) AWS public dataset for this project.
 
-There are 2 datasets listed on AWS from this project. One (1) is an archive of NetCDF files from about 35 different climate models, each supplying historical and predicted values for up to 9 environment variables, daily, from 1950 to 2100. To minimize preprocessing, test datasets were generated for the first 2 years of historical data, for 1 model and for 1 variable. These variables or dataset could easily be modified or swapped, but we expect the relative performance using different datasets to be the same. 
+There are 2 datasets listed on AWS from this project. One (1) is an archive of NetCDF files from about 35 different climate models, each supplying historical and predicted values for up to 9 environment variables, daily, from 1950 to 2100. To minimize preprocessing, test datasets were generated for the first 2 years of historical data, for 1 model and for 1 variable. These variables or dataset could easily be modified or swapped, but we expect the relative performance using different datasets to be the same.
 
 In addition to the NetCDF data, there is an archive of COGs generated from the corresponding NetCDFs to support visualization via dynamic tiling using COGs. **COGs are only available for 2 models, so for intercomparison of the tiling approach between COGs and Zarr, one of those models (`GISS-E2-1-G`) is used to generate Zarr stores.**
 
 Benchmarks were generated for multiple copies of the CMIP6 daily data and some synthetic data to understand the performance for different data pre-processing options. These copies were differentiated by:
 
 * data file format (COG, NetCDF and Zarr)
-* different chunking configurations 
+* different chunking configurations
 * pyramids
 
 _Note: At this time, a different model is used for the dynamic client benchmarks (`ACCESS-CM2`), but we believe the test results and corresponding recommendations would not change for different CMIP6 models._
@@ -61,4 +61,4 @@ A variety of datasets were selected for end-to-end testing and hopefully the fra
 
 ### End-to-End Benchmarks: Approach
 
-Code from https://github.com/bdon/TileSiege was used to generate a set of tile URLs for the selected test datasets. The testing tool https://locust.io/ was used to run tests. Results are stored uploated as CSV files in S3. These results are read and plotted in [tile-server-e2e-benchmarks.ipynb](./tile-server-e2e-benchmarks.ipynb).
+Code from https://github.com/bdon/TileSiege was used to generate a set of tile URLs for the selected test datasets. The testing tool https://locust.io/ was used to run tests. Results are stored uploaded as CSV files in S3. These results are read and plotted in [tile-server-e2e-benchmarks.ipynb](./tile-server-e2e-benchmarks.ipynb).

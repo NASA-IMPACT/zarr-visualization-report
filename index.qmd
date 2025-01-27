@@ -3,11 +3,11 @@ title: "Zarr Visualization Report"
 subtitle: "Methods and benchmarks for visualizing Zarr"
 ---
 
-This site documents different approaches and benchmarks for zarr visualization. If you use or create Zarr data and wish to visualize it in a web browser, this guide is for you. It describes the requirements for data pre-processing and chunking in order to support visualization through tiling server and dynamic client approahces.
+This site documents different approaches and benchmarks for Zarr visualization. If you use or create Zarr data and wish to visualize it in a web browser, this guide is for you. It describes the requirements for data pre-processing and chunking in order to support visualization through tiling server and dynamic client approaches.
 
 # Background + Motivation
 
-Visualization is key to exploring and understanding Earth data. Web browsers offer a near-universal platform for data exploration. However, web users expect near instantaneous page rendering. The scale of geospatial data makes it challenging to serve this data instantenously as browsers cannot read, reproject and create image tiles fast enough for a good user experience.
+Visualization is key to exploring and understanding Earth data. Web browsers offer a near-universal platform for data exploration. However, web users expect near instantaneous page rendering. The scale of geospatial data makes it challenging to serve this data instantaneously as browsers cannot read, reproject and create image tiles fast enough for a good user experience.
 
 ## Pre-generated Map Tiles - Drawbacks
 
