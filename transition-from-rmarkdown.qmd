@@ -81,7 +81,7 @@ Once the Openscapes fork was fully reviewed, we made a pull request from that to
 
 ### GitHub Actions {#github-actions}
 
-This book was mostly prose and screenshots without any R code. This made the conversion from RMarkdown to Quarto likely more straightforward than if you also needed to adjust code chunk options in the quarto style (#|). Our initial GitHub Action to render the converted Faylab Lab Manual failed because we had a piece of R code - even though the code was commented out! This was resolved when we deleted the line. 
+This book was mostly prose and screenshots without any R code. This made the conversion from RMarkdown to Quarto likely more straightforward than if you also needed to adjust code chunk options in the quarto style (#|). Our initial GitHub Action to render the converted Faylab Lab Manual failed because we had a piece of R code - even though the code was commented out! This was resolved when we deleted the line.
 
 ## Distill to quarto
 
@@ -93,7 +93,7 @@ Looking at files [`/posts/_metadata.yml`](https://github.com/Openscapes/events/b
 
 ### Publishing notes
 
-> **Background**: Our distill site had been set up to output to a `docs` folder, and had GitHub Settings \> Pages set to look there rather `gh-pages` branch. (Julie note: this was a new-to-me capability when we set up the events distill site in Spring 2021 so I had forgotten that was an option). We've inititally kept this same set-up for now with our events page in `_quarto.yml`: [`output-dir: docs`](https://github.com/Openscapes/events/blob/237acd5144d810cb5465cc5616ee453f2e261fbc/_quarto.yml#L3). However, this is sub-optimal; better to not have to commit and push these files but to instead have a GitHub Action generate them upon a commit. So the following is what we did -
+> **Background**: Our distill site had been set up to output to a `docs` folder, and had GitHub Settings \> Pages set to look there rather `gh-pages` branch. (Julie note: this was a new-to-me capability when we set up the events distill site in Spring 2021 so I had forgotten that was an option). We've initially kept this same set-up for now with our events page in `_quarto.yml`: [`output-dir: docs`](https://github.com/Openscapes/events/blob/237acd5144d810cb5465cc5616ee453f2e261fbc/_quarto.yml#L3). However, this is sub-optimal; better to not have to commit and push these files but to instead have a GitHub Action generate them upon a commit. So the following is what we did -
 
 **Don't specify `output-dir` in `_quarto.yml`**. The output directory default is `_site/`, which is what we'd like.
 
